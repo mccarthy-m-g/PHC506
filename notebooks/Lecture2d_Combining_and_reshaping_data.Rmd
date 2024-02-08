@@ -12,16 +12,12 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE)
 
 
 ```{r}
-# If you haven't yet installed dplyr, install it now!
+# If you haven't yet installed dplyr and tidyr, install them now!
 # install.packages('dplyr')
+# install.packages('tidyr')
 library(dplyr)
+library(tidyr)
 
-# Lets also load the gap data set:
-gap <- read.csv(
-  file.path("..", "data", "gapminder-FiveYearData.csv"), 
-  stringsAsFactors = FALSE
-)
-head(gap)
 ```
 
 # Introduction
@@ -42,7 +38,7 @@ tool kit. Let's look at a few more of the most useful functions.
 
 Sometimes we need to use data available from multiple sources. To take 
 advantage of the `dplyr` functions we used previously, we need data points of 
-interest to be in the same dataframe. The join family of functions helps here.
+interest to be in the same data frame. The join family of functions helps here.
 
 ```{r patient_dosing}
 pt_char <- data.frame(
@@ -65,19 +61,18 @@ What happens if we want to calculate mg of drug per kg body weight?
 ```{r joining}
 # left_join adds all the data from the right df 
 # to the matching rows of the left dataframe
-left_join(pt_char, pt_doses)
-pt_doses
 ?left_join
+left_join(pt_char, pt_doses)
+
 ```
 Note what happens to patient A.C., who does not have dosing information, and 
 patient S.C., for whom we do not have patient characteristics. Also, see how 
-R handled patient M.H., who was in the dosing table twice. Let's try the reverse:
+R handled patient M.H., who was in the dosing table twice. Let's try the 
+reverse:
 
 ```{r joining2}
 left_join(pt_doses, pt_char, by = "pt")
 
-pt_doses$pt
-pt_char$pt
 ```
 What happened here to A.C., M.H. and S.C.?
 
@@ -88,12 +83,11 @@ Let's compare `full_join` with `left_join`
 
 ```{r joining3}
 full_join(pt_char, pt_doses)
-pt_doses
 ```
 
 ```{r join_by}
 # R will do its best guess to try judge which columns you want to join on if you
-# do not otherwise specify Here, the names match, but not all data is so
+# do not otherwise specify. Here, the names match, but not all data is so
 # convenient. Here's a contrived example:
 pt_doses %>%
   rename(patient = pt) %>%
@@ -142,7 +136,7 @@ Many tools in R will assume that your data is already tidy.
 For more on the concept of *tidy* data, read Hadley Wickham's paper 
 [here](http://vita.had.co.nz/papers/tidy-data.html)
 
-## Tidying Data/Wide vs. Long Formats
+## Wide vs. Long Formats
 
 > "Tidy datasets are all alike but every messy dataset is messy in its own way." 
 – Hadley Wickham
@@ -193,21 +187,22 @@ You may find data input may be simpler and some programs/functions may prefer
 the "wide" format. However, many of R’s functions have been designed assuming 
 you have "long" format data.
 
-## Tidying the Gapminder Data
+## From Wide to Long and Back
 
-Lets look at the structure of our original gapminder dataframe:
+Here's an example data set, which has the Billboard top 100 ranking for each 
+song for each week in the year 2000.
+
+How many weeks did each song spend on the Billboard top 100?
 
 ```{r}
-library(tidyr)
-gap
+billboard
 ```
+
 
 **Question**: Is this data frame **wide** or **long**?
 
-Despite not having ALL observations in 1 column, this intermediate format makes 
-sense given that all 3 observation variables have different units. As we have 
-seen, many of the functions in R are often vector based, and you usually do not 
-want to do mathematical operations on values with different units.
+Having each week as a column is convenient if you want to sort the song by
+their position in a given week.
 
 On the other hand, there are some instances in which a purely long or wide 
 format is ideal (e.g. plotting). Likewise, sometimes you'll get data on your 
@@ -219,32 +214,12 @@ Thankfully, the `tidyr` package will help you efficiently transform your data
 regardless of original format.
 
 ```{r}
-# Install the "tidyr" package if you don't have it yet (only necessary one time)
-# install.packages("tidyr") # Not Run
-
 # Load the "tidyr" package (necessary every new R session)
 library(tidyr)
 
 ```
 
 ## `tidyr::pivot_longer`
-
-Until now, we've been using the nicely formatted original gapminder data set. 
-This data set is not quite wide and not quite long -- it's something in the 
-middle, but "real" data (i.e., our own research data) will never be so well 
-organized. Here let's start with the wide format version of the gapminder 
-data set.
-
-```{r}
-gap_wide <- read.csv(
-  file.path("..", "data", "gapminder_wide.csv"), 
-  stringsAsFactors = FALSE
-)
-head(gap_wide)
-```
-
-The first step towards getting our nice intermediate data format is to first 
-convert from the wide to the long format.
 
 The function `pivot_longer()` will turn a wide dataframe into a longer one by 
 transforming the observation variables into a single variable. This is sometimes 
@@ -259,41 +234,29 @@ to refer to the variable names and variable values. You might also see the terms
 ```{r}
 ?pivot_longer
 
-gap_long <- gap_wide %>%
-  pivot_longer(-c(continent, country), names_to = "key", values_to = "value")
-
-gap_wide %>%
-  pivot_longer(-c(continent, country), names_to = "key", values_to = "value")
-  separate_wider_delim(key, names = c("data_type", "year"), delim = "_") %>%
-  mutate(year = as.numeric(year)) %>%
-  pivot_wider(names_from = data_type, values_from = value)
+billboard %>%
+  select(artist, track, starts_with("wk")) 
 ```
 
 Notice that we put 3 arguments into the `pivot_longer()` function:
 
-1. the name for the new column for the new ID variable (`obstype_year`),
-2. the name for the new amalgamated observation variable (`obs_value`),
-3. the names of the columns that we want don't want to gather into one variable. (We could also have supplied the names of the columns we do want to melt, or the indices of these columns) Notice that we don't want to melt down columns 1 and 2, as these are considered "ID" variables.
+1. the name for the new column for the new ID variable (`week`),
+2. the name for the new observation variable (`position`),
+3. the names of the columns that we want to gather into one variable. 
+(We could also have supplied the names of the columns we don't want to re-shape, 
+or the indices of these columns)
 
-We are nearly where we want to be. Let's do a little more clean up to make 
-"obstype_year" more usable.
+Notice that we don't want to melt down columns 1 and 2, as these are considered 
+"ID" variables.
+
+We are nearly where we want to be. How many weeks did each song spend on the
+charts?
 
 ```{r}
-# Approach 1: Regular expressions for handling strings.
-# `gsub` lets us manipulate strings to get the obstype and the year
-# we are changing/adding a column, so we call it from `mutate`
+
 ```
 
 
-
-```{r}
-# Approach 2: use a function! `tidyr::separate`
-?tidyr::separate_wider_delim
-gap_tidy <- gap_long %>%
-  separate_wider_delim(key, names = c("data_type", "year"), delim = "_") %>%
-  mutate(year = as.numeric(year))
-
-```
 
 ## `tidyr::pivot_wider`
 
@@ -301,8 +264,8 @@ gap_tidy <- gap_long %>%
 in one column as the new column names, and the values in a second column as the 
 new column values.
 
-We can take the dataframe we made about and turn it into the one we are familiar
-with!
+We can take the data frame we made about and turn it into the one we are 
+familiar with!
 
 ```{r}
 gap_tidy %>%
@@ -356,9 +319,7 @@ frame of population over time, where each row is a country, and each column is a
 year.
 
 ```{r}
-gap %>%
-  select(country, year, pop) %>%
-  pivot_wider(names_from = year, values_from = pop)
+
 
 ```
 
@@ -395,15 +356,10 @@ ETA value is its own row for each patient. Remove duplicate rows so each patient
 only has one ETA value for each ETA type.
 
 ```{r}
-nm_out %>%
-  select(ID, starts_with("ETA")) %>%
-  pivot_longer(starts_with("ETA"), names_to = "eta_type", values_to = "value") %>%
-  distinct()
-
-nm_out %>%
-  group_by(ID) %>%
-  slice(1) %>%
-  select(ID, starts_with("ETA")) %>%
-  pivot_longer(starts_with("ETA"), names_to = "eta_type", values_to = "value")
+nm_out
 
 ```
+
+
+
+

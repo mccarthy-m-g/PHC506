@@ -1,5 +1,5 @@
 ---
-title: 'Module 4: Managing your R Environment'
+title: 'Managing your R Environment'
 author: "Jasmine Hughes"
 output: html_document
 ---
