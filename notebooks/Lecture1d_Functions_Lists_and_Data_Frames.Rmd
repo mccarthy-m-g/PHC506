@@ -32,7 +32,7 @@ Indexing into the list works a little differently. Index into the top-level
 elements of a list using double square brackets.
 
 ```{r indexing_into_a_list}
-a_list[[1]]
+a_list[[2]]
 ```
 
 Unlike vectors, each element of a list can store multiple values, including 
@@ -79,7 +79,7 @@ canada[["provincial_capital_cities"]][["Ontario"]]
 
 # with dollar notation
 canada$capital_city
-canada$provincial_capital_cities$Quebec
+
 ```
 
 There are also handy functions for working with lists and named objects:
@@ -128,6 +128,7 @@ We can use the same rules for subsetting into them.
 theophylline$Wt
 theophylline$Wt[1]
 theophylline[[2]]
+theophylline[["Wt"]]
 ```
 
 Because they are rectangular (m columns, n rows) we can also subset into them
@@ -165,12 +166,14 @@ R is a functional language
 ```{r functions1}
 median
 class(median)
-log
+?median
 ```
 
 ```{r}
 # Use `median` to calculate the median of a vector, vec
 vec <- rnorm(12, mean = 5)
+vec
+
 
 ```
 
@@ -190,10 +193,10 @@ period?
 
 ```{r}
 # dollar notation: variable$column
-airquality$Temp[1:5]
+
 
 # double square brackets: variable[["column"]]
-airquality[["Temp"]][1:5]
+
 
 ```
 
@@ -208,6 +211,7 @@ median just for May (month 5)?
 
 ```{r}
 # calculate median for the month of May:
+
 
 ```
 
@@ -231,7 +235,6 @@ e.g., `?lm`. For information on a general topic, use `apropos`.
 help(lm)
 ?lm
 
-?log
 apropos("mean")
 
 ```
@@ -244,6 +247,7 @@ You can use the `as` family of functions.
 ints <- 1:10
 ints_chars <- as.character(ints)
 as.numeric(c('3.7', '4.8'))
+
 ```
 
 # Be Lazy
@@ -289,6 +293,7 @@ data frame. Create a variable called 'avg_temp' that contains the mean
 temperature. Then, create a vector of length 2 that contains the minimum and 
 maximum temperature and assign it to a variable with a meaningful name.
 ```{r}
+library(datasets)
 x <- airquality$Temp
 x
 
@@ -296,8 +301,8 @@ x
 
 ```
 
-2) Use functions in R to round 'x' to two decimal places and to two 
-significant digits.
+2) Create a boolean (TRUE/FALSE) vector indicating whether the temperature in x 
+is higher than the average temperature.
 
 ```{r}
 
@@ -311,9 +316,10 @@ Hint: C = (F - 32) * 5/9
 
 ```
 
-4) Create a boolean (TRUE/FALSE) vector indicating whether the temperature is
-higher than the average temperature.
+4) Use functions in R to round 'TempC' to two decimal places and to two 
+significant digits.
 
 ```{r}
 
 ```
+
