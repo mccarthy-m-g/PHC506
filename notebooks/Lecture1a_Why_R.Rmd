@@ -1,0 +1,76 @@
+---
+title: "Why R?"
+author: "Jasmine Hughes"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# What is R?
+
+*  R is a programming language
+*  R is **Open Source** and **free**!
+*  It is a full-featured programming language, in particular a scripting language. 
+   + This makes it similar in many ways to MATLAB and Python
+*  It can be run interactively or as a batch/background job
+   + We will mostly be using it interactively
+*  It is designed by statisticians for statisticians - great at the same sort of
+tasks as STATA and SAS
+*  R is being actively developed with ongoing updates/new releases
+*  The community of R users make a bunch of tools available for tasks like:
+   + graphing
+   + advanced/specialized statistical models
+   + making websites
+   + writing books
+   + making LaTeX documents like this one!
+* Available for Windows, Mac OS X, and Linux
+
+## Why should I use R?
+
+(Other than that PHC506 requires it!)
+
+* R is widely used (statisticians, scientists, social scientists) 
+* R has tools for pharmacometrics! Examples: 
+  + `nlmixr`: nonlinear mixed effects modelling in R 
+  + `PKPDsim` ODE solver/concentration time curve simulations
+  + `mrgsolve` ODE solver/concentration time curve simulations 
+  + `mapbayr` MAP Bayesian estimation of PK parameters
+  + `vpc` visual predictive checks of NLMEM/NONMEM results
+  + `PKNCA` pharmacokinetic non-compartmental analysis
+  + And many, many more tools! Check out more here: https://cran.r-project.org/web/views/Pharmacokinetics.html
+* Users add functionality via packages all the time
+* R is free and available on all major platforms
+  + works well with other collaboration tools like git
+* R is very powerful, flexible, and easy to use
+* R allows for reproducibility and automating tasks
+* R can do essentially anything!
+  + For a particularly creative use, check out this repo: github.com/cutterkom/generativeart
+* Wide usage helps to improve quality and reduce bugs
+* Wide usage means there's a lot of tools available online for help
+* R is a great stepping stone to other languages!
+
+## Why Should I Not Use R?
+
+* Other software can be better than R at certain tasks 
+* The *exact* task you need to do was already solved by someone else in some 
+other language. 
+* The task you need to do requires exceptional speed (R is not as fast
+as some languages)
+* R's packages are only as good as the person who wrote them; no
+explicit quality control + Validation tools to vet package quality exist! Check
+out: github.com/pharmaR/riskmetric
+
+## What are my other options? Get me out of here!
+
+* Python
+* Matlab/Octave
+* Julia (for pharmacometrics, see `pumas`)
+* C/C++
+* SAS
+* Stata
+
+
