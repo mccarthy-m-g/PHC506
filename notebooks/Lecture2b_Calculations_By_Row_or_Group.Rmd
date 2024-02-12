@@ -281,14 +281,12 @@ average temperature in that month.
 
 ```{r}
 
-
 ```
 
-3. Use `dplyr` to add a column called `delta_from_avg` that contains the 
-difference between the observation's `Temp` and the mean `Temp` of the 
-continent in that month. Arrange the dataframe by the column you just created, 
-in descending order (so that the relatively hottest days are listed 
-first).
+3. Use `dplyr` to add a column called `delta_from_avg` that contains the
+difference between that day's `Temp` and the mean `Temp` of that month. Arrange
+the dataframe by the column you just created, in descending order (so that the
+relatively hottest days are listed first).
 
 ```{r}
 
@@ -300,6 +298,4 @@ Temperature above 80F in each month. (You might find the function `n` helpful.)
 
 ```{r}
 
-
-  
 ```
