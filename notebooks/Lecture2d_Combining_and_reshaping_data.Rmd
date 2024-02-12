@@ -1,7 +1,6 @@
 ---
-title: '8) Combining and Reshaping Data'
+title: 'Combining and Reshaping Data'
 author: "Jasmine Hughes"
-date: "12/01/2023"
 output: html_document
 ---
 
