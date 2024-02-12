@@ -340,8 +340,7 @@ rainbows <- c("red", "orange", "yellow", "green", "blue", "indigo", "violet")
 ```
 
 2. Below are two different dates, provided as strings. Use either `as.Date` or 
-an appropriate function from `{lubridate}` to convert them to an object of class 
-Date. Which of them occurred closest to 8 March 1994? 
+an appropriate function from `{lubridate}` to convert them to an object of class Date. Which of them occurred closest to 8 March 1994? 
 ```{r}
 dt1 <- "2004-03-14"
 dt2 <- "1987-03-14"
@@ -354,7 +353,7 @@ dt2 <- "1987-03-14"
 column from a data frame.
 
 ```{r}
-
+test_data_frame <- mtcars
 ```
 
 4. Coerce the vector `my_numbers` to a numeric vector. Count how many NA's were
