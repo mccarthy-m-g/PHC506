@@ -264,21 +264,35 @@ charts?
 in one column as the new column names, and the values in a second column as the 
 new column values.
 
-We can take the data frame we made about and turn it into the one we are 
-familiar with!
+Usually, this means taking "tidy" data and making it "untidy", but sometimes it
+is helpful to have data in this format for displaying in tables or graphs.
+
+Here is an example of a tidy data set. It describes traumatic brain injury rates
+in the USA in 2014 as reported by the CDC. You can find more information about
+this data set here:
+https://github.com/rfordatascience/tidytuesday/tree/master/data/2020/2020-03-24
 
 ```{r}
-gap_tidy %>%
-  pivot_wider(names_from = data_type, values_from = value)
+tbi_age <- readr::read_csv(
+  'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-03-24/tbi_age.csv'
+)
+
+tbi_age 
 ```
 
-Does that look familiar?
+This data set has 231 rows, which is a lot for a table! What if we want to
+display the number of incidents per age group with Injury Mechanism as a column?
+
+```{r}
+
+```
+
 
 # `tidyselect`
 
 The golden rule of programming is be lazy (or, more positively, Don't Repeat
-Yourself - DRY code)! If you find yourself typing out a long list of things, maybe there's
-a better way! (There's nearly always a better way!)
+Yourself - DRY code)! If you find yourself typing out a long list of things,
+maybe there's a better way! (There's nearly always a better way!)
 
 ```{r}
 # NONMEM is a common modeling software program, and a common output may be:
@@ -294,8 +308,7 @@ nm_out <- data.frame(
 )
 
 # how do I get just the columns that start with "ETA"?
-nm_out %>%
-  select(starts_with("ETA"))
+
 ```
 
 Additional documentation:
@@ -314,9 +327,9 @@ for more.
 
 # Breakout 
 
-1. Starting with the gap data set, use `tidyr::pivot_wider` to create a data 
-frame of population over time, where each row is a country, and each column is a 
-year.
+1. Using the traumatic brain injury data set (`tbi_age`), create a table 
+of estimated rates per 100k people (`rate_est`) for hospitalizations, where
+each row is an injury mechanism and each column is an age_group. 
 
 ```{r}
 
@@ -337,21 +350,11 @@ dob <- data.frame(
   date_of_birth = c("1990-11-10", "1972-11-14", "2002-10-31", "1954-08-22"),
   stringsAsFactors = FALSE
 )
-diagnosis
-dob
-
-full_join(dob, diagnosis) %>%
-  mutate(
-    date_of_birth = as.POSIXct(date_of_birth),
-    date_of_diagnosis = as.POSIXct(date_of_diagnosis),
-    age = difftime(date_of_diagnosis, date_of_birth, units = "days") / 365.25,
-    age = as.numeric(age)
-  )
 
 ```
 
 
-3. Using the `nm_out` dataframe described above, create a data frame where each
+3. Using the `nm_out` data frame described above, create a data frame where each
 ETA value is its own row for each patient. Remove duplicate rows so each patient
 only has one ETA value for each ETA type.
 
