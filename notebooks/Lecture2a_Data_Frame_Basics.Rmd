@@ -237,7 +237,7 @@ airquality %>%
 ```
 
 
-First we summon the airqualityminder dataframe and pass it on to the next step using 
+First we summon the airquality data frame and pass it on to the next step using 
 the pipe symbol `%>%`
 
 The second steps is the `filter()` function. Then, we take that output and send 
@@ -307,7 +307,7 @@ only droid characters (hint: `species` column), and all columns except
 
 ```
 
-3. Use `dplyr` to sort the `starwars` data frame alphabetically.
+3. Use `dplyr` to sort the `starwars` data frame alphabetically by name.
 
 ```{r}
 
