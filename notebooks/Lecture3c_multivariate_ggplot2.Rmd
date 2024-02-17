@@ -10,9 +10,11 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE, message = FALSE)
 ```
 
-Load your data if you don't already have it loaded
+Load your data & packages if you don't already have them loaded
 
 ```{r}
+library(ggplot2)
+library(dplyr)
 medal_counts <- read.csv(file.path("..", "data", "medal_counts.csv"))
 medal_counts_wide <- read.csv(file.path("..", "data", "medal_counts_wide.csv"))
 usa_gold_medals <- read.csv(file.path("..", "data", "usa_gold_medals.csv"))
