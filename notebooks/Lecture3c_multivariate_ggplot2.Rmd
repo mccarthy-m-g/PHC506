@@ -155,7 +155,7 @@ lines(
 legend(
   "top", 
   legend = c("Gold", "Silver", "Bronze"),
-  fill = col_pal
+  fill = c("gold", "grey", "orange")
 )
 
 ```
@@ -164,7 +164,8 @@ legend(
 # ggplot2 call
 ggplot(data = usa_all_medals) +
   aes(x = Year, y = count) +
-  geom_line(aes(color = Medal))
+  geom_line(aes(color = Medal)) +
+  scale_color_manual(values = c("gold", "grey", "orange"))
 ```
 
 # Customizing aesthetics in ggplot
@@ -249,10 +250,6 @@ c4a("safe")
 
 
 # Breakout Questions
-
-These questions ask you to work with the gapminder dataset.
-
-### Basics
 
 1) The datasets::Orange data frame describes the growth of 5 orange trees over 
 time (days). Plot a graph showing the `circumference` over time, with each tree
