@@ -1,0 +1,406 @@
+---
+title: 'Graphing in R'
+author: "Jasmine Hughes"
+date: "12/01/2023"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE)
+```
+
+
+# Why Graph?
+
+* Communicate your results to others.
+    + Involved, fancy
+    + May invest time in making it eye-catching, communicative
+    + Seen by many people (colleagues, publications)
+
+* Check calculations, assumptions, understand your data prior to analysis
+    + Quick and dirty
+    + Target audience is you
+    + Get a quick answer to a question you have about the data, see if anything 
+      "smells wrong" about the data.
+
+**Visualize your data often and early.**
+A couple "quick and dirty" graphs can save you a lot of time.
+
+Graphing is often iterative, and you may make many graphs of the same data in an
+analysis:
+
+* The first graph you make to check the data
+* The graph you make that helps you get to that "Aha!" moment
+* The graph you make that helps you communicate the main finding to others
+
+# How to Graph?
+
+3 main facilities for producing graphics in R: 
+
+* **base**, 
+* **`ggplot2`**
+* **`lattice`**
+
+When picking a graphing tool, consider:
+
+* need for speed, vs need for polished final graph
+* size of data (ex: very big data sets and many points, vs <5000 points)
+* specialty graphs (beeswarm, ridge plots) versus basic graph types (histogram)
+* plays nicely with other "specialty" tools you are using.
+
+# The Data
+
+* All Summer Olympic medalists from 1896-2008
+* Variables include name, gender, country, country code (`NOC`), sporting event, 
+  and type of medal won
+
+First, we'll use `dplyr` and `tidyr` to count the medals of each type won, for 
+each country and each year.
+
+```{r}
+# If you haven't yet installed dplyr, install it now!
+# install.packages('dplyr')
+library(dplyr)
+
+# Lets also load the medals data set:
+medals <- read.csv(
+  file.path("..", "data", "all_medalists.csv")
+) 
+
+# This data set is from here: 
+# https://www.theguardian.com/sport/datablog/2012/jun/25/olympic-medal-winner-list-data
+```
+
+```{r}
+# dplyr and tidyr refresher
+medal_counts <- medals %>%
+  group_by(Medal, Year, NOC) %>%
+  summarise(count = n())
+head(medal_counts)
+
+
+```
+
+This table is in tidy format. Wide (untidy) format can be useful for plotting in 
+*base* plot (more on this later)
+
+```{r}
+medal_counts_wide <- medal_counts %>% 
+  tidyr::pivot_wider(names_from = Medal, values_from = count) %>%
+  ungroup() %>%
+  mutate(Bronze = ifelse(is.na(Bronze), 0, Bronze)) %>%
+  mutate(Silver = ifelse(is.na(Silver), 0, Silver)) %>%
+  mutate(Gold = ifelse(is.na(Gold), 0, Gold))
+```
+
+Finally, let's subset the data to gold medal counts for the US, for easier 
+plotting.
+
+```{r}
+usa_gold_medals <-  medal_counts %>%
+  filter(Medal == "Gold") %>%
+  filter(NOC == "USA")
+```
+
+Let's also save our data sets so we can access them again later.
+
+```{r}
+write.csv(
+  medal_counts, 
+  file.path("..", "data", "medal_counts.csv"), 
+  row.names = F
+)
+write.csv(
+  medal_counts_wide, 
+  file.path("..", "data", "medal_counts_wide.csv"), 
+  row.names = F
+)
+write.csv(
+  usa_gold_medals, 
+  file.path("..", "data", "usa_gold_medals.csv"), 
+  row.names = F
+)
+
+```
+
+# Base graphics
+
+We saw a couple examples of graphing in base R previously: the histogram and the 
+boxplot.
+
+```{r}
+# Review:
+pt_data <- data.frame(
+  MRN = rep(c(97, 107, 402),2),
+  measurement_time = factor(
+    c(rep("Pre-Intervention", 3), rep("Post-Intervention", 3)),
+    levels = c("Pre-Intervention", "Post-Intervention")
+  ),
+  measurement_value = c(50, 65, 47, 104, 82, 91)
+)
+
+boxplot(measurement_value ~ measurement_time, data = pt_data)
+
+hist(pt_data$measurement_value)
+```
+
+Base R is not super consistent about the graphing API (application programming 
+interface - how you interact with a pieces of software). 
+
+The general call for base plot looks something like this:
+
+```{r, eval=FALSE}
+# this code will not work, it's just an example ("pseudo code")
+plot(x = , y = , ...)
+```
+Additional parameters can be passed in to customize the plot:
+
+* type: scatterplot? lines? etc
+* main: a title
+* xlab, ylab: x-axis and y-axis labels
+* col: color, either a string with the color name or a vector of color names for each point
+
+More layers can be added to the plot with additional calls to `lines`, `points`, `text`, etc.
+
+```{r, fig.cap = ""}
+plot(medal_counts_wide$Year, medal_counts_wide$Gold) # Basic
+plot(
+  medal_counts_wide$Year, 
+  medal_counts_wide$Gold, 
+  #type = "l",
+  main = "USA Gold Medals",
+  xlab = "Year", 
+  ylab = "Count"
+) # with updated parameters
+```
+
+
+## Object-oriented plots
+
+Remember how `summary()` returns different answers depending on if the column is
+a factor, a character or a number? Base R can be "smart" about your data type 
+too.
+
+* Base graphics often recognizes the object type and will implement specific 
+  plot methods
+* lattice and ggplot2 generally **don't** exhibit this sort of behavior
+
+```{r}
+medal_counts_wide
+
+summary(medal_counts_wide)
+```
+
+If we provide a multi-column numeric data frame, we get correlation plots
+
+```{r, fig.cap=" "}
+# Calls plotting method for class of the dataset ("data.frame")
+medal_counts_wide %>% 
+  select(-NOC) %>%
+  plot()
+
+```
+
+If we provide the output of a linear regression, we get common diagnostic plots.
+
+Let's see a quick example with a linear model:
+
+```{r}
+# Calls plotting method for class of medal_lm object ("lm")
+# the first argument takes a formula, a new type of object
+medal_lm <- lm(Gold ~ Bronze + Silver, data = medal_counts_wide)
+summary(medal_lm)
+summary(medal_counts_wide)
+```
+
+How would you interpret this statistical result?
+
+Is this a reasonable model? Let's check some diagnostics.
+
+```{r}
+
+# print first five plots only
+plot(medal_lm, which=1:5)
+```
+
+Can you tell R was made by statisticians?
+
+## Other plot types in base graphics
+
+These are a few other types of plots you can make in base graphics.
+
+```{r, fig.cap = ""}
+boxplot(Gold ~ Year, data = medal_counts_wide)
+hist(medal_counts_wide$Gold)
+plot(density(medal_counts_wide$Gold))
+barplot(
+  usa_gold_medals$count, 
+  width = 4, 
+  names.arg = usa_gold_medals$Year,
+  main = "USA Gold Medals"
+)
+mosaicplot(Year~Medal, medal_counts)
+```
+
+# Customizing your Base R plot
+
+Base R plots are fast and functional, but not particularly attractive.
+
+We saw we could customize the labels using arguments like "main" or "ylab".
+
+We can also customize the colors:
+
+```{r, fig.cap = ""}
+usa_all_medals_untidy <- medal_counts_wide %>%
+  filter(NOC == "USA")
+
+col_pal <- c("#ffbf00", "#bfbfbf", "#ff661a")
+```
+
+```{r}
+
+# Base graphics call
+# (highlight and run whole block)
+plot(
+  usa_all_medals_untidy$Year, 
+  usa_all_medals_untidy$Gold, 
+  col = col_pal[1],
+  type = "l",
+  xlab = "Year",
+  ylab = "Number of medals"
+)
+
+lines(
+  usa_all_medals_untidy$Year, 
+  usa_all_medals_untidy$Silver, 
+  col = col_pal[2]
+)
+lines(
+  usa_all_medals_untidy$Year, 
+  usa_all_medals_untidy$Bronze, 
+  col = col_pal[3]
+)
+legend(
+  "top", 
+  legend = c("Gold", "Silver", "Bronze"),
+  fill = col_pal
+)
+```
+# Exporting your base R plot
+
+### The best way: using code!
+
+You might have noticed in the plot above that each line of code updates the plot
+(this form of graphing is a little awkward in R Markdown, so we had to run every
+line at once).
+
+The R code updates the plot in the selected graphics device. Usually this is the
+"Plots" tab, or in our case, the R Markdown chunk. To save the plot, we have to
+select a different graphics device.
+
+Here, we will save a graph as a pdf. (You can change the file type using other
+functions, like `png()`.)
+
+```{r}
+# run the whole code chunk at once
+pdf(file = 'medals_by_year.pdf')
+plot(
+  usa_all_medals_untidy$Year, 
+  usa_all_medals_untidy$Gold, 
+  col = col_pal[1],
+  type = "l",
+  xlab = "Year",
+  ylab = "Number of medals"
+)
+lines(
+  usa_all_medals_untidy$Year, 
+  usa_all_medals_untidy$Silver, 
+  col = col_pal[2]
+)
+lines(
+  usa_all_medals_untidy$Year, 
+  usa_all_medals_untidy$Bronze, 
+  col = col_pal[3]
+)
+legend(
+  "top", 
+  legend = c("Gold", "Silver", "Bronze"),
+  fill = col_pal
+)
+dev.off()
+```
+
+### A convenient way: plots panel
+
+Great for "quick" graphs, easy sharing. Not great for automatically generating 
+graphs, reproducibly generating a graph.
+
+# Pros/cons of base graphics, ggplot2, and lattice
+
+Base graphics is
+
+a) good for exploratory data analysis and sanity checks
+
+b) a handy tool to use in tandem with `lm` and a few other 'base R' stats tools
+
+c) inconsistent in syntax across functions
+
+d) defaults plotting parameters are ugly and it can be difficult to customize
+
+e) that said, one can do essentially anything in base graphics with some work
+
+`ggplot2` is
+
+a) generally more elegant
+
+b) more syntactically logical (and therefore simpler, once you learn it)
+
+c) better at grouping, handling multiple variables
+
+d) has a well-developed ecosystem of packages that work well together, great for 
+   specialized graph types
+
+e) the "quick and dirty" graph is often a reasonably aesthetically pleasing 
+   starting spot
+
+`lattice` is
+
+a) faster than ggplot2 (though only noticeable over many and large plots)
+
+b) may be simpler than ggplot (although, fewer resources online for learning)
+
+c) able to do 3d graphs
+
+d) used by many specialty packages (bioinformatics, cytometry)
+
+We'll focus on ggplot2 as it is very powerful, very widely-used and allows one 
+to produce very nice-looking graphics without a lot of coding.
+
+# Breakout Problems
+
+1. Using the airquality dataset, plot a histogram of temperature.
+
+```{r}
+datasets::airquality
+```
+
+2. Extend your previous answer to add a plot title, and label the axes. 
+
+```{r}
+
+```
+
+3. Create a new directory called `figures` and save your plot to this folder.
+
+```{r}
+
+```
+
+4. Using the ToothGrowth dataset, plot a box plot of tooth length by dose and
+supplement. (Hint! You can use the "formula" argument to combine multiple 
+variables)
+```{r}
+as.formula("y ~ x1 + x2") # example
+datasets::ToothGrowth
+```

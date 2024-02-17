@@ -1,0 +1,271 @@
+---
+title: 'Introduction to ggplot2'
+author: "Jasmine Hughes"
+date: "12/01/2023"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE)
+```
+
+
+# Pros/cons of base graphics, ggplot2, and lattice
+
+Base graphics is
+
+a) good for exploratory data analysis and sanity checks
+
+b) a handy tool to use in tandem with `lm` and a few other 'base R' stats tools
+
+c) inconsistent in syntax across functions
+
+d) defaults plotting parameters are ugly and it can be difficult to customize
+
+e) that said, one can do essentially anything in base graphics with some work
+
+`ggplot2` is
+
+a) generally more elegant
+
+b) more syntactically logical (and therefore simpler, once you learn it)
+
+c) better at grouping, handling multiple variables
+
+d) has a well-developed ecosystem of packages that work well together, great for 
+   specialized graph types
+
+e) the "quick and dirty" graph is often a reasonably aesthetically pleasing 
+   starting spot
+
+`lattice` is
+
+a) faster than ggplot2 (though only noticeable over many and large plots)
+
+b) may be simpler than ggplot (although, fewer resources online for learning)
+
+c) able to do 3d graphs
+
+d) used by many specialty packages (bioinformatics, cytometry)
+
+We'll focus on ggplot2 as it is very powerful, very widely-used and allows one 
+to produce very nice-looking graphics without a lot of coding.
+
+Let's read in our data sets we made earlier:
+
+```{r}
+medal_counts <- read.csv(file.path("..", "data", "medal_counts.csv"))
+medal_counts_wide <- read.csv(file.path("..", "data", "medal_counts_wide.csv"))
+usa_gold_medals <- read.csv(file.path("..", "data", "usa_gold_medals.csv"))
+
+```
+
+# ggplot2
+
+```{r}
+library(ggplot2)
+```
+
+The general call for `ggplot2` graphics looks something like this:
+
+```{r, eval=FALSE}
+# This code will not work, it is pseudo code to demonstrate the concept
+library(ggplot2)
+ggplot(data = ) +
+  geom_xxxx(aes(x = ,y = , [options]))) + 
+  geom_xxxx(aes(x = ,y = , [options]))) + 
+  ... + 
+  ... + 
+  ...
+```
+
+Note that `ggplot2` graphs in layers in a *continuing call* (hence the endless 
++...+...+...), which really makes the extra layer part of the call.
+
+**common mistake!** Careful: `+` is not the same as `%>%` (common typo!) We are 
+adding layers together, not piping the input of one function into another.
+
+You can see the layering effect by comparing the same graph with different 
+colors for each layer:
+
+```{r, fig.cap=" ", warning=FALSE}
+p <- ggplot(data = medal_counts_wide) +
+  aes(x = Year, y = Gold) +                   
+  geom_point(color = "gold")
+p
+p + 
+  geom_point(
+    aes(x = Year, y = Silver), 
+    color = "gray"
+  ) + 
+  ylab("Medals")
+```
+
+# Grammar of Graphics
+
+`ggplot2` syntax is very different from base graphics and lattice. It's built on 
+the **grammar of graphics**. The basic idea is that the visualization of all 
+data requires four items:
+
+1) A dataset and set of mappings from variables to **aesthetics** 
+   (ex: year -> x, medal count ->y). In ggplot, use `aes()`
+
+2) A **geometry** (`geom_xxx`), which describes how the aesthetics data is 
+   transformed into the graphical representation in terms of **kind** 
+   (or **shape**).
+
+3) One **scale** for each aesthetic mapping used. Scales describe how the 
+   aesthetics data is transformed into the graphical representation in terms of 
+   **degree**. (What does a value of `5` or `10` when determining what each 
+   pixel in a graph looks like?). 
+
+   * `scale_color_manual` and family for mapping values to colors/linetypes/
+     circle 
+     types (displayed in a figure legend)
+   * data transofmrations (log, etc), described using gridlines and axes for
+     position scales
+
+4) A coordinate system, affects all position variables (cartesian, 
+   logarithmic/semi-log, polar)
+
+
+*Aside*: "The Grammar of Graphics" is a book, if you're interested in data 
+visualization theory!
+
+```{r, warning = FALSE, message = FALSE, fig.cap = "", fig.height=2.5}
+medal_counts_wide %>%
+  ggplot() +
+  aes(x = Year, y = Gold) +
+  geom_point() +
+  ggtitle("Gold Medal Counts") +
+  labs(y = "N gold medals")
+
+```
+
+```{r}
+
+ggplot(usa_gold_medals, aes(x = Year, y = count)) + 
+  geom_line() +
+  ggtitle("USA Gold Medals")
+
+```
+
+```{r}
+
+# Boxplots
+ggplot(medal_counts_wide, aes(x = factor(Year), y = Gold)) +
+  geom_boxplot() + 
+  ggtitle("Gold Medal Counts")
+```
+
+```{r}
+# Histogram
+ggplot(medal_counts_wide, aes(x = Gold)) + 
+  geom_histogram() +
+  ggtitle("Gold Medal Counts")
+```
+
+```{r}
+# Density plot
+ggplot(medal_counts_wide, aes(x = Gold)) + 
+  geom_density() +
+  ggtitle("Gold Medal Counts")
+```
+
+```{r}
+# Bar chart
+ggplot(usa_gold_medals, aes(x = Year, y = count)) + 
+  geom_bar(stat = "identity")
+```
+
+* Consistent API call
+* Change out one `geom` for another to change the "type"
+
+# The ordering of layers matters!
+
+We saw that we can add multiple layers on top of each other, but how does
+ggplot know which one to do first?
+
+```{r layeroverride}
+
+# Compare boxplot first, then jitter
+iris %>%
+  ggplot() +
+  aes(x = Species, y = Sepal.Length) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter(width = 0.3)  # jitter: point with position dodging
+
+# versus jitter first, then boxplot
+iris %>%
+  ggplot() +
+  aes(x = Species, y = Sepal.Length) +
+  geom_jitter(width = 0.3) +
+  geom_boxplot(outlier.shape = NA)
+
+
+```
+
+# `ggplot2` and tidy data
+
+`ggplot2` plays nice with `dplyr` and pipes. If you want to manipulate your 
+data specifically for one plot but not save the new dataset, you can call 
+your `dplyr` chain and pipe it directly into a `ggplot` call.
+
+```{r, fig.cap = "", fig.show = "hold"}
+# This combines the subsetting and plotting into one step
+medal_counts %>%
+  filter(Medal == "Gold") %>%
+  filter(NOC == "USA") %>%
+  ggplot(aes(x = Year, y = count)) + 
+  geom_line()
+
+```
+
+# Exporting your graph
+
+### The best way: ggsave
+
+```{r, eval=FALSE}
+?ggsave
+
+ggsave(
+  filename = "example.pdf", 
+  plot = p, 
+  width = 7,
+  height = 7,
+  bg = "white"
+)
+```
+
+The plots panel UI is also there for you if you need it for quick communications
+
+# Breakout Problems
+
+These are the same problems from before, but now try solve them with ggplot2!
+
+1. Using the airquality dataset, plot a histogram of temperature.
+
+```{r}
+datasets::airquality
+```
+
+2. Extend your previous answer to add a plot title, and label the axes.
+(Hint! We saw the function `labs()` before.)
+```{r}
+
+```
+
+3. Save your plot to the `figures` directory.
+
+```{r}
+
+```
+
+4. Using the ToothGrowth dataset, plot a box plot of tooth length by dose and
+supplement. 
+(Hint! You might need to make a new column or variable for the x-axis)
+```{r}
+datasets::ToothGrowth
+
+```
