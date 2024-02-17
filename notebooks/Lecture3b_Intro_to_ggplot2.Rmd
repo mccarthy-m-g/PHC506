@@ -11,19 +11,7 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE)
 ```
 
 
-# Pros/cons of base graphics, ggplot2, and lattice
-
-Base graphics is
-
-a) good for exploratory data analysis and sanity checks
-
-b) a handy tool to use in tandem with `lm` and a few other 'base R' stats tools
-
-c) inconsistent in syntax across functions
-
-d) defaults plotting parameters are ugly and it can be difficult to customize
-
-e) that said, one can do essentially anything in base graphics with some work
+# Why ggplot2?
 
 `ggplot2` is
 
@@ -39,33 +27,18 @@ d) has a well-developed ecosystem of packages that work well together, great for
 e) the "quick and dirty" graph is often a reasonably aesthetically pleasing 
    starting spot
 
-`lattice` is
-
-a) faster than ggplot2 (though only noticeable over many and large plots)
-
-b) may be simpler than ggplot (although, fewer resources online for learning)
-
-c) able to do 3d graphs
-
-d) used by many specialty packages (bioinformatics, cytometry)
-
 We'll focus on ggplot2 as it is very powerful, very widely-used and allows one 
 to produce very nice-looking graphics without a lot of coding.
 
-Let's read in our data sets we made earlier:
-
-```{r}
-medal_counts <- read.csv(file.path("..", "data", "medal_counts.csv"))
-medal_counts_wide <- read.csv(file.path("..", "data", "medal_counts_wide.csv"))
-usa_gold_medals <- read.csv(file.path("..", "data", "usa_gold_medals.csv"))
-
-```
-
-# ggplot2
+Let's load the packages we need and read in our data sets we made earlier:
 
 ```{r}
 library(ggplot2)
 library(dplyr)
+medal_counts <- read.csv(file.path("..", "data", "medal_counts.csv"))
+medal_counts_wide <- read.csv(file.path("..", "data", "medal_counts_wide.csv"))
+usa_gold_medals <- read.csv(file.path("..", "data", "usa_gold_medals.csv"))
+
 ```
 
 The general call for `ggplot2` graphics looks something like this:
