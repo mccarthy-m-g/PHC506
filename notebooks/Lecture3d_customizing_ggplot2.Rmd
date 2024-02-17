@@ -1,5 +1,5 @@
 ---
-title: 'ggplot2 with more than one variable'
+title: 'Customizing ggplot2'
 author: "Jasmine Hughes"
 date: "12/01/2023"
 output: html_document
