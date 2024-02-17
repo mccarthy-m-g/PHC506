@@ -65,6 +65,7 @@ usa_gold_medals <- read.csv(file.path("..", "data", "usa_gold_medals.csv"))
 
 ```{r}
 library(ggplot2)
+library(dplyr)
 ```
 
 The general call for `ggplot2` graphics looks something like this:
