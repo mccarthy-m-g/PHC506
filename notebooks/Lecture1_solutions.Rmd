@@ -1,0 +1,163 @@
+---
+title: 'Lecture 1, solutions'
+author: "Jasmine Hughes"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE)
+```
+
+
+
+# Breakout 1c
+In general, your answers to any questions should involve writing code to 
+manipulate objects. Don't open excel or another calculator to answer them.
+
+1) Create a vector of the squares of all numbers from 1-10. Save it to a
+variable called `x`
+
+
+```{r}
+# your code goes here!
+x <- (1:10) ** 2
+```
+
+2) Use a logical expression to identify which elements of `x` are less than 20.
+Save this logical vector as a variable called `y`.
+
+```{r}
+y <- x < 20
+```
+
+3) Use the vector `y` to subset x to return (a) all the elements less than 20 
+and (b) all the elements greater than or equal to 20.
+
+```{r}
+# (a)
+x[y]
+
+# (b)
+x[!y]
+
+```
+
+4) How would you interpret the results of these expressions?
+```{r}
+x 
+sum(x)  # sum of squares from 1-10
+mean(x) # mean of squares from 1-10
+
+# since x is numeric, these expressions behave like we might mathematically
+# expect
+
+y
+sum(y)  # number of values less than 20
+mean(y) # proportion of values less than 20
+
+# since y is a logical, mathematical operations convert TRUE to 1 and FALSE to 0
+# `sum` calculates 1 + 1 + 1 + 1 + 0...
+# `mean` calculates the mean (sum(y)/length(y)) which is in this case also the
+# proportion of TRUE values (since all values of y are either 1 or 0)
+
+```
+
+# Breakout 1d
+
+In general, your answers to any questions should involve writing code to 
+manipulate objects. For example, if I ask you to find the maximum temperature, 
+do not scan through all the values and find it by eye. Use R to do the 
+calculations and print results.
+
+Some of these questions will require you to search for the right function.
+
+**Hint**: use the function `apropos("key word")` to find something to use.
+
+1) The variable x contains all the temperature measurements from the air quality
+data frame. Create a variable called 'avg_temp' that contains the mean 
+temperature. Then, create a vector of length 2 that contains the minimum and 
+maximum temperature and assign it to a variable with a meaningful name.
+```{r}
+library(datasets)
+x <- airquality$Temp
+x
+
+# write your solution below
+avg_temp <- mean(x)
+temp_extremes <- c(min(x), max(x))
+
+```
+
+2) Create a boolean (TRUE/FALSE) vector indicating whether the temperature in x 
+is higher than the average temperature.
+
+```{r}
+x > avg_temp
+```
+
+3) The temperature recordings are in Fahrenheit. Convert the column to Celsius.
+Save the column to the data frame as a new column called "TempC"
+Hint: C = (F - 32) * 5/9
+
+```{r}
+airquality$TempC <- (airquality$Temp - 32) * 5/9
+airquality
+```
+
+4) Use functions in R to round 'TempC' to two decimal places and to two 
+significant digits.
+
+```{r}
+round(airquality$TempC, 2)
+signif(airquality$TempC, 2)
+```
+
+# Breakout 1 e
+
+1) Make sure you are able to install packages from CRAN. E.g., try to install 
+*praise*. What does the code below do?
+
+```{r }
+install.packages("praise")
+praise::praise()
+# This function returns motivational messages to the user.
+
+```
+
+2) Figure out what your current working directory is.
+
+```{r }
+getwd()
+```
+
+3) Write the theophylline data frame to your downloads folder. Open it in excel 
+or a similar application. Does it look like you expected?
+
+```{r }
+write.csv(
+  datasets::Theoph,
+  file.path("~", "Downloads")
+)
+
+```
+
+4) Create an R script (File > New File > R script). Copy the 
+*data/airquality.xlsx* file to some other directory on your computer, such as 
+*Downloads*. Use `setwd()` to set your working directory to be 
+that directory. Read the file in using `readxl``.  Now use `setwd()` to point 
+to a different directory such as *Desktop*. Write the data frame out to a file 
+without any row names.
+
+```{r }
+setwd(file.path("~", "Downloads"))
+aq <- readxl::read_excel("airquality.xlsx")
+setwd(file.path("~", "Desktop"))
+write.csv(aq, "airquality.csv", row.names = FALSE)
+```
+
+
+
+
+
+
