@@ -51,7 +51,7 @@ We can chain together `if` statements using `else if `.
 ```{r, if-chain}
 val <- rnorm(1, mean = 0, sd = 1)
 val
-if (val < -1) {
+if (val < -1) { 
   print("val is more than one standard deviation below the mean.")
 } else if (abs(val) <= 1) {
   print("val is within one standard deviation of the mean.")
@@ -182,6 +182,8 @@ bilirubin %>%
     bilirubin_test = ifelse(bilirubin$lab > 1.2, "elevated", "normal")
   )
 
+
+
 ```
 
 # Breakout
@@ -210,7 +212,10 @@ Use the following conversion factors:
 
 # if it is correct, the following should return TRUE
 identical(calculate_bmi(1.70, 70, "m"), calculate_bmi(170, 70, "cm"))
-identical(calculate_bmi(1.70, 70, "m"), calculate_bmi(66.929, 70, "in"))
+identical(
+  round(calculate_bmi(1.70, 70, "m"), 3), 
+  round(calculate_bmi(1.7*39.37, 70, "in"), 3)
+)
 
 ```
 
