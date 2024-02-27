@@ -1,0 +1,236 @@
+---
+title: "Lecture 4 Solutions"
+output: html_document
+---
+
+# Breakout Problems - 4a
+
+1) Write an R function that will take an input vector and set any values less 
+than zero to zero.
+
+```{r }
+# Write your solution here:
+thresh0 <- function(vec) {
+  vec[vec < 0] <- 0
+  vec
+}
+
+# If your solution is correct, the following should return TRUE:
+vec <- c(-5, 0, 6, 1, -1)
+expect_out <- c(0, 0, 6, 1, 0)   # the same as vec with all values < 0 set to 0
+out <- thresh0(vec)
+identical(expect_out, out)
+vec
+```
+
+2) Update your answer so that your function takes a second argument for the 
+threshold, so that instead of 0, the user inputs the value of the lower
+threshold.
+
+```{r}
+# Write your solution here:
+thresh <- function(vec, thr) {
+  vec[vec < thr] <- thr
+  vec
+}
+
+
+
+# If your solution is correct, the following should return TRUE:
+vec <- c(-5, 0, 6, 1, -1)
+expect_out1 <- c(0, 0, 6, 1, 0)   # the same as vec with all values < 0 set to 0
+expect_out2 <- c(2, 2, 6, 2, 2)   # the same as vec with all values < 2 set to 2
+out1 <- thresh(vec = vec, thr = 0)
+out2 <- thresh(vec, 2)
+identical(expect_out1, out1)
+identical(expect_out2, out2)
+
+```
+
+3. Update your solution so that, by default, the lower threshold is 0, but the
+user can override it by passing a lower threshold.
+
+```{r}
+# Write your solution here:
+thresh <- function(vec, thr = 0) {
+  vec[vec < thr] <- thr
+  vec
+}
+
+
+# If your solution is correct, the following should return TRUE:
+vec <- c(-5, 0, 6, 1, -1)
+expect_out1 <- c(0, 0, 6, 1, 0)   # the same as vec with all values < 0 set to 0
+expect_out2 <- c(2, 2, 6, 2, 2)   # the same as vec with all values < 2 set to 2
+out1 <- thresh(vec)               # only one argument provided
+out2 <- thresh(vec, 2)            # both arguments are provided
+identical(expect_out1, out1)
+identical(expect_out2, out2)
+
+```
+
+# Breakout 4b
+
+1. We previously saw a function for calculating BMI, which looked something like
+this:
+
+```{r}
+calculate_bmi <- function(height, weight){ # assume height in m, weight in kg
+  weight / height ** 2
+}
+
+calculate_bmi(1.70, 70)
+```
+
+Modify the function so that the user supplies, as a string, the unit for height,
+accepting either c("cm", "m", or "in"). Then, if necessary, convert the height
+to the appropriate unit before calculating BMI.
+
+Use the following conversion factors:
+1m = 100 cm = 39.37 inches
+
+```{r}
+# write your solution here
+calculate_bmi <- function(height, weight, unit = "m"){ 
+  if (unit == "cm") {
+    height <- height / 100
+  } else if (unit == "in") {
+    height <- height / 39.37
+  } 
+  weight / height ** 2
+}
+
+# if it is correct, the following should return TRUE
+identical(calculate_bmi(1.70, 70, "m"), calculate_bmi(170, 70, "cm"))
+identical(
+  round(calculate_bmi(1.70, 70, "m"), 3), 
+  round(calculate_bmi(1.7*39.37, 70, "in"), 3)
+)
+
+```
+
+
+# Breakout
+
+1. Loop through all the letters of the alphabet (see the variable `letters`). If
+the letter is a vowel, print "vowel".
+
+```{r}
+# Hint: 
+'a' %in% c('a', 'e', 'i', 'o', 'u')  # TRUE
+'b' %in% c('a', 'e', 'i', 'o', 'u')  # FALSE
+letters
+
+for (l in letters) {
+  if (l %in% c('a', 'e', 'i', 'o', 'u')) {
+    print("vowel")
+  }
+}
+
+```
+
+2. Loop through all the integers between 1 and 100 (inclusive). If the value is
+divisible by 5, print "fizz". If the value is divisible by 7, print "buzz". If
+the value is divisible by both, print "fizzbuzz".
+
+```{r}
+# Hint: 7 %% 7 == 0      # Lecture 1 review
+#       7 %% 5 == 2
+#       5 %% 5 == 0
+for (i in 1:100) {
+  if ((i %% 7 == 0) & (i %% 5 == 0)) {
+    print("fizzbuzz")
+  } else if (i %% 5 == 0) {
+    print("fizz")
+  } else if (i %% 7 == 0) {
+    print("buzz")
+  } 
+}
+
+```
+
+3. Update your solution so that now instead of printing a message, you update a
+counter. How many numbers between 1 and 100 (inclusive) are divisible by at 
+least one of 5 or 7?
+
+
+```{r}
+# Hint: 7 %% 7 == 0      # Lecture 1 review
+#       7 %% 5 == 2
+#       5 %% 5 == 0
+counter <- 0
+
+for (i in 1:100) {
+  if (i %% 5 == 0 || i %% 7 == 0) {
+    counter <- counter + 1
+  }
+}
+counter
+```
+
+# Breakout 4d
+
+In the following examples, try to predict what value `f(1)` will return 
+*without* running the code.
+
+1. What is `f(1)`?
+
+Three: `g(x)` returns 2, so `g(x) + 1` returns 3
+
+```{r}
+g <- function(x) {
+  x + 1
+}
+
+f <- function(x) {
+  g(x) + 1
+}
+
+f(1)
+
+```
+
+2. What will the following return?
+(a) f(1)
+(b) f(1, 3)
+
+(a) `f(1)` will use the default argument of y defined in `f(x)`, and so 
+`g(x, y)` evaluates to `g(1, 2)` which is 3.
+
+(b) `f(1, 3)` uses the supplied arguments for both x and y, so evaluates to 
+`1 + 3` or 4
+
+```{r}
+g <- function(x, y = 1) {
+  x + y
+}
+
+f <- function(x, y = 2) {
+  g(x, y) 
+}
+
+f(1)
+f(1, 3)
+
+```
+
+3. What is `f(1)`?
+
+Here, y is not supplied to g, and so the default value of `1` is used, even 
+though y is defined in the global environment.
+
+The answer is therefore 2.
+
+```{r}
+g <- function(x, y = 1) {
+  x + y
+}
+y <- 1000
+f <- function(x) {
+  g(x) 
+}
+
+f(1)
+
+```
+
