@@ -1,0 +1,160 @@
+---
+title: "Practice Problems"
+output: html_document
+date: "2024-02-27"
+---
+
+Unless otherwise specified, these questions ask you to use the provided data,
+(gapminder.csv) which contains 6 columns and 1704 rows. 
+
+The columns are as follows:
+
+* country: Name of country
+* year: Year (YYYY, stored as a number),
+* pop: Population of country in given year
+* continent: Continent of country
+* lifeExp: Life expectancy (years) of country in given year
+* gdpPercap: GDP per capita, in international dollars, fixed price.
+
+# dplyr
+
+1. Use `dplyr` to create a data frame containing data from before 1975 with 
+every column except `continent`.
+
+```{r}
+
+```
+
+2. How many countries had a life expectancy greater than 60 in the year 1982?
+
+```{r}
+
+```
+
+3. Use `dplyr` and `grepl()` to filter for countries with the letter "z" in their name.
+
+```{r}
+
+
+```
+
+4. Use `dplyr` to sort the gap data set in reverse alphabetical order.
+
+```{r}
+
+
+```
+
+# ggplot
+
+1) Plot a histogram of life expectancy. 
+
+```{r}
+
+```
+
+2) Plot the life expectancy against gdpPercap using `geom_point`
+
+```{r}
+
+```
+
+3) Clean up your scatterplot with a title and axis labels. Output it as a PDF 
+and see if you'd be comfortable with including it in a report/paper.
+
+```{r}
+
+
+```
+
+4) Make a boxplot of life expectancy (y) versus year (x).
+
+```{r}
+
+
+```
+
+5) Use `facet_wrap` to create a trellis plot of life expectancy by gdpPercap
+scatterplots, one subplot per year.  
+
+```{r}
+
+```
+
+6) Plot life expectancy versus gdpPercap. Now plot so that different continents 
+are in different colors. Use `scale_x_continuous()` to set the x-axis limits to 
+be in the range from 100 to 50000.
+
+```{r}
+
+```
+
+7) Figure out how to use the log-scale for gdpPercap, without manually 
+calculating the log values.
+
+```{r}
+
+```
+
+8) Create a "trellis" plot (using `facet_wrap`) where, for a given year, each 
+panel uses a) hollow circles to plot lifeExp as a function of log(gdpPercap), 
+and b) a red loess smoother without standard errors to plot the trend. Turn off 
+the grey background. Figure out how to use partially-transparent points to 
+reduce the effect of the overplotting of points.
+
+```{r}
+
+```
+
+9) Building on your graph in Question 8, change at least two different 
+properties in the `theme()` layer to customize the graph to your liking.
+
+```{r}
+
+```
+
+# Programming
+
+1) Write a for loop that will loop through a vector of values and produce a
+vector equal to the input vector except with negative values set to zero. (ex:
+`c(-2.3, 0, 6, 9) should become c(0, 0, 6, 9))
+
+```{r}
+
+
+```
+
+2. Below is a list of instructions that control a robot. The robot can move
+up or down only. The "+" instruction indicates the robot moves up, and the "-"
+instruction indicates the robot moves downwards. The robot starts at a position of zero. What position does the robot end at?
+
+```{r}
+instr <- c(
+  "-", "-", "+", "+", "-", "+", "+", "-", "-", "-", "-", "+",
+  "+", "-", "-", "+", "+", "-", "+", "-", "-", "-", "+", "-", "-",
+  "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "+", "-", "+",
+  "-", "+", "-", "-", "+", "-", "+", "-", "-", "-", "+", "-", "-",
+  "-", "-", "+", "-", "+", "-", "+", "+", "-", "+", "-", "-", "-",
+  "-", "+", "-", "-", "-", "-", "-", "+", "+", "+", "-", "-", "+",
+  "+", "+", "+", "+", "-", "+", "+", "+", "+", "-", "-", "-", "+",
+  "-", "-", "-", "-", "+", "+", "+", "+", "-", "-", "-", "-", "-",
+  "-", "+", "-", "-", "+", "-", "-", "+", "+", "+", "-", "+", "-",
+  "-", "+", "-", "+", "-", "+", "+", "-", "+", "-", "-", "+", "+",
+  "-", "+", "-", "-", "+", "-", "-", "+", "+", "+", "-", "-", "-",
+  "+", "+", "+", "+", "-", "-", "+", "-", "-", "-", "+", "+", "-",
+  "+", "-", "+", "-", "-", "-", "+", "-", "+", "-", "+", "-", "-",
+  "-", "-", "+", "-", "-", "+", "-", "-", "+", "-", "+", "-", "-",
+  "-", "-", "+", "+", "+", "+", "+", "-", "-", "-", "-", "+", "+",
+  "-", "+", "+", "+", "+", "-", "-", "-", "+", "+", "+", "-", "+",
+  "-", "+", "+", "+", "-", "-", "-", "-", "-", "-", "-", "-", "+",
+  "+", "-", "-", "-", "-", "-", "-", "+", "+", "+", "+", "+", "+",
+  "+", "-", "+", "-", "-", "-", "+", "+", "+", "+", "+", "+", "+",
+  "-", "+", "-", "+", "+", "-", "+", "+", "+", "-", "+", "-", "-",
+  "-", "-", "+", "+", "+", "+", "-", "+", "-", "+", "-", "-", "+",
+  "-", "-", "+", "-", "-", "+", "-", "+", "+", "-", "+", "+", "+",
+  "+", "-", "+", "+", "-", "+", "+", "+", "-", "+", "-", "-", "-",
+  "+", "+"
+)
+
+
+```
