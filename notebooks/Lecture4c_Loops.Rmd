@@ -145,8 +145,9 @@ However, loops can be very powerful and sometimes they are the right approach:
 
 # Breakout
 
-1. Loop through all the letters of the alphabet (see the variable `letters`). If
-the letter is a vowel, print "vowel".
+1. Use a for loop to count the number of vowels in the alphabet. (see the 
+variable `letters`) 
+
 
 ```{r}
 # Hint: 

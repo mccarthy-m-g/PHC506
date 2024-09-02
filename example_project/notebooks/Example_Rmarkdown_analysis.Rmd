@@ -61,7 +61,8 @@ p_Theoph <- Theoph %>%
 p_Theoph
 
 ```
-Subject 9 had a very sharp curve.
+
+
 # Save the output of our code
 
 ```{r save_graph, echo=FALSE}

@@ -103,11 +103,10 @@ But it might be less error prone to write a function!
 
 ```{r}
 calculate_bmi <- function(height_in_cm, weight_in_kg){
-  height_in_m <- height_in_cm/100
-  weight_in_kg / height_in_m ** 2
+  
 }
 
-calculate_bmi(175, 70)
+
 
 ```
 
@@ -168,12 +167,8 @@ places, with a default of 2.
 
 ```{r}
 
-calculate_bmi <- function(height_in_cm, weight_in_kg, n_decimals = 2){
-  height_in_m <- height_in_cm/100
-  bmi <- weight_in_kg / height_in_m ** 2
-  round(bmi, digits = n_decimals)
-}
 
+# let's write a function so this works:
 calculate_bmi(height_in_cm = 175, weight_in_kg = 70)
 calculate_bmi(height_in_cm = 175, weight_in_kg = 70, n_decimals = 5)
 calculate_bmi(height_in_cm = 175, weight_in_kg = 70, n_decimals = 0)

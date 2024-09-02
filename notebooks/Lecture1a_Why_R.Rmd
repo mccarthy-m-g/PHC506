@@ -16,18 +16,9 @@ knitr::opts_chunk$set(echo = FALSE)
 *  R is **Open Source** and **free**!
 *  It is a full-featured programming language, in particular a scripting language. 
    + This makes it similar in many ways to MATLAB and Python
-*  It can be run interactively or as a batch/background job
-   + We will mostly be using it interactively
-*  It is designed by statisticians for statisticians - great at the same sort of
-tasks as STATA and SAS
+*  It is designed by statisticians for statisticians 
 *  R is being actively developed with ongoing updates/new releases
-*  The community of R users make a bunch of tools available for tasks like:
-   + graphing
-   + advanced/specialized statistical models
-   + making websites
-   + writing books
-   + making LaTeX documents like this one!
-* Available for Windows, Mac OS X, and Linux
+*  Available for Windows, Mac OS X, and Linux
 
 ## Why should I use R?
 
@@ -73,4 +64,24 @@ out: github.com/pharmaR/riskmetric
 * SAS
 * Stata
 
+## Course Outline:
 
+Four lectures:
+
+1. The basics of R (today!)
+2. Working with data in R
+3. Graphing in R
+4. Programming in R
+
+Structure of lectures:
+
+* Notebooks with lecture notes
+* Fill in examples (practice typing code!), embellish notes
+* Break out questions: solve separately, work through solutions together
+
+Tips for success:
+
+* Try the example problems on your own (course evaluations will be similar)
+* Experts make errors *all the time*! Don't be afraid of scary red text.
+* There are many ways to solve a problem.
+* Programming is a "new way of thinking", a language.

@@ -249,6 +249,27 @@ combo <- c( TRUE, 7, "frogs")
 typeof(combo)
 ```
 
+# Breakout 1
+
+In general, your answers to any questions should involve writing code to 
+manipulate objects. Don't open excel or another calculator to answer them.
+
+1) Create a variable called `my_numbers` that contains the integers 1 through 10.
+How many different ways can you think of doing this? Which do you find the
+easiest to read? Which do you find the easiest to write?
+
+```{r}
+# your code goes here!
+
+```
+
+2) "Bobby has 3 apples. Susie has 7 apples. Susie has more apples than Bobby."
+How would you communicate these facts in R code?
+
+```{r}
+
+```
+
 # Working with indices and subsets
 
 What if we have a vector of values but we only want to use certain elements?
@@ -321,11 +342,11 @@ x <- "apple"
 "apple" == x
 ```
 
-# Breakout 1
+# Breakout 2
 In general, your answers to any questions should involve writing code to 
 manipulate objects. Don't open excel or another calculator to answer them.
 
-1) Create a vector of the squares of all numbers from 1-10. Save it to a
+3) Create a vector of the squares of all numbers from 1-10. Save it to a
 variable called `x`
 
 
@@ -334,14 +355,14 @@ variable called `x`
 
 ```
 
-2) Use a logical expression to identify which elements of `x` are less than 20.
+4) Use a logical expression to identify which elements of `x` are less than 20.
 Save this logical vector as a variable called `y`.
 
 ```{r}
 
 ```
 
-3) Use the vector `y` to subset x to return (a) all the elements less than 20 
+5) Use the vector `y` to subset x to return (a) all the elements less than 20 
 and (b) all the elements greater than or equal to 20.
 
 ```{r}
@@ -353,7 +374,7 @@ and (b) all the elements greater than or equal to 20.
 
 ```
 
-4) How would you interpret the results of these expressions?
+6) How would you interpret the results of these expressions?
 ```{r}
 x
 sum(x)

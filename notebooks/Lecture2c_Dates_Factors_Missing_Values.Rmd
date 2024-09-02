@@ -116,16 +116,36 @@ fact3 |>
 ```
 
 
-# Dates
+# Datetimes (dates with time stamps)
 
-R has built-in ways to handle dates (don't reinvent the wheel!) 
+Datetimes are really common in healthcare data: when did the patient take a
+particular drug? What time was a sample collected?
 
-```{r dates}
-date1 <- as.Date("03-01-2011", format = "%m-%d-%Y")
-date2 <- as.Date("03/02/11", format = "%m/%d/%y")
-date3 <- as.Date("07-May-11", format = "%d-%b-%y")
-date1
-class(date1)
+A class of variable for handling datetimes is POSIXct:
+
+```{r}
+sample_time <- as.POSIXct("2024-03-14 10:30:00")
+sample_time
+```
+
+This class makes it easy to do math with datetimes (don't reinvent the wheel!)
+
+```{r}
+sample_time_2 <- as.POSIXct("2024-03-14 11:35:00")
+sample_time_2 - sample_time
+```
+
+There are many ways to write dates and times, and R sometimes needs help 
+understanding how to read this information:
+
+```{r}
+# ambiguous:
+dt1 <- as.POSIXct("14/03/2024, 10:30:00")
+
+# tell R how to parse:
+dt1 <- as.POSIXct("14/03/2024, 10:30:00", format="%d/%m/%Y, %H:%M:%S")
+dt1
+
 ```
 
 %Y: year with century. ex: 2020.
@@ -136,60 +156,6 @@ class(date1)
 
 ```{r}
 ?strptime
-```
-
-```{r}
-class(date1)
-dates <- c(date1, date2, date3)
-weekdays(dates)
-dates + 30
-date3 - date2
-```
-The origin date in R is January 1, 1970:
-
-```{r}
-as.numeric(dates)
-as.numeric(as.Date("01-01-1970", format = "%m-%d-%Y"))
-date1 - as.Date("01-01-1970", format = "%m-%d-%Y")
-as.numeric(date1)
-```
-March 1st 2011 was 15034 days after the origin date.
-
-The `Date` class only works with dates, and not times.
-
-# Datetimes
-
-For datetimes, there is the POSIX* classes, POSIXlt and POSIXct, which differ in
-how the data is stored.
-
-```{r}
-# strptime helps convert from character to datetime
-date.hour <- strptime("2018-03-17 04:34:12", format = "%Y-%m-%d %H:%M:%S")
-date <- c("31/10/2016")
-time <- c("13:31:33")
-day <- paste(date,"T", time) 
-day
-class(day)
-
-#POSIXct stores data as number since origin
-dt1 <- as.POSIXct(day,format="%d/%m/%Y T %H:%M:%S",tz="Europe/Paris")
-dt1
-object.size(dt1)
-class(dt1)
-attributes(dt1)
-
-#POSIXlt stores data as a list
-dt2 <- as.POSIXlt(day,format="%d/%m/%Y T %H:%M:%S",tz="Europe/Paris")
-dt2
-object.size(dt2)
-class(dt2)
-attributes(dt2)
-dt2$year
-dt2$hour
-dt2$zone
-dt2$wday
-
-
 ```
 
 Converting from date/time to hours after dose is pretty common in PK analysis...
@@ -339,11 +305,12 @@ rainbows <- c("red", "orange", "yellow", "green", "blue", "indigo", "violet")
 
 ```
 
-2. Below are two different dates, provided as strings. Use either `as.Date` or 
-an appropriate function from `{lubridate}` to convert them to an object of class Date. Which of them occurred closest to 8 March 1994? 
+2. Below are two different datetimes. How many hours apart are they? How many
+days apart are they? Use an argument supplied to `difftime` to convert units,
+rather than dividing by 24.
 ```{r}
-dt1 <- "2004-03-14"
-dt2 <- "1987-03-14"
+dt1 <- "2024-03-14 11:00:00"
+dt2 <- "2024-03-23 19:17:00"
 
 
 ```

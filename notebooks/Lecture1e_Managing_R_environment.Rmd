@@ -20,7 +20,7 @@ of objects. This environment lasts until the function finishes running.
 We'll see more about this in Lecture 4.
 
 
-# What's in the workspace?
+## What's in the workspace?
 
 R has functions for learning about the collection of objects in your workspace.
 Some of this is built in to RStudio.
@@ -31,24 +31,7 @@ y <- c(5L, 2L, 7L)
 z <- list(a = 3, b = c('sam', 'yang'))
 ls()  # search the user workspace (global environment)
 rm(x)    # delete a variable
-ls()
-ls.str() # list and describe variables
 ```
-
-Finally we can save the objects in our R session:
-```{r}
-ls()
-save.image('Lecture1.Rda')
-rm(list = ls())
-ls()
-load('Lecture1.Rda') 
-ls()
-val
-```
-
-Although you should try to write R scripts that are reproducible, it can still 
-be convenient to save all your R objects so you can easily pick up where you 
-left off last time.
 
 
 # Packages (R's killer app)
@@ -218,17 +201,6 @@ stats::t.test(rnorm(15, 6), rnorm(20, 7))
 
 ```
 
-
-### Looking inside a package
-
-Packages are available as "Package source", namely the raw code and help files, 
-and "binaries", where stuff is packaged up for R to use efficiently. 
-
-To look at the raw R code (and possibly C/C++/Fortran code included in some 
-packages), download and unzip the package source tarball (.tar file), or check 
-out the code on github.
-
-
 ### Creating your own R package
 
 R is do-it-yourself - you can write your own package! At its most basic this is 
@@ -259,6 +231,16 @@ Here are a few packages I've made:
 * If you use the same function in more than one project or assignment, 
   make a package.
 * You don't need to be an expert to make a package!
+
+# Breakout 1
+
+1) Make sure you are able to install packages from CRAN. E.g., try to install 
+*praise*. What does the code below do?
+
+```{r }
+praise::praise()
+
+```
 
 # The working directory
 
@@ -358,17 +340,7 @@ Here you have a number of options.
 5) You can write out in the various file formats mentioned above
 
 
-# Breakout
-
-### Basics
-
-1) Make sure you are able to install packages from CRAN. E.g., try to install 
-*praise*. What does the code below do?
-
-```{r }
-praise::praise()
-
-```
+# Breakout 2
 
 2) Figure out what your current working directory is.
 
@@ -384,20 +356,8 @@ datasets::Theoph
 
 ```
 
-### Using the ideas
 
-4) Create an R script (File > New File > R script). Copy the 
-*data/airquality.xlsx* file to some other directory on your computer, such as 
-*Downloads*. Use `setwd()` to set your working directory to be 
-that directory. Read the file in using `readxl``.  Now use `setwd()` to point 
-to a different directory such as *Desktop*. Write the data frame out to a file 
-without any row names.
-
-```{r }
-readxl::read_excel("airquality.xlsx")
-```
-
-5) (Optional) If you have a .csv file or a Microsoft Excel file with data that 
+4) (Optional) If you have a .csv file or a Microsoft Excel file with data that 
 you've used for an unrelated project or assignment, try open it now, just to see 
 if you can!
 
@@ -405,46 +365,3 @@ if you can!
 
 ```
 
-
-# Getting R help online
-
-### Mailing lists / forums
-
-- [Stack Overflow](https://stackoverflow.com) (R stuff will be tagged with [R])
-- Simple Google searches 
-    - You may want to include "in R", with the quotes in the search
-- Reddit: /r/rprogramming
-
-If you are searching you often want to search for a specific error message. 
-Remember to use double quotes around your error message so it is not broken into 
-individual words by the search engine. 
-
-### Posting your own questions
-
-The main rule of thumb is to do your homework first to make sure the answer is 
-not already available on the mailing list or in other documentation. Some of the 
-folks who respond to  questions are not the friendliest so it helps to have a 
-thick skin, even if you have done your homework. On the plus side, they are very 
-knowledgeable and include the world's foremost R experts/developers.
-
-Here are some guidelines when posting to one of the R mailing lists [https://www.r-project.org/posting-guide.html](https://www.r-project.org/posting-guide.html)
-
-`sessionInfo()` is a function that will give information about your R version, 
-OS, etc., that you can include in your posting.
-
-You also want to include a short, focused, [reproducible](https://adv-r.had.co.nz/Reproducibility.html) 
-example of your problem that others can run. 
-
-`reprex` is a great way to communicate your problem with others:
-
-```{r}
-
-add_1_hour <- function(y) {
-  hours(y + 1)
-}
-add_1_hour(7)
-# copy the above to your clipboard, then run the line below:
-reprex::reprex()
-
-# how do we fix the error?
-```

@@ -12,34 +12,7 @@ datasets::airquality
 hist(datasets::airquality$Temp)
 ```
 
-2. Extend your previous answer to add a plot title, and label the axes. 
-
-```{r}
-hist(
-  datasets::airquality$Temp,
-  main = "Temperature distribution, May-September",
-  xlab = "Temperature (F)",
-  ylab = "Number of days"
-)
-```
-
-3. Create a new directory called `figures` and save your plot to this folder.
-
-```{r}
-pdf(
-  file.path("..", "figures", "temperature_hist_baseR.pdf")
-)
-hist(
-  datasets::airquality$Temp,
-  main = "Temperature distribution, May-September",
-  xlab = "Temperature (F)",
-  ylab = "Number of days"
-)
-dev.off
-
-```
-
-4. Using the ToothGrowth dataset, plot a box plot of tooth length by dose and
+2. Using the ToothGrowth dataset, plot a box plot of tooth length by dose and
 supplement. (Hint! You can use the "formula" argument to combine multiple 
 variables)
 ```{r}

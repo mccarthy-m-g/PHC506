@@ -8,7 +8,7 @@ library(cols4all)
 # Here I read my data set:
 Theoph <- read.csv(file.path("example_project", "data", "theophylline.csv"))
 
-# Now I am going to make a graph about some Iris petal data
+# Now I am going to make a graph about drug concentration-time profiles
 p_Theoph <- Theoph %>%
   ggplot() +
   aes(x = Time, y = conc, color = factor(Subject)) +

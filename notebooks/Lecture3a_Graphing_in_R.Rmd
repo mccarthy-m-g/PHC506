@@ -49,6 +49,47 @@ When picking a graphing tool, consider:
 * specialty graphs (beeswarm, ridge plots) versus basic graph types (histogram)
 * plays nicely with other "specialty" tools you are using.
 
+# Pros/cons of base graphics, ggplot2, and lattice
+
+Base graphics is
+
+a) good for exploratory data analysis and sanity checks
+
+b) a handy tool to use in tandem with `lm` and a few other 'base R' stats tools
+
+c) inconsistent in syntax across functions
+
+d) defaults plotting parameters are ugly and it can be difficult to customize
+
+e) that said, one can do essentially anything in base graphics with some work
+
+`ggplot2` is
+
+a) generally more elegant
+
+b) more syntactically logical (and therefore simpler, once you learn it)
+
+c) better at grouping, handling multiple variables
+
+d) has a well-developed ecosystem of packages that work well together, great for 
+   specialized graph types
+
+e) the "quick and dirty" graph is often a reasonably aesthetically pleasing 
+   starting spot
+
+`lattice` is
+
+a) faster than ggplot2 (though only noticeable over many and large plots)
+
+b) may be simpler than ggplot (although, fewer resources online for learning)
+
+c) able to do 3d graphs
+
+d) used by many specialty packages (bioinformatics, cytometry)
+
+We'll focus on ggplot2 as it is very powerful, very widely-used and allows one 
+to produce very nice-looking graphics without a lot of coding.
+
 # The Data
 
 * All Summer Olympic medalists from 1896-2008
@@ -204,7 +245,7 @@ medal_counts_wide %>%
 
 If we provide the output of a linear regression, we get common diagnostic plots.
 
-Let's see a quick example with a linear model:
+Let's see a quick example with a linear model (y = mx + b):
 
 ```{r}
 # Calls plotting method for class of medal_lm object ("lm")
@@ -243,139 +284,7 @@ barplot(
 mosaicplot(Year~Medal, medal_counts)
 ```
 
-# Customizing your Base R plot
 
-Base R plots are fast and functional, but not particularly attractive.
-
-We saw we could customize the labels using arguments like "main" or "ylab".
-
-We can also customize the colors:
-
-```{r, fig.cap = ""}
-usa_all_medals_untidy <- medal_counts_wide %>%
-  filter(NOC == "USA")
-
-col_pal <- c("#ffbf00", "#bfbfbf", "#ff661a")
-```
-
-```{r}
-
-# Base graphics call
-# (highlight and run whole block)
-plot(
-  usa_all_medals_untidy$Year, 
-  usa_all_medals_untidy$Gold, 
-  col = col_pal[1],
-  type = "l",
-  xlab = "Year",
-  ylab = "Number of medals"
-)
-
-lines(
-  usa_all_medals_untidy$Year, 
-  usa_all_medals_untidy$Silver, 
-  col = col_pal[2]
-)
-lines(
-  usa_all_medals_untidy$Year, 
-  usa_all_medals_untidy$Bronze, 
-  col = col_pal[3]
-)
-legend(
-  "top", 
-  legend = c("Gold", "Silver", "Bronze"),
-  fill = col_pal
-)
-```
-# Exporting your base R plot
-
-### The best way: using code!
-
-You might have noticed in the plot above that each line of code updates the plot
-(this form of graphing is a little awkward in R Markdown, so we had to run every
-line at once).
-
-The R code updates the plot in the selected graphics device. Usually this is the
-"Plots" tab, or in our case, the R Markdown chunk. To save the plot, we have to
-select a different graphics device.
-
-Here, we will save a graph as a pdf. (You can change the file type using other
-functions, like `png()`.)
-
-```{r}
-# run the whole code chunk at once
-pdf(file = 'medals_by_year.pdf')
-plot(
-  usa_all_medals_untidy$Year, 
-  usa_all_medals_untidy$Gold, 
-  col = col_pal[1],
-  type = "l",
-  xlab = "Year",
-  ylab = "Number of medals"
-)
-lines(
-  usa_all_medals_untidy$Year, 
-  usa_all_medals_untidy$Silver, 
-  col = col_pal[2]
-)
-lines(
-  usa_all_medals_untidy$Year, 
-  usa_all_medals_untidy$Bronze, 
-  col = col_pal[3]
-)
-legend(
-  "top", 
-  legend = c("Gold", "Silver", "Bronze"),
-  fill = col_pal
-)
-dev.off()
-```
-
-### A convenient way: plots panel
-
-Great for "quick" graphs, easy sharing. Not great for automatically generating 
-graphs, reproducibly generating a graph.
-
-# Pros/cons of base graphics, ggplot2, and lattice
-
-Base graphics is
-
-a) good for exploratory data analysis and sanity checks
-
-b) a handy tool to use in tandem with `lm` and a few other 'base R' stats tools
-
-c) inconsistent in syntax across functions
-
-d) defaults plotting parameters are ugly and it can be difficult to customize
-
-e) that said, one can do essentially anything in base graphics with some work
-
-`ggplot2` is
-
-a) generally more elegant
-
-b) more syntactically logical (and therefore simpler, once you learn it)
-
-c) better at grouping, handling multiple variables
-
-d) has a well-developed ecosystem of packages that work well together, great for 
-   specialized graph types
-
-e) the "quick and dirty" graph is often a reasonably aesthetically pleasing 
-   starting spot
-
-`lattice` is
-
-a) faster than ggplot2 (though only noticeable over many and large plots)
-
-b) may be simpler than ggplot (although, fewer resources online for learning)
-
-c) able to do 3d graphs
-
-d) used by many specialty packages (bioinformatics, cytometry)
-
-We'll focus on ggplot2 as it is very powerful, very widely-used and allows one 
-to produce very nice-looking graphics without a lot of coding.
 
 # Breakout Problems
 
@@ -385,19 +294,8 @@ to produce very nice-looking graphics without a lot of coding.
 datasets::airquality
 ```
 
-2. Extend your previous answer to add a plot title, and label the axes. 
 
-```{r}
-
-```
-
-3. Create a new directory called `figures` and save your plot to this folder.
-
-```{r}
-
-```
-
-4. Using the ToothGrowth dataset, plot a box plot of tooth length by dose and
+2. Using the ToothGrowth dataset, plot a box plot of tooth length by dose and
 supplement. (Hint! You can use the "formula" argument to combine multiple 
 variables)
 ```{r}

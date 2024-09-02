@@ -13,22 +13,8 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE)
 
 # Why ggplot2?
 
-`ggplot2` is
-
-a) generally more elegant
-
-b) more syntactically logical (and therefore simpler, once you learn it)
-
-c) better at grouping, handling multiple variables
-
-d) has a well-developed ecosystem of packages that work well together, great for 
-   specialized graph types
-
-e) the "quick and dirty" graph is often a reasonably aesthetically pleasing 
-   starting spot
-
-We'll focus on ggplot2 as it is very powerful, very widely-used and allows one 
-to produce very nice-looking graphics without a lot of coding.
+ggplot2's elegance and customizability has made it the most popular way to 
+visualize data in R.
 
 Let's load the packages we need and read in our data sets we made earlier:
 
@@ -200,6 +186,8 @@ medal_counts %>%
 
 ### The best way: ggsave
 
+ggsave ensures your graph is the same size every time you create it:
+
 ```{r, eval=FALSE}
 ?ggsave
 
@@ -212,7 +200,10 @@ ggsave(
 )
 ```
 
-The plots panel UI is also there for you if you need it for quick communications
+### A convenient way: plots panel
+
+Great for "quick" graphs, easy sharing. Not great for automatically generating 
+graphs, reproducibly generating a graph.
 
 # Breakout Problems
 
@@ -230,7 +221,8 @@ datasets::airquality
 
 ```
 
-3. Save your plot to the `figures` directory.
+3. Create a new directory called `figures`. Save your plot to the `figures` 
+directory.
 
 ```{r}
 

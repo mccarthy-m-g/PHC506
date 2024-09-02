@@ -316,6 +316,7 @@ facet.
 ```{r}
 datasets::ToothGrowth
 ```
+
 2. Building on your answer to this question, add axis labels, and customize the
 theme. Try change at least two arguments to `theme()`.
 
