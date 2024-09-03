@@ -175,7 +175,7 @@ get the same results.)
 How does R know where to look for packages when you call `library`?
 
 ```{r}
-.libPaths() # functions and vaiables that start with "." 
+.libPaths() # functions and variables that start with "." 
             # are usually for "advanced" users.
 ```
 
