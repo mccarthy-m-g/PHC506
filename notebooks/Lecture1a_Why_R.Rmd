@@ -26,7 +26,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 * R is widely used (statisticians, scientists, social scientists) 
 * R has tools for pharmacometrics! Examples: 
-  + `nlmixr`: nonlinear mixed effects modelling in R 
+  + `nlmixr` nonlinear mixed effects modelling in R 
   + `PKPDsim` ODE solver/concentration time curve simulations
   + `mrgsolve` ODE solver/concentration time curve simulations 
   + `mapbayr` MAP Bayesian estimation of PK parameters
@@ -63,6 +63,23 @@ out: github.com/pharmaR/riskmetric
 * C/C++
 * SAS
 * Stata
+
+## Why should I bother learning a coding language when genAI can do it for me?
+
+GenAI tools can be very helpful, but they are a complement to (not a replacement
+for) your own ability to reason about a problem. It is error-prone, often
+out-of-date and typically missing important context. At the end of the day, you
+will be responsible for the code you write, so will need to know how to read and
+write code.
+
+* Understand how to adapt, debug, tailor, and interpret the code genAI gives you
+* Use the right language to communicate with others about software, and to
+  interact with genAI tools about code
+* Think about data and mathematical modeling in a way that works well with 
+  software
+* Reason abstractly, break a problem down into its components without losing
+  sight of interconnectedness.
+  
 
 ## Course Outline:
 
