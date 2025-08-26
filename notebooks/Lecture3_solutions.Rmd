@@ -27,7 +27,7 @@ These are the same problems from before, but now try solve them with ggplot2!
 1. Using the airquality dataset, plot a histogram of temperature.
 
 ```{r}
-datasets::airquality %>%
+datasets::airquality |>
   ggplot() +
   aes(x = Temp) +
   geom_histogram()
@@ -36,7 +36,7 @@ datasets::airquality %>%
 2. Extend your previous answer to add a plot title, and label the axes.
 (Hint! We saw the function `labs()` before.)
 ```{r}
-p <- datasets::airquality %>%
+p <- datasets::airquality |>
   ggplot() +
   aes(x = Temp) +
   geom_histogram(binwidth = 5) +
@@ -60,8 +60,8 @@ ggsave(
 supplement. 
 (Hint! You might need to make a new column or variable for the x-axis)
 ```{r}
-datasets::ToothGrowth %>%
-  mutate(xlabel = paste0(supp, "_", dose)) %>%
+datasets::ToothGrowth |>
+  mutate(xlabel = paste0(supp, "_", dose)) |>
   ggplot() +
   aes(y = len, xlabel) +
   geom_boxplot()
@@ -75,7 +75,7 @@ time (days). Plot a graph showing the `circumference` over time, with each tree
 distinguished by a different color.
 
 ```{r}
-datasets::Orange %>%
+datasets::Orange |>
   ggplot() +
   aes(x = age, y = circumference, color = Tree) +
   geom_line()
@@ -85,7 +85,7 @@ datasets::Orange %>%
 informative axis labels
 
 ```{r}
-datasets::Orange %>%
+datasets::Orange |>
   ggplot() +
   aes(x = age, y = circumference, color = Tree) +
   geom_line() +
@@ -99,7 +99,7 @@ datasets::Orange %>%
 graph.
 
 ```{r}
-datasets::Orange %>%
+datasets::Orange |>
   ggplot() +
   aes(x = age, y = circumference, color = Tree) +
   geom_line() +
@@ -113,7 +113,7 @@ datasets::Orange %>%
 4) Save your favorite version of your plot to the `figures` directory.
 
 ```{r}
-p <- datasets::Orange %>%
+p <- datasets::Orange |>
   ggplot() +
   aes(x = age, y = circumference, color = Tree) +
   geom_line() +
@@ -135,7 +135,7 @@ facet.
 ```{r}
 # boxplots are defined for categorical data, so we need to turn dose (numeric)
 # into a categorical variable. 
-p <- datasets::ToothGrowth %>%
+p <- datasets::ToothGrowth |>
   ggplot() +
   aes(x = factor(dose), y = len) +  
   facet_wrap(~supp) +

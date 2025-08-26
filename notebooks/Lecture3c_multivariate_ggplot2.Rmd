@@ -18,7 +18,7 @@ library(dplyr)
 medal_counts <- read.csv(file.path("..", "data", "medal_counts.csv"))
 medal_counts_wide <- read.csv(file.path("..", "data", "medal_counts_wide.csv"))
 usa_gold_medals <- read.csv(file.path("..", "data", "usa_gold_medals.csv"))
-usa_all_medals <- medal_counts %>%
+usa_all_medals <- medal_counts |>
   filter(NOC == "USA")
 
 ```
@@ -44,7 +44,7 @@ used to show variation in *kind* (categories/factors) and variation in *degree*
 (numeric (ex: fill)).
 
 ```{r}
-usa_all_medals %>%
+usa_all_medals |>
   ggplot() +
   aes(x = Year, y = count, color = Medal) +
   geom_line()
@@ -55,7 +55,7 @@ But wait, we also saw we could color the line of just one line, what is the
 difference?
 
 ```{r}
-usa_gold_medals %>%
+usa_gold_medals |>
   ggplot() +
   aes(x = Year, y = count) +
   geom_line(color = "Blue")
@@ -130,7 +130,7 @@ Compare:
 ```{r}
 # base R plot (run whole chunk)
 
-usa_all_medals_untidy <- medal_counts_wide %>%
+usa_all_medals_untidy <- medal_counts_wide |>
   filter(NOC == "USA")
 
 plot(
@@ -207,7 +207,7 @@ If you want to customize how elements of a plot show up and that element is
 controlled by a variable in your data, use the `scale_*` family of functions.
 
 ```{r, fig.cap=" ", warning=FALSE, fig.show = "hold"}
-northern_hem <- medal_counts_wide %>%
+northern_hem <- medal_counts_wide |>
   filter(NOC %in% c("USA", "CAN", "MEX", "CUB"))
 
 ggplot(data = northern_hem, aes(x = Year, y = Gold)) +

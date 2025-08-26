@@ -88,8 +88,8 @@ full_join(pt_char, pt_doses)
 # R will do its best guess to try judge which columns you want to join on if you
 # do not otherwise specify. Here, the names match, but not all data is so
 # convenient. Here's a contrived example:
-pt_doses %>%
-  rename(patient = pt) %>%
+pt_doses |>
+  rename(patient = pt) |>
   left_join(pt_char, by = c("patient" = "pt")) 
 
 ```
@@ -107,7 +107,7 @@ left_join(pt_doses, pt_char)
 What if we want to keep only patients for whom we have complete information?
 
 ```{r joining5}
-inner_join(pt_char, pt_doses) %>%
+inner_join(pt_char, pt_doses) |>
   mutate(mg = mg_per_kg * weight)
 ```
 
@@ -233,7 +233,7 @@ to refer to the variable names and variable values. You might also see the terms
 ```{r}
 ?pivot_longer
 
-billboard %>%
+billboard |>
   select(artist, track, starts_with("wk")) 
 ```
 

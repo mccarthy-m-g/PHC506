@@ -39,6 +39,9 @@ letters[1]       # first element
 letters[-1]      # everything but the first element
 letters[c(1,5)]  # first and fifth element
 
+# pipe from one function to another
+|>                             # e.g.: x |> mean()
+
 # working with missing data
 is.na()                        # is value NA
 is.null()                      # is value NULL
@@ -83,7 +86,7 @@ summary(df)      # summary statistics across each column
 View(df)         # look at a whole data frame
 
 # core dplyr functions (load package with `library(dplyr)`)
-%>%                            # pipe data from one function to the next
+%>%                            # dplyr version of `|>`
 select(df, cols)               # select certain columns
 filter(df, logical_expr)       # filter for rows where logical_expr is TRUE
 arrange(df, cols)              # sort a data frame on cols (ascending)

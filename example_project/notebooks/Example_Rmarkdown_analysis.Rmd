@@ -47,7 +47,7 @@ Chunks can make coding easier, because you can work interactively:
 
 ```{r create_a_graph,fig.width=4,fig.height=3}
 
-p_Theoph <- Theoph %>%
+p_Theoph <- Theoph |>
   ggplot() +
   aes(x = Time, y = conc, color = factor(Subject)) +
   geom_line() +

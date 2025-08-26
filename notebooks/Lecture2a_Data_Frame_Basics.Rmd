@@ -206,23 +206,27 @@ knitr::include_graphics(file.path("..", "img", "magrittr_hex.png"), dpi = 400)
 Above, we used what's called "normal" grammar, but the strengths of `dplyr` lie 
 in combining several functions using *pipes*.
 
-Pipes take the input on the left side of the `%>%` symbol and pass it in as the 
+Pipes take the input on the left side of the `|>` symbol and pass it in as the 
 first argument to the function on the right side. This is why `dplyr` data 
 manipulation functions take `.data` as their first argument!
 
-coffee_beans %>% 
-  harvest() %>% 
-  roast() %>% 
-  grind() %>% 
-  add("hot water") %>% 
-  filter() %>% 
+coffee_beans |> 
+  harvest() |> 
+  roast() |> 
+  grind() |> 
+  add("hot water") |> 
+  filter() |> 
   drink()
 
-raw_data %>%
-  convert_units() %>%
-  calculate_outcome_metric() %>%
-  fit_model() %>%
+raw_data |>
+  convert_units() |>
+  calculate_outcome_metric() |>
+  fit_model() |>
   plot_result()
+  
+**Note**: Older version of R didn't allow `|>` so you might see `|>` instead.
+This pipe operator requires the R package {magrittr} to use. They are (nearly)
+equivalent!
 
 Since the pipe grammar is unlike anything we've seen in R before, let's 
 repeat what we've done above using pipes:
@@ -231,14 +235,14 @@ repeat what we've done above using pipes:
 2. `select` Day, Temp
 
 ```{r}
-airquality %>%
-  filter(Month == 6) %>%
+airquality |>
+  filter(Month == 6) |>
   select(Day, Temp)
 ```
 
 
 First we summon the airquality data frame and pass it on to the next step using 
-the pipe symbol `%>%`
+the pipe symbol `|>`
 
 The second steps is the `filter()` function. Then, we take that output and send 
 it to `select`.
@@ -246,7 +250,7 @@ it to `select`.
 In this case we don't specify which data object we use in the call to 
 `select()` or to `filter()` since we've piped it in.
 
-**Note**: The `%>%` pipe is part of `dplyr`. In May 2021, a new version of R
+**Note**: The `|>` pipe is part of `dplyr`. In May 2021, a new version of R
 was released that included it's own pipe: `|>`. They're (nearly) 
 interchangeable!
 
@@ -257,7 +261,7 @@ airquality |>
 ```
 
 **Aside**: There is a good chance you have encountered pipes before in the 
-shell/terminal. In R, a pipe symbol is `%>%` while in the shell it is `|.` 
+shell/terminal. In R, a pipe symbol is `|>` while in the shell it is `|.` 
 But the concept is the same!
 
 # `dplyr::arrange`
@@ -269,20 +273,20 @@ has a function for doing this programmatically using `arrange`.
 For example, let's reorder the rows of `airquality` by Temperature:
 
 ```{r}
-airquality %>%
+airquality |>
   arrange(Temp)
 ```
 
 By default, `arrange` orders from lowest to highest. We can use `desc` to order it in reverse.
 
 ```{r}
-airquality %>%
+airquality |>
   arrange(desc(Temp))
 ```
 
 `arrange` also allows specification of multiple columns:
 ```{r}
-theophylline %>%
+theophylline |>
   arrange(Time, desc(conc))
 
 ```

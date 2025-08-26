@@ -17,8 +17,8 @@ only droid characters (hint: `species` column), and all columns except
 `vehicles` and `starships`.
 
 ```{r}
-dplyr::starwars %>%
-  filter(species == "Droid") %>%
+dplyr::starwars |>
+  filter(species == "Droid") |>
   select(-vehicles, -starships)
 
 ```
@@ -29,22 +29,22 @@ dplyr::starwars %>%
 ```{r}
 
 # Option 1
-starwars %>%
+starwars |>
   filter(
     homeworld == "Tatooine",
     height > 100
-  ) %>%
+  ) |>
   nrow()
 
 # Option 2
-starwars %>%
-  filter(homeworld == "Tatooine") %>%
-  filter(height > 100) %>%
+starwars |>
+  filter(homeworld == "Tatooine") |>
+  filter(height > 100) |>
   nrow()
 
 # Option 3
-starwars %>%
-  filter(homeworld == "Tatooine" & height > 100) %>%
+starwars |>
+  filter(homeworld == "Tatooine" & height > 100) |>
   nrow()
 
 ```
@@ -52,7 +52,7 @@ starwars %>%
 3. Use `dplyr` to sort the `starwars` data frame alphabetically by name.
 
 ```{r}
-starwars %>%
+starwars |>
   arrange(name)
 
 arrange(starwars, name)
@@ -61,7 +61,7 @@ arrange(starwars, name)
 4. Use `dplyr` and `grepl()` to filter for characters with the name "Skywalker".
 
 ```{r}
-starwars %>%
+starwars |>
   filter(grepl("Skywalker", name))
 
 ```
@@ -73,8 +73,8 @@ starwars %>%
 each month in the `airquality` data set.
 
 ```{r}
-airquality %>%
-  group_by(Month) %>%
+airquality |>
+  group_by(Month) |>
   summarize(
     max_temp = max(Temp)
   )
@@ -85,8 +85,8 @@ airquality %>%
 average temperature in that month.
 
 ```{r}
-airquality %>%
-  group_by(Month) %>%
+airquality |>
+  group_by(Month) |>
   mutate(
     avg_temp = mean(Temp)
   )
@@ -98,12 +98,12 @@ the dataframe by the column you just created, in descending order (so that the
 relatively hottest days are listed first).
 
 ```{r}
-airquality %>%
-  group_by(Month) %>%
+airquality |>
+  group_by(Month) |>
   mutate(
     avg_temp = mean(Temp),
     delta_from_avg = Temp - avg_temp
-  ) %>%
+  ) |>
   arrange(desc(delta_from_avg))
   
 ```
@@ -111,9 +111,9 @@ airquality %>%
 4. Use `dplyr` to create a data frame counting the number of days with a Temperature above 80F in each month. (You might find the function `n` helpful.)
 
 ```{r}
-airquality %>%
-  filter(Temp > 80) %>%
-  group_by(Month) %>%
+airquality |>
+  filter(Temp > 80) |>
+  group_by(Month) |>
   summarize(n_days = n())
 ```
 
@@ -152,7 +152,7 @@ test_data_frame <- mtcars
 test_data_frame$mpg <- NULL
 
 # remove a column with select
-dplyr_solution <- mtcars %>%
+dplyr_solution <- mtcars |>
   select(-mpg)
 
 identical(test_data_frame, dplyr_solution)

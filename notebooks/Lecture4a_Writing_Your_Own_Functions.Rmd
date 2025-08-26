@@ -115,8 +115,8 @@ Lets try it out!
 ```{r}
 library(dplyr)
 
-starwars %>%
-  select(name, height, mass) %>%
+starwars |>
+  select(name, height, mass) |>
   mutate(
     bmi = calculate_bmi(height_in_cm = height, weight_in_kg = mass)
   )
@@ -129,29 +129,29 @@ R can match arguments by name (when provided) or by position (the fall-back).
 ```{r}
 
 # supply arguments in correct order, use argument names --> good
-starwars %>%
-  select(name, height, weight = mass) %>%
+starwars |>
+  select(name, height, weight = mass) |>
   mutate(
     bmi = calculate_bmi(height_in_cm = height, weight_in_kg = weight)
   )
 
 # supply arguments in correct order, don't use argument names --> same answer
-starwars %>%
-  select(name, height, weight = mass) %>%
+starwars |>
+  select(name, height, weight = mass) |>
   mutate(
     bmi = calculate_bmi(height, weight)
   )
 
 # switch the argument order, but use argument names  --> same answer
-starwars %>%
-  select(name, height, weight = mass) %>%
+starwars |>
+  select(name, height, weight = mass) |>
   mutate(
     bmi = calculate_bmi(weight_in_kg = weight, height_in_cm = height)
   )
 
 # switch the argument order, but DON'T use argument names --> wrong answer!!
-starwars %>%
-  select(name, height, weight = mass) %>%
+starwars |>
+  select(name, height, weight = mass) |>
   mutate(
     bmi = calculate_bmi(weight, height)
   )

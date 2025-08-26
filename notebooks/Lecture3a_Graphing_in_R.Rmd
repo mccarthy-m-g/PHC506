@@ -115,8 +115,8 @@ medals <- read.csv(
 
 ```{r}
 # dplyr and tidyr refresher
-medal_counts <- medals %>%
-  group_by(Medal, Year, NOC) %>%
+medal_counts <- medals |>
+  group_by(Medal, Year, NOC) |>
   summarise(count = n())
 head(medal_counts)
 
@@ -127,11 +127,11 @@ This table is in tidy format. Wide (untidy) format can be useful for plotting in
 *base* plot (more on this later)
 
 ```{r}
-medal_counts_wide <- medal_counts %>% 
-  tidyr::pivot_wider(names_from = Medal, values_from = count) %>%
-  ungroup() %>%
-  mutate(Bronze = ifelse(is.na(Bronze), 0, Bronze)) %>%
-  mutate(Silver = ifelse(is.na(Silver), 0, Silver)) %>%
+medal_counts_wide <- medal_counts |> 
+  tidyr::pivot_wider(names_from = Medal, values_from = count) |>
+  ungroup() |>
+  mutate(Bronze = ifelse(is.na(Bronze), 0, Bronze)) |>
+  mutate(Silver = ifelse(is.na(Silver), 0, Silver)) |>
   mutate(Gold = ifelse(is.na(Gold), 0, Gold))
 ```
 
@@ -139,8 +139,8 @@ Finally, let's subset the data to gold medal counts for the US, for easier
 plotting.
 
 ```{r}
-usa_gold_medals <-  medal_counts %>%
-  filter(Medal == "Gold") %>%
+usa_gold_medals <-  medal_counts |>
+  filter(Medal == "Gold") |>
   filter(NOC == "USA")
 ```
 
@@ -237,8 +237,8 @@ If we provide a multi-column numeric data frame, we get correlation plots
 
 ```{r, fig.cap=" "}
 # Calls plotting method for class of the dataset ("data.frame")
-medal_counts_wide %>% 
-  select(-NOC) %>%
+medal_counts_wide |> 
+  select(-NOC) |>
   plot()
 
 ```

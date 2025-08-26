@@ -77,9 +77,9 @@ something like this:
 tiny_df_avg <- data.frame(
   x = c('a', 'b', 'c'),
   y = c(
-    filter(tiny_df, x == 'a')[['y']] %>% mean(),
-    filter(tiny_df, x == 'b')[['y']] %>% mean(),
-    filter(tiny_df, x == 'c')[['y']] %>% mean()
+    filter(tiny_df, x == 'a')[['y']] |> mean(),
+    filter(tiny_df, x == 'b')[['y']] |> mean(),
+    filter(tiny_df, x == 'c')[['y']] |> mean()
   )
 )
 
@@ -112,7 +112,7 @@ ToothGrowth
 
 
 ```{r}
-grouped_df <- ToothGrowth %>%
+grouped_df <- ToothGrowth |>
   group_by(supp)
 
 head(grouped_df)
@@ -135,7 +135,7 @@ identical(ToothGrowth, grouped_df)
 You can always undo a grouping with `ungroup()`:
 
 ```{r}
-ungrouped_grouped_df <- grouped_df %>%
+ungrouped_grouped_df <- grouped_df |>
   ungroup()
 
 'grouped_df' %in% class(ungrouped_grouped_df)
@@ -216,7 +216,7 @@ the input dataframe (as if your grouping variable was "everything").
 For example, the mean tooth length over the whole data set is:
 
 ```{r}
-ToothGrowth %>%
+ToothGrowth |>
   mutate(mean_tooth_length = mean(len))
 ```
 
@@ -225,7 +225,7 @@ without using `group_by()`, you'll simply create an output dataframe with one
 row (i.e., the whole input dataframe is a single group).
 
 ```{r}
-ToothGrowth %>%
+ToothGrowth |>
   summarize(mean_tooth_length = mean(len))
 
 ```
@@ -238,7 +238,7 @@ will use `mutate`.
 Example: calculate the ratio of tooth growth to overall tooth growth.
 
 ```{r}
-ToothGrowth %>%
+ToothGrowth |>
   mutate(
     mean_growth = mean(len),
     ratio_to_mean = len / mean_growth
@@ -251,13 +251,13 @@ Example: converting Fahrenheit to Celsius.
 ```{r}
 
 # changing the same column:
-airquality %>%
+airquality |>
   mutate(Temp = (Temp - 32) * 5/9)
 
  
  
 # or, assigning a single value to a new column:
- airquality %>%
+ airquality |>
   mutate(TempC = (Temp - 32) * 5/9)
 
  

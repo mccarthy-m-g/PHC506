@@ -23,7 +23,7 @@ vec[x]
 vec[y]
 
 # logical expressions for subsetting in dplyr
-airquality %>%
+airquality |>
   filter(is.na(Solar.R))
 
 ```
@@ -177,7 +177,7 @@ bilirubin
 Elevated bilirubin is defined as a value above 1.2:
 ```{r}
 
-bilirubin %>% 
+bilirubin |> 
   mutate(
     bilirubin_test = ifelse(bilirubin$lab > 1.2, "elevated", "normal")
   )

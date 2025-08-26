@@ -22,8 +22,8 @@ The columns are as follows:
 every column except `continent`.
 
 ```{r}
-gap %>%
-  filter(year < 1975) %>%
+gap |>
+  filter(year < 1975) |>
   select(-continent)
 
 ```
@@ -31,17 +31,17 @@ gap %>%
 2. How many countries had a life expectancy greater than 60 in the year 1982?
 
 ```{r}
-gap %>%
-  filter(year == 1982) %>%
-  filter(lifeExp > 60) %>%
+gap |>
+  filter(year == 1982) |>
+  filter(lifeExp > 60) |>
   nrow()
 
 
-gap %>%
+gap |>
   filter(
     year == 1982,
     lifeExp > 60
-  ) %>%
+  ) |>
   nrow()
 ```
 
@@ -50,16 +50,16 @@ gap %>%
 ```{r}
 ?grepl
 
-gap %>%
-  filter(grepl("Z|z", country)) %>%
+gap |>
+  filter(grepl("Z|z", country)) |>
   arrange(desc(country))
 
-gap %>%
-  filter(grepl("z", tolower(country)))  %>%
+gap |>
+  filter(grepl("z", tolower(country)))  |>
   arrange(desc(country))
 
-gap %>%
-  filter(grepl("z", country, ignore.case=TRUE))  %>%
+gap |>
+  filter(grepl("z", country, ignore.case=TRUE))  |>
   arrange(desc(country))
 
 ```
@@ -67,7 +67,7 @@ gap %>%
 4. Use `dplyr` to sort the gap data set in reverse alphabetical order.
 
 ```{r}
-gap %>%
+gap |>
   arrange(desc(country))
 
 
@@ -80,7 +80,7 @@ gap %>%
 ```{r}
 hist(gap$lifeExp)
 
-gap %>%
+gap |>
   ggplot() +
   aes(x = lifeExp) +
   geom_histogram(binwidth = 5)
@@ -89,7 +89,7 @@ gap %>%
 2) Plot the life expectancy against gdpPercap using `geom_point`
 
 ```{r}
-gap %>%
+gap |>
   ggplot() +
   aes(x = gdpPercap, y =lifeExp) +
   geom_point()
@@ -99,7 +99,7 @@ gap %>%
 and see if you'd be comfortable with including it in a report/paper.
 
 ```{r}
-gap %>%
+gap |>
   ggplot() +
   aes(x = gdpPercap, y =lifeExp) +
   geom_point(size = 0.1, alpha = 0.5) +
@@ -116,7 +116,7 @@ gap %>%
 4) Make a boxplot of life expectancy (y) versus year (x).
 
 ```{r}
-gap %>%
+gap |>
   ggplot() +
   aes(y = lifeExp, x = factor(year)) +
   geom_boxplot()
@@ -127,7 +127,7 @@ gap %>%
 scatterplots, one subplot per year.  
 
 ```{r}
-gap %>%
+gap |>
   ggplot() +
   aes(x = gdpPercap, y =lifeExp) +
   geom_point(size = 0.1, alpha = 0.5) +
@@ -150,7 +150,7 @@ are in different colors. Use `scale_x_continuous()` to set the x-axis limits to
 be in the range from 100 to 50000.
 
 ```{r}
-gap %>%
+gap |>
   ggplot() +
   aes(x = gdpPercap, y =lifeExp, color = continent) +
   geom_point(size = 0.3, alpha = 0.5) +
@@ -170,7 +170,7 @@ gap %>%
 calculating the log values.
 
 ```{r}
-gap %>%
+gap |>
   ggplot() +
   aes(x = gdpPercap, y =lifeExp, color = continent) +
   geom_point(size = 0.3, alpha = 0.5) +
@@ -193,7 +193,7 @@ the grey background. Figure out how to use partially-transparent points to
 reduce the effect of the overplotting of points.
 
 ```{r}
-gap %>%
+gap |>
   ggplot() +
   aes(x = gdpPercap, y = lifeExp) +
   geom_smooth(method = "loess", color = "red") +
@@ -213,7 +213,7 @@ gap %>%
 properties in the `theme()` layer to customize the graph to your liking.
 
 ```{r}
-gap %>%
+gap |>
   ggplot() +
   aes(x = gdpPercap, y = lifeExp) +
   geom_smooth(method = "loess", color = "red") +

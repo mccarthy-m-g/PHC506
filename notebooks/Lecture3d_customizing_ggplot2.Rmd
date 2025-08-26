@@ -18,7 +18,7 @@ library(dplyr)
 medal_counts <- read.csv(file.path("..", "data", "medal_counts.csv"))
 medal_counts_wide <- read.csv(file.path("..", "data", "medal_counts_wide.csv"))
 usa_gold_medals <- read.csv(file.path("..", "data", "usa_gold_medals.csv"))
-usa_all_medals <- medal_counts %>%
+usa_all_medals <- medal_counts |>
   filter(NOC == "USA")
 
 ```
@@ -148,7 +148,7 @@ can be easily added to a plot to change its appearance.
 
 ```{r default_themes}
 # grey
-p <- usa_all_medals %>% 
+p <- usa_all_medals |> 
   ggplot(aes(x = Year, y = count)) +
   geom_point(aes(color = Medal)) +
   geom_smooth(aes(color = Medal), method = "lm", se = FALSE) 
@@ -193,7 +193,7 @@ p +
 ```{r fig.cap=" ", warning=FALSE, message=FALSE}
 
 # dark
-usa_all_medals %>% 
+usa_all_medals |> 
   ggplot(aes(x = Year, y = count)) +
   geom_point(aes(color = Medal)) +
   geom_smooth(aes(color = Medal), method = "lm", se = FALSE) +
@@ -243,16 +243,16 @@ want to split it into multiple similar plots. `facet_wrap` (easy, usually right)
 and `facet_grid` (easier to control with multiple variables) help with that!
 
 ```{r}
-airquality_long <- airquality %>%
-  mutate(day_since_start = row_number()) %>%
-  select(-c(Month, Day)) %>%
+airquality_long <- airquality |>
+  mutate(day_since_start = row_number()) |>
+  select(-c(Month, Day)) |>
   tidyr::pivot_longer(
     -day_since_start, 
     names_to = "parameter", 
     values_to = "obs"
   ) 
 
-airquality_long %>%
+airquality_long |>
   ggplot() +
   aes(x = day_since_start, y = obs, color = parameter) +
   geom_line() +

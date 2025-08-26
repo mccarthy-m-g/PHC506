@@ -43,7 +43,7 @@ ggplot(data = ) +
 Note that `ggplot2` graphs in layers in a *continuing call* (hence the endless 
 +...+...+...), which really makes the extra layer part of the call.
 
-**common mistake!** Careful: `+` is not the same as `%>%` (common typo!) We are 
+**common mistake!** Careful: `+` is not the same as `|>` (common typo!) We are 
 adding layers together, not piping the input of one function into another.
 
 You can see the layering effect by comparing the same graph with different 
@@ -94,7 +94,7 @@ data requires four items:
 visualization theory!
 
 ```{r, warning = FALSE, message = FALSE, fig.cap = "", fig.height=2.5}
-medal_counts_wide %>%
+medal_counts_wide |>
   ggplot() +
   aes(x = Year, y = Gold) +
   geom_point() +
@@ -150,14 +150,14 @@ ggplot know which one to do first?
 ```{r layeroverride}
 
 # Compare boxplot first, then jitter
-iris %>%
+iris |>
   ggplot() +
   aes(x = Species, y = Sepal.Length) +
   geom_boxplot(outlier.shape = NA) +
   geom_jitter(width = 0.3)  # jitter: point with position dodging
 
 # versus jitter first, then boxplot
-iris %>%
+iris |>
   ggplot() +
   aes(x = Species, y = Sepal.Length) +
   geom_jitter(width = 0.3) +
@@ -174,9 +174,9 @@ your `dplyr` chain and pipe it directly into a `ggplot` call.
 
 ```{r, fig.cap = "", fig.show = "hold"}
 # This combines the subsetting and plotting into one step
-medal_counts %>%
-  filter(Medal == "Gold") %>%
-  filter(NOC == "USA") %>%
+medal_counts |>
+  filter(Medal == "Gold") |>
+  filter(NOC == "USA") |>
   ggplot(aes(x = Year, y = count)) + 
   geom_line()
 
