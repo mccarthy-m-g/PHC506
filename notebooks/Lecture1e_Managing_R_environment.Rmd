@@ -36,6 +36,12 @@ rm(x)    # delete a variable
 
 # Packages (R's killer app)
 
+Where do functions come from?
+
+1. Base R: very basic. mean, sd, lm ....
+2. Packages: "off-the-shelf" tools for you to apply, made by you or another team
+3. Your own code, in the global environment! See Lecture 4!
+
 Let's check out the [packages on CRAN](https://cran.r-project.org/web/packages/) 
 
 Essentially any well-established and many not-so-established statistical methods 
@@ -52,7 +58,7 @@ Two steps:
 1. Install the package on your machine
 2. Load the package
 
-To install a package, in RStudio, just do `Packages->Install Packages`.
+To install a package, in RStudio, you can use `Packages->Install Packages`.
 
 From the command line, you generally will just do
 ```{r eval = FALSE}

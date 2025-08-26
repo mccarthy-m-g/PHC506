@@ -69,25 +69,30 @@ Create a function:
   # code goes here!
 #}
 
-repeat_what_i_said <- function(what_i_said){
-  paste0("You said: '", what_i_said, "'")
+add_two <- function(x){
+  x + 2
 }
-repeat_what_i_said |> class()
 
-repeat_what_i_said("use functions often!")
-repeat_what_i_said("cats")
+
 ```
 
 A function takes 0 or more arguments, and will return the last unassigned line 
 of code, as above, or you can more explicitly return a value.
 
 ```{r}
-repeat_what_i_said <- function(what_i_said){
-  sentence <- paste0("You said: '", what_i_said, "'")
-  return(sentence)
+
+add_two <- function(x){
+  y <- x + 2
+  return(y)
 }
 
-repeat_what_i_said("cats")
+add_two(4)
+
+add_two <- function(x){
+  return(x + 2)
+}
+
+add_two(4)
 ```
 
 See how R changes the color of `function` and `return`? These are "special"
