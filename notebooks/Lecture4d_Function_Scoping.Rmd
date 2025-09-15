@@ -38,8 +38,8 @@ than the original value outside the function.
 
 # Variable scope and global variables
 
-In Lecture 1e, we saw that, when we call a function or other, R looks for
-objects in this order:
+In Lecture 1e, we saw that, when we call a function or other object, R looks for
+what this object refers to in this order:
 
 1. The global environment
 2. Sequentially up the search path
@@ -87,6 +87,7 @@ Functions are defined with a reference to the environment in which they are
 created.
 
 ```{r}
+# Part 1: defining a function within a function scope
 add_numbers <- function(x) {
   y <- 10
   add_to_y <- function(z) {
@@ -109,7 +110,7 @@ defined, which is within the environment created by `add_numbers`, where
 Here's one more advanced example:
 
 ```{r}
-# Define `y` and `add_to_y` in the global environment
+# Part 2: defining a function within a global scope
 y <- 10
 add_to_y <- function(z) {
   z + y

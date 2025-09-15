@@ -179,7 +179,7 @@ Elevated bilirubin is defined as a value above 1.2:
 
 bilirubin |> 
   mutate(
-    bilirubin_test = ifelse(bilirubin$lab > 1.2, "elevated", "normal")
+    bilirubin_test = ifelse(lab > 1.2, "elevated", "normal")
   )
 
 
