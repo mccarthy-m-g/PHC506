@@ -1,0 +1,45 @@
+---
+title: "Statistics in R"
+---
+
+The focus of these lectures was to provide an introduction to R programming, not
+statistics. The remainder of the course will introduce you to a variety of statistical
+approaches. If you want to go beyond those lectures, the following resources are
+a great place to start!
+
+## Books
+
+Let's start with some book recommendations:
+
+- [Regression and Other Stories](https://avehtari.github.io/ROS-Examples/) by Andrew Gelman, Jennifer Hill, and Aki Vehtari ([Source](https://github.com/avehtari/ROS-Examples))
+- [Data Analysis Using Regression and Multilevel/Hierarchical Models](http://www.stat.columbia.edu/~gelman/arm/) by Andrew Gelman and Jennifer Hill[^1]
+- [Bayes Rules!](https://www.bayesrulesbook.com) by Alicia A. Johnson, Miles Q. Ott, and Mine Dogucu ([GitHub](https://github.com/bayes-rules))
+- [An introduction to statistical learning with applications in R](https://www.statlearning.com) by Gareth James, Daniela Witten, Trevor Hastie, and Rob Tibshirani
+- [Statistical Rethinking](https://xcelab.net/rm/statistical-rethinking/) by Richard McElreath
+- [Improving Your Statistical Inferences](https://lakens.github.io/statistical_inferences/) by Daniël Lakens
+
+[^1]: Regression and Other Stories is an updated and expanded second edition of the regressions parts of *Data Analysis Using Regression and Multilevel/Hierarchical Models*. The authors are also working on an [updated and expanded second edition](http://www.stat.columbia.edu/~gelman/armm/) of the multilevel modelling parts of *Data Analysis Using Regression and Multilevel/Hierarchical Models*, but it isn't out yet.
+
+All of these books are well-written, engaging, and have examples in R.[^2] Together they cover applications of fundamental and state-of-the-art tools in statistical modelling. But most importantly---they encourage statistical thinking. They’re ideal books for self-study and I can't recommend them enough.
+
+[^2]: Most of these books have also had their examples translated to use different R packages than the authors used. For example, [Andrew Heiss](https://www.andrewheiss.com) has translated [Bayes Rules!](https://bayesf22-notebook.classes.andrewheiss.com/bayes-rules/) and [Statistical Rethinking](https://bayesf22-notebook.classes.andrewheiss.com/rethinking/) into the `tidyverse`, `brms`, and `marginaleffects` packages; [Emil Hvitfeldt](https://www.emilhvitfeldt.com) has translated [An introduction to statistical learning](https://emilhvitfeldt.github.io/ISLR-tidymodels-labs/) into the `tidymodels` set of packages; and [A. Solomon Kurz](https://solomonkurz.netlify.app) has translated [Regression and Other Stories](https://github.com/ASKurz/Working-through-Regression-and-other-stories) into the `tidyverse` and `brms` packages.
+
+::: {.callout-tip}
+## All you need is the linear model
+
+Most people have the unfortunate experience of learning statistics through arcane rituals with numerous statistical tests that appear to have no fundamental framework to tie them together. This is a failure of pedagogy rather than a feature of statistics. Fortunately, there is a fundamental framework to tie all these statistical tests together: It's called the linear model.
+
+Most common statistical tests are either special cases or extensions of the linear model; understanding this will improve your statistical thinking and make it easier to abandon the arcanum and statistical rituals in favour of a unified statistical framework.
+
+For a short introduction to this concept I recommend reading [Common statistical tests are linear models (or: how to teach stats)](https://lindeloev.github.io/tests-as-linear/) by Jonas Kristoffer Lindeløv (note: there are a few small errors that haven't been fixed, so also see the [GitHub Issues](https://github.com/lindeloev/tests-as-linear/issues)).
+:::
+
+## Course materials
+
+A lot of people in the R community who have taught courses or workshops make their materials openly available (including your instructors!). One source I want to highlight in particular is [psyTeachR](https://psyteachr.github.io) from the University of Glasgow School of Psychology and Neuroscience, which covers an entire curriculum of courses for doing reproducible data science. 
+
+Michael McCarthy has also previously taught two graduate-level statistics courses in R at the University of Calgary Department of Psychology, which covered some of the topics in PHC506:
+
+- [PSYC 615: Analysis of Variance](https://github.com/mccarthy-m-g/psyc-615-lab), which covered applications of the general linear model (t-tests, *ANOVA*) to research design and analysis.
+- [PSYC 617: Multivariate Analysis](https://github.com/mccarthy-m-g/psyc-617-lab), which covered applications of univariate and multivariate statistics to research design and analysis, including *correlations*, *multiple regression*, *logistic regression*, discriminant analysis, MANOVA, linear mixed models with nested and longitudinal designs, exploratory factor analysis, confirmatory factor analysis, path analysis, and structural equation modelling.
+- [alda](https://mccarthy-m-g.github.io/alda/): He has also created an R data package for the book "Applied longitudinal data analysis: Modeling change and event occurrence" by Singer and Willett (2003), which includes chapter examples for longitudinal mixed effects modelling and *survival analysis*.

@@ -1,0 +1,207 @@
+---
+title: "Flow Control: if and else"
+author: "Jasmine Hughes"
+---
+
+```{r setup, include=FALSE}
+source("setup/_common.R")
+knitr::opts_chunk$set(echo = TRUE, message = FALSE)
+library(dplyr)
+library(datasets)
+```
+
+We have used logical expressions before:
+
+```{r}
+# logical expressions for subsetting
+vec <- c(1, 5, -7, 13)
+x <- vec > 0
+y <- vec < 0 | vec >= 13
+
+vec[x]
+vec[y]
+
+# logical expressions for subsetting in dplyr
+filter(airquality, is.na(Solar.R))
+```
+
+Often you want to use logical expressions to control what code is evaluated.
+
+For this, we will use `if` and `else`!
+
+## if-else syntax
+
+Here's a simple example to illustrate the syntax. 
+
+```{r, if}
+val <- rnorm(1)
+if (val < 0) {
+  print("val is negative")
+} else {
+  print("val is positive")
+}
+```
+
+Note how RStudio colors these words differently? They are special key words.
+
+We can chain together `if` statements using `else if `.
+
+```{r, if-chain}
+val <- rnorm(1, mean = 0, sd = 1)
+val
+if (val < -1) { 
+  print("val is more than one standard deviation below the mean.")
+} else if (abs(val) <= 1) {
+  print("val is within one standard deviation of the mean.")
+} else {
+  print("val is more than one standard deviation above the mean.")
+}
+```
+
+In general, the `{` brackets are only needed if you have multiple R expressions,
+but R will complain when an `else` starts a line of code, so generally using the
+`{` is good practice. That said, this _works just fine_:
+
+```{r, if-oneline}
+if (val < 0) print("val is negative") else print("val is positive")
+
+# better:
+if (val < 0) {
+  print("val is negative") 
+} else {
+  print("val is positive")
+}
+```
+
+## The condition in an if statement
+
+There are two rules for the `if () ` statement:
+
+1. The value evaluated must be TRUE or FALSE
+
+   - NA, NULL, and NaN will all produce (different) errors
+   
+2. The value evaluated must be of length 1
+
+   - If more than one value is provided, depending on your user settings, either
+     the first value will be evaluated or you will encounter an error
+   - If less than one value (`c()` is of length 0), you will encounter an error
+
+Zero evaluates to `FALSE`, all other numbers evaluate to `TRUE`. In general
+strings are not converted to booleans.
+
+```{r}
+# These will both produce errors
+vec <- c(4, 8)
+vec < 6
+if (vec < 6) {
+  print("vec is less than 6")
+} else {
+  print("vec is not less than 6")
+}
+
+vec <- NA
+if (vec < 6) {
+  print("vec is less than 6")
+} else {
+  print("vec is not less than 6")
+}
+```
+
+If you anticipate missing data, a more robust alternative is to use `isTRUE()`:
+
+```{r}
+isTRUE(NA)
+isTRUE(NULL)
+isTRUE(1)
+isTRUE(FALSE)
+isTRUE(TRUE)
+isTRUE(as.logical(1))
+
+vec <- NA
+if (isTRUE(vec < 6)) {
+  print("vec is less than 6")
+} else {
+  print("vec is not less than 6")
+}
+```
+
+If you want to be able to handle vectors, `all` or `any` are helpful:
+
+```{r}
+# `any` checks for at least one TRUE
+vec <- c(4, 8)
+if (any(vec < 6)) {
+  print("at least one value is less than 6")
+} else {
+  print("no values are less than 6")
+}
+
+# `all` requires every value to be TRUE
+vec <- c(4, 8)
+if (all(vec < 6)) {
+  print("all values are less than 6")
+} else {
+  print("at least one value is not less than 6")
+}
+```
+
+## Vectorized if/else
+
+Sometimes it is helpful to use this same `if...else...` logic in a vectorized
+way, i.e., to apply different operations on a vector according to some condition
+
+For this, we can use `ifelse`.
+
+For example, we have a number of patient lab results, and we want to indicate
+which lab results were normal versus elevated:
+
+```{r alternative_one_line_if}
+bilirubin <- data.frame(
+  pt = c("M.H.", "P.J.", "K.G."),
+  lab = c(1, 1.8, 0.7)
+)
+
+bilirubin
+```
+
+Elevated bilirubin is defined as a value above 1.2:
+
+```{r}
+mutate(
+  bilirubin,
+  bilirubin_test = ifelse(lab > 1.2, "elevated", "normal")
+)
+```
+
+## Breakout
+
+1. We previously saw a function for calculating BMI, which looked something like
+this:
+
+```{r brk-1}
+calculate_bmi <- function(height, weight){ # assume height in m, weight in kg
+  weight / height ** 2
+}
+
+calculate_bmi(1.70, 70)
+```
+
+Modify the function so that the user supplies, as a string, the unit for height,
+accepting either c("cm", "m", or "in"). Then, if necessary, convert the height
+to the appropriate unit before calculating BMI.
+
+Use the following conversion factors:
+1m = 100 cm = 39.37 inches
+
+```{r brk-2}
+# write your solution here
+
+# if it is correct, the following should return TRUE
+identical(calculate_bmi(1.70, 70, "m"), calculate_bmi(170, 70, "cm"))
+identical(
+  round(calculate_bmi(1.70, 70, "m"), 3), 
+  round(calculate_bmi(1.7*39.37, 70, "in"), 3)
+)
+
+```

@@ -1,0 +1,54 @@
+name: Render and publish book
+
+on:
+  push:
+    branches: [main]
+  # Allow manual runs from the Actions tab.
+  workflow_dispatch:
+
+permissions:
+  contents: write  # publish@v2 pushes the rendered site to the gh-pages branch
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true  # install fast precompiled binaries on Linux
+
+      # The book renders with the knitr engine, so every package used by a code
+      # chunk must be present on the runner. quarto-actions does not install
+      # these, so we list them explicitly here (cached across runs by pak).
+      - name: Install R package dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::knitr
+            any::rmarkdown
+            any::dplyr
+            any::ggplot2
+            any::tidyr
+            any::readr
+            any::readxl
+            any::haven
+            any::lubridate
+            any::gridExtra
+            any::cols4all
+            any::praise
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      # Renders the book (running the scripts/build-webr.R pre-render step) and
+      # pushes the result to the gh-pages branch.
+      - name: Render and publish to GitHub Pages
+        uses: quarto-dev/quarto-actions/publish@v2
+        with:
+          target: gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

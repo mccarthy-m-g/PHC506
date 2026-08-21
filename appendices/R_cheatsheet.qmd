@@ -1,0 +1,241 @@
+---
+title: "R Cheat Sheet"
+---
+
+A quick reference to the functions and syntax used throughout PHC506, grouped by
+topic. Treat it as a lookup table rather than runnable code: most lines are
+templates (e.g. `select(df, cols)`) meant to be copied and adapted to your own
+data. `x` and `df` stand in for a vector and a data frame you supply.
+
+For more detailed, printable cheat sheets on individual packages, see: <https://rstudio.github.io/cheatsheets/contributed-cheatsheets.html>.
+
+## Operations, data types, and your environment
+
+### Math
+
+```r
+7 * 7        # multiply
+7 / 7        # divide
+7 + 1        # add
+7 - 1        # subtract
+7 ** 2       # powers
+7 ^ 2        # powers
+log(2)       # logarithm
+exp(2)       # e^x
+```
+
+### Logical expressions
+
+```r
+7 > 6        # greater than
+7 >= 6       # greater than or equal to
+7 < 8        # less than
+7 <= 8       # less than or equal to
+7 == 8       # equal to (not the same as `=`)
+7 != 8       # not equal to
+TRUE | FALSE # or
+TRUE & FALSE # and
+```
+
+### Vectors, lists, and data frames
+
+```r
+c(6, 8)       # create a vector (numeric, integer, character, logical)
+list(a = 1)   # create a list
+data.frame()  # create a data frame
+seq(0, 12, 0) # create a vector sequence: from, to, increment by
+```
+
+### Understanding and converting data types
+
+```r
+class(x)        # returns object type/class
+as.numeric(x)   # coerce to numeric
+as.character(x) # coerce to character
+is.numeric(x)   # is it numeric? (TRUE/FALSE)
+is.character(x) # is it character? (TRUE/FALSE)
+length(x)       # length of vector or list
+```
+
+### Indexing into a vector
+
+```r
+letters[1]      # first element
+letters[-1]     # everything but the first element
+letters[c(1,5)] # first and fifth element
+```
+
+### Pipes
+
+```r
+|>              # base pipe, e.g.: x |> mean()
+```
+
+### Missing data
+
+```r
+is.na()         # is a value NA?
+is.null()       # is a value NULL?
+```
+
+### Factors
+
+```r
+factor(x, levels = y) # convert vector x to a factor with levels y
+levels(x)             # get the levels of a factor x
+```
+
+### Dates
+
+```r
+as.Date(char, format = "%m-%d-%Y")    # convert a character vector to a date
+as.POSIXct(char, format = "%m-%d-%Y") # convert a character vector to a datetime
+difftime(t1, t2, units = "mins")      # time between two variables
+```
+
+### Summary statistics
+
+Each takes a vector and returns a single value. Control missing values with
+`na.rm = TRUE/FALSE`.
+
+```r
+median(1:10) # median
+mean(1:10)   # mean
+sd(1:10)     # standard deviation
+min(1:10)    # minimum
+max(1:10)    # maximum
+sum(1:10)    # sum total
+```
+
+### Managing your environment
+
+```r
+install.packages("praise") # install a package
+library(praise)            # load a package
+hello::world()             # refer to object `world` from package `hello`
+getwd()                    # get working directory
+setwd()                    # change working directory
+```
+
+### Data input and output
+
+```r
+file.path("path", "to", "file.csv")     # build a file path
+read.csv(file.path(...))                # read a CSV file
+write.csv(data.frame(), file.path(...)) # write a CSV file
+```
+
+## Data frames and dplyr
+
+### Inspecting a data frame
+
+```r
+nrow(df)    # number of rows
+ncol(df)    # number of columns
+dim(df)     # dimensions (rows and columns)
+summary(df) # summary statistics for each column
+View(df)    # open a whole data frame in the viewer
+```
+
+### Core dplyr verbs
+
+Load the package first with `library(dplyr)`.
+
+```r
+%>%                      # dplyr's pipe (like the base |>)
+select(df, cols)         # select certain columns
+filter(df, logical_expr) # keep rows where logical_expr is TRUE
+arrange(df, cols)        # sort ascending on cols
+arrange(df, desc(cols))  # sort descending on cols
+group_by(df, cols)       # create a grouped data frame, by cols
+ungroup(df)              # remove groupings
+summarize(df, x = f(..)) # summary statistic (1 row per group)
+mutate(df, x = f(...))   # add/replace a column (same number of rows)
+```
+
+## Data visualization
+
+### Base R plotting
+
+```r
+plot()    # create a plot; type depends on the object/arguments
+boxplot() # create a boxplot
+hist()    # create a histogram
+barplot() # create a barplot
+pdf()     # switch the graphics device to a PDF file
+png()     # switch the graphics device to a PNG file
+dev.off() # finish writing to the graphics device
+```
+
+### ggplot2
+
+```r
+ggplot()             # main ggplot call; control mapping with aes()
+aes(x = ..., y = ..., fill = ..., linetype = ..., color = ..., shape = ...)
+facet_wrap(~colname) # separate panels per category of colname
+ggsave()             # save a graph to a file
+```
+
+### Types of plots (geoms)
+
+```r
+geom_point()                # x-y scatter plot; trends in continuous data
+geom_line()                 # line plot; trends over time, etc.
+geom_boxplot()              # statistical distributions
+geom_histogram()            # data distributions (no y variable needed)
+geom_bar(stat = "identity") # bar plot (categorical x, numeric y)
+geom_smooth(method = "lm")  # fit a linear model through the points
+```
+
+### Customizing a plot
+
+```r
+labs(x = ..., y = ..., title = ...) # axis labels, graph title, etc.
+scale_y_log10()                     # log10 scaling, y axis
+scale_x_log10()                     # log10 scaling, x axis
+scale_fill_manual()                 # custom colors for rectangles/bars
+scale_color_manual()                # custom colors for points and lines
+scale_shape_manual()                # custom point shapes
+scale_linetype_manual()             # custom line types
+```
+
+## Programming in R
+
+```r
+print() # print a message to the user
+```
+
+### Function syntax
+
+```r
+function_name <- function(mandatory_arg, optional_arg = NULL) {
+  # code
+  return()
+}
+```
+
+### if / else
+
+```r
+if (condition1) {
+  # code
+} else if (condition2) {
+  # code
+} else {
+  # code
+}
+```
+
+### Vectorized if / else
+
+```r
+ifelse(condition1, if_true, if_false)
+```
+
+### for loops
+
+```r
+for (i in 1:10) {
+  # code
+}
+```

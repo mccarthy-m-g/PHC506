@@ -62,7 +62,6 @@ p_Theoph
 
 ```
 
-
 # Save the output of our code
 
 ```{r save_graph, echo=FALSE}
@@ -110,7 +109,5 @@ references:
 
 Is it even science if you don't cite your sources? There are many ways to refer 
 to your favorite papers [@Asimov1959], but here's an example down below.
-
-
 
 # References

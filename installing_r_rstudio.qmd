@@ -1,0 +1,52 @@
+# Installing R and RStudio {.unnumbered}
+
+R is an open source programming language for wrangling, visualizing, modelling,
+and communicating data, and much more. It is widely used among researchers,
+statisticians, and data scientists across many fields. There is an active and
+welcoming community of R users on Stack Overflow, GitHub, and various social
+media sites, so it is usually easy to get help---or help yourself---when you
+run into problems.
+
+To follow along with the lectures on your own computer, you'll need two free
+pieces of software: **R** (the language itself) and **RStudio** (a friendly
+environment for writing and running R code).
+
+## Installing R
+
+R can be downloaded from CRAN (the **C**omprehensive **R** **A**rchive **N**etwork) at
+<https://cloud.r-project.org>. Choose the download for your operating system
+(Linux, macOS, or Windows) and follow the installer.
+
+A new major version of R comes out once a year, with 2--3 minor releases in
+between. You don't need to reinstall R for every release, but it's worth updating
+occasionally.
+
+::: {.callout-tip}
+R can also be installed from the Terminal using [rig](https://github.com/r-lib/rig). Rig is an R installation manager that lets you install, configure, and switch between multiple R versions and user-level package libraries on macOS, Windows, and Linux. 
+
+You don't need to install R using rig for this course, but we recommend revisiting this tool in the future once you're comfortable running code. Rig simplifies how you manage multiple R installations on your computer, which is an important skill to have for [doing reproducible data science](https://tidytales.ca/series/2023-01-24_reproducible-data-science/).
+:::
+
+## Installing RStudio
+
+RStudio is an integrated development environment (IDE) for R programming. Download and install it from <https://posit.co/download/rstudio-desktop/>. Install **R first**, then RStudio, since RStudio needs an R installation to run.
+
+RStudio is updated a couple of times a year and will automatically let you know when a new version is available. It's a good idea to update regularly so you can take advantage of the latest and greatest features.
+
+When you open RStudio, @fig-rstudio-ide, you will see an interface with three [panes](https://docs.posit.co/ide/user/ide/guide/ui/ui-panes.html) in it. For now, the console pane is all you need to know. This is where you can interactively run your R code and see results. For example, try typing `1 + 1` in the console and pressing enter to run it. If you've installed everything successfully it should output `[1] 2` below. Congratulations! You just ran your first line of R code---you'll learn more about the other RStudio panes throughout the course of our lectures.   
+
+![The RStudio IDE](/images/rstudio-ide.png){#fig-rstudio-ide}
+
+RStudio provides a number of [preferences you can customize](https://support.posit.co/hc/en-us/articles/200549016-Customizing-RStudio) to change the look and feel of the IDE, provide certain defaults, and so forth. For example, one customization I like is to have the console pane to the top-right corner, @fig-rstudio-customized-panes, as this makes it easier to edit files and use the console simultaneously.
+
+![The RStudio IDE with a custom pane layout.](/images/rstudio-customized-panes.png){#fig-rstudio-customized-panes}
+
+Once you're comfortable navigating RStudio it's worth customizing your preferences and finding what works for you.
+
+## You've got this!
+
+Getting good at R programming will take some time, and the learning curve might feel steep at first, but we know you can do it! Stick with it---you'll be thankful you did in the future, even if you don't think so now.
+
+![Artwork by Allison Horst.](/images/r-first-then.png)
+
+When you run into errors: try stuff out, search for help online, ask your peers, or find examples of code to copy (such as from these lectures). And check for typos. Always check for typos... If you're still stuck after that then reach out to the TAs. We want you to succeed!

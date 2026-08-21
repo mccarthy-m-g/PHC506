@@ -1,0 +1,25 @@
+/*-- scss:rules --*/
+
+// Dark, near-neutral code text (rather than pure black).
+code {
+  color: #373a3c;
+
+  a {
+    text-decoration: underline;
+    text-decoration-color: #ccc;
+  }
+}
+
+// Code blocks (and the collapsed code+output blocks) get a subtle
+// diagonal-gradient background instead of a flat fill.
+pre {
+  background: linear-gradient(160deg, #f8f8f8 0, #f1f1f1 100%);
+}
+
+// Authorship lives on the preface (from the book-level `author:`). Individual
+// chapters keep their `author:` in the source, but we hide the per-chapter
+// author byline (the first title-block meta item) so it isn't repeated on every
+// page. The preface re-shows it via an override in index.qmd.
+.quarto-title-meta > div:first-child {
+  display: none;
+}

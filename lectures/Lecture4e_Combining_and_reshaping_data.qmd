@@ -1,0 +1,349 @@
+---
+title: "Combining and Reshaping Data"
+author: ["Jasmine Hughes", "Michael McCarthy"]
+---
+
+```{r setup, include=FALSE}
+source("setup/_common.R")
+knitr::opts_chunk$set(echo = TRUE, message = FALSE)
+```
+
+```{r}
+# If you haven't yet installed dplyr and tidyr, install them now!
+# install.packages("dplyr")
+# install.packages("tidyr")
+library(dplyr)
+library(tidyr)
+```
+
+## Introduction
+
+`dplyr` makes data analysis reproducible, readable, and often easier!
+
+* Human readable: the function names describe the action being done
+* Piping: chain functions in a step-by-step way, rather than nesting
+
+Many analytic tasks can be completed with `mutate`, `filter`, `select`, 
+`group_by`, `summarize` and `arrange`. But sometimes you'll need an expanded 
+tool kit. Let's look at a few more of the most useful functions.
+
+## Combining multiple data frames
+
+### `left_join`
+
+Sometimes we need to use data available from multiple sources. To take 
+advantage of the `dplyr` functions we used previously, we need data points of 
+interest to be in the same data frame. The join family of functions helps here.
+
+```{r patient_dosing}
+pt_char <- data.frame(
+  pt = c("M.H.", "P.J.", "K.G.", "A.C."),
+  age = c(77, 35, 56, 48),
+  weight = c(65, 82, 70, 100),
+  stringsAsFactors = FALSE
+)
+pt_char
+
+pt_doses <- data.frame(
+  pt = c("M.H.", "P.J.", "K.G.", "M.H.", "S.C."),
+  mg_per_kg = c(15, 15, 10, 20, 15),
+  interval = c("Q8", "Q12", "Q6", "Q8", "Q8"),
+  stringsAsFactors = FALSE
+)
+pt_doses
+```
+
+What happens if we want to calculate mg of drug per kg body weight?
+
+```{r joining}
+# left_join adds all the data from the right df 
+# to the matching rows of the left dataframe
+?left_join
+left_join(pt_char, pt_doses)
+```
+
+Note what happens to patient A.C., who does not have dosing information, and 
+patient S.C., for whom we do not have patient characteristics. Also, see how 
+R handled patient M.H., who was in the dosing table twice. Let's try the 
+reverse:
+
+```{r joining2}
+left_join(pt_doses, pt_char, by = "pt")
+```
+
+What happened here to A.C., M.H. and S.C.?
+
+What if we want to keep all entries?
+
+### `full_join`
+Let's compare `full_join` with `left_join`
+
+```{r joining3}
+full_join(pt_char, pt_doses)
+```
+
+```{r join_by}
+# R will do its best guess to try judge which columns you want to join on if you
+# do not otherwise specify. Here, the names match, but not all data is so
+# convenient. Here's a contrived example:
+pt_doses |>
+  rename(patient = pt) |>
+  left_join(pt_char, by = c("patient" = "pt")) 
+```
+
+### `right_join`
+
+Right join is the reverse of left_join.
+
+```{r joining4}
+right_join(pt_char, pt_doses)
+left_join(pt_doses, pt_char)
+```
+
+### `inner_join`
+
+What if we want to keep only patients for whom we have complete information?
+
+```{r joining5}
+inner_join(pt_char, pt_doses) |>
+  mutate(mg = mg_per_kg * weight)
+```
+
+![](/images/join-venn.png)
+
+## Tidyr: Long versus Wide Data
+
+Even before we conduct analysis or calculations, we need to put our data into 
+the correct format. The goal here is to rearrange a messy dataset into one that 
+is **tidy**. 
+
+The two most important properties of tidy data are:
+
+1) Each column is a variable.
+2) Each row is an observation.
+
+Tidy data is easier to work with, because you have a consistent way of referring 
+to variables (as column names) and observations (as row indices). It then 
+becomes easy to manipulate, visualize, and model.
+
+Many tools in R will assume that your data is already tidy.
+
+For more on the concept of *tidy* data, read Hadley Wickham's paper 
+[here](http://vita.had.co.nz/papers/tidy-data.html)
+
+### Wide vs. Long Formats
+
+> "Tidy datasets are all alike but every messy dataset is messy in its own way." 
+– Hadley Wickham
+
+Tabular datasets can be arranged in many ways. For instance, consider the data 
+below. Each data set displays information on heart rate observed in individuals 
+across 3 different time periods. But the data are organized differently in each 
+table.
+
+```{r}
+wide <- data.frame(
+  name = c("Wilbur", "Petunia", "Gregory"),
+  time1 = c(67, 80, 64),
+  time2 = c(56, 90, 50),
+  time3 = c(70, 67, 101)
+)
+wide
+
+long <- data.frame(
+  name = c(
+    "Wilbur", "Petunia", "Gregory", "Wilbur", "Petunia", 
+    "Gregory", "Wilbur", "Petunia", "Gregory"
+  ),
+  time = c(1, 1, 1, 2, 2, 2, 3, 3, 3),
+  heartrate = c(67, 80, 64, 56, 90, 50, 70, 67, 10)
+)
+long
+```
+
+**Question**: Which one of these do you think is the *tidy* format?
+
+We often refer to these different structurs as "long" vs. "wide" formats. In the 
+"long" format, you usually have 1 column for the observed variable and the other 
+columns are ID variables.
+
+For the "wide" format each row is often a site/subject/patient and you have 
+multiple observation variables containing the same type of data. These can be 
+either repeated observations over time, or observation of multiple variables 
+(or a mix of both). In the above case, we had the same kind of data (heart rate) 
+entered across 3 different columns, corresponding to three different time 
+periods.
+
+![](/images/tidyr-fig1.png)
+
+You may find data input may be simpler and some programs/functions may prefer 
+the "wide" format. However, many of R’s functions have been designed assuming 
+you have "long" format data.
+
+### From Wide to Long and Back
+
+Here's an example data set, which has the Billboard top 100 ranking for each 
+song for each week in the year 2000.
+
+How many weeks did each song spend on the Billboard top 100?
+
+```{r}
+billboard
+```
+
+**Question**: Is this data frame **wide** or **long**?
+
+Having each week as a column is convenient if you want to sort the song by
+their position in a given week.
+
+On the other hand, there are some instances in which a purely long or wide 
+format is ideal (e.g. plotting). Likewise, sometimes you'll get data on your 
+desk that is poorly organized, and you'll need to **reshape** it.
+
+### `tidyr`
+
+Thankfully, the `tidyr` package will help you efficiently transform your data 
+regardless of original format.
+
+```{r}
+# Load the "tidyr" package (necessary every new R session)
+library(tidyr)
+```
+
+### `tidyr::pivot_longer`
+
+The function `pivot_longer()` will turn a wide dataframe into a longer one by 
+transforming the observation variables into a single variable. This is sometimes 
+called "melting" your data, because it melts the table from wide to long. You 
+might also see it called "gathering".
+
+Those data will be melted into two variables: one for the variable names, and 
+the other for the variable values. Often, the terms "key" and "value" are used 
+to refer to the variable names and variable values. You might also see the terms
+"name" and "value".
+
+```{r}
+?pivot_longer
+
+billboard |>
+  select(artist, track, starts_with("wk")) 
+```
+
+Notice that we put 3 arguments into the `pivot_longer()` function:
+
+1. the name for the new column for the new ID variable (`week`),
+2. the name for the new observation variable (`position`),
+3. the names of the columns that we want to gather into one variable. 
+(We could also have supplied the names of the columns we don't want to re-shape, 
+or the indices of these columns)
+
+Notice that we don't want to melt down columns 1 and 2, as these are considered 
+"ID" variables.
+
+We are nearly where we want to be. How many weeks did each song spend on the
+charts?
+
+```{r}
+
+```
+
+### `tidyr::pivot_wider`
+
+`pivot_wider` is the opposite of pivot_longer. It makes new columns using values 
+in one column as the new column names, and the values in a second column as the 
+new column values.
+
+Usually, this means taking "tidy" data and making it "untidy", but sometimes it
+is helpful to have data in this format for displaying in tables or graphs.
+
+Here is an example of a tidy data set. It describes traumatic brain injury rates
+in the USA in 2014 as reported by the CDC. You can find more information about
+this data set here:
+https://github.com/rfordatascience/tidytuesday/tree/master/data/2020/2020-03-24
+
+```{r}
+tbi_age <- readr::read_csv(
+  "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-03-24/tbi_age.csv"
+)
+
+tbi_age 
+```
+
+This data set has 231 rows, which is a lot for a table! What if we want to
+display the number of incidents per age group with Injury Mechanism as a column?
+
+```{r}
+
+```
+
+## `tidyselect`
+
+The golden rule of programming is be lazy (or, more positively, Don't Repeat
+Yourself - DRY code)! If you find yourself typing out a long list of things,
+maybe there's a better way! (There's nearly always a better way!)
+
+```{r}
+# NONMEM is a common modeling software program, and a common output may be:
+nm_out <- data.frame(
+  ID = c(1, 1, 2, 2),
+  TIME = c(0, 100, 0, 100),
+  EVID = c(1, 0, 1, 0),
+  AMT = c(100, 0, 100, 0),
+  IPRED = c(0, 5.6, 0, 7.8),
+  ETA1 = c(0.03, 0.03, -0.05, -0.05), 
+  ETA2 = c(0.9, 0.9, 0.01, 0.01),
+  ETA3 = c(-0.1, -0.1, 0.2, 0.2)
+)
+
+# how do I get just the columns that start with "ETA"?
+
+```
+
+Additional documentation:
+
+```{r}
+?select
+?tidyselect
+```
+
+## Extra Resources
+
+`dplyr` and `tidyr` have many more functions to help you wrangle and manipulate 
+your data. See the  
+[Data Wrangling Cheat Sheet](https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf) 
+for more.
+
+## Breakout 
+
+1. Using the traumatic brain injury data set (`tbi_age`), create a table 
+of estimated rates per 100k people (`rate_est`) for hospitalizations, where
+each row is an injury mechanism and each column is an age_group. 
+
+```{r brk-1}
+
+```
+
+2. Calculate the age in years of each patient at the time of their diagnosis date.
+
+```{r brk-2}
+diagnosis <- data.frame(
+  pt = c("M.H.", "P.J.", "K.G.", "S.C."),
+  date_of_diagnosis = c("2020-08-01", "2019-01-11", "2020-03-11", "2020-04-18"),
+  stringsAsFactors = FALSE
+)
+dob <- data.frame(
+  pt = c("M.H.", "P.J.", "K.G.", "S.C."),
+  date_of_birth = c("1990-11-10", "1972-11-14", "2002-10-31", "1954-08-22"),
+  stringsAsFactors = FALSE
+)
+
+```
+
+3. Using the `nm_out` data frame described above, create a data frame where each
+ETA value is its own row for each patient. Remove duplicate rows so each patient
+only has one ETA value for each ETA type.
+
+```{r brk-3}
+nm_out
+
+```

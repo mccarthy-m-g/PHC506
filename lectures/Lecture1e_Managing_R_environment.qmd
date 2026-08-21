@@ -1,0 +1,418 @@
+---
+title: "Managing your R Environment"
+author: ["Jasmine Hughes", "Michael McCarthy"]
+---
+
+```{r setup, include=FALSE}
+source("setup/_common.R")
+knitr::opts_chunk$set(echo = TRUE, message = FALSE)
+```
+
+## The Global Environment
+
+The global environment is your workspace. It includes all the objects you've
+created, which are listed in the "Environment" tab.
+
+![The RStudio Environment tab](/images/rstudio-ide-environment-tab.png){#fig-rstudio-ide-environment-tab}
+
+Every time you call a function, a new environment is created, with its own set
+of objects. This environment lasts until the function finishes running.
+
+We'll see more about this in Lecture 4.
+
+### What's in the workspace?
+
+R has functions for learning about the collection of objects in your workspace.
+Some of this is built in to RStudio.
+
+```{r}
+x <- rnorm(5)
+y <- c(5L, 2L, 7L)
+z <- list(a = 3, b = c("sam", "yang"))
+ls() # search the user workspace (global environment)
+rm(x) # delete a variable
+```
+
+## Packages (R's killer app)
+
+Where do functions come from?
+
+1. Base R: very basic. mean, sd, lm ....
+2. Packages: "off-the-shelf" tools for you to apply, made by you or another team
+3. Your own code, in the global environment! See Lecture 4!
+
+Let's check out the [packages on CRAN](https://cran.r-project.org/web/packages/) 
+
+Essentially any well-established and many not-so-established statistical methods 
+and other functionality is available in a package. 
+
+If you want to sound like an R expert, make sure to call them *packages* and 
+not *libraries*. A *library* is the location in the directory structure where 
+the packages are installed/stored.
+
+#### Using packages
+
+Two steps:
+
+1. Install the package on your machine
+2. Load the package
+
+To install a package, in RStudio, you can use `Packages->Install Packages`.
+
+From the command line, you generally will just do:
+
+```{r eval = FALSE}
+install.packages("dplyr") 
+?install.packages
+library(dplyr)
+```
+
+That should work without specifying the repository from which to download the 
+package (though sometimes you will be given a menu of repositories from which to 
+select) but sometimes you'll get errors indicating a package is not available 
+for your version of R if you don't include an explicit repository. 
+
+If you're on a network and are not the administrator of the machine, you may 
+need to explicitly tell R to install it in a directory you are able to write in:
+
+```{r eval = FALSE}
+install.packages("dplyr", lib = file.path("~", "R"))
+```
+
+Now would be a good point to install the various packages we need for the 
+workshop, which can be done easily with the following command:
+
+```{r eval=FALSE}
+install.packages(
+  c(
+    "datasets",     # useful for example problems
+    "tidyverse",    # all sorts of data science tools!
+    "ggplot2",      # plotting!
+    "haven",        # reading/writing specialized data types
+    "scales",       # customized graph axes
+    "gridExtra",    # combine multiple plots into one
+    "reprex",       # reproducible examples
+    "xlsx",         # working with excel
+    "knitr",        # working with R Markdown notebooks
+    "PKPDsim"       # simulate concentration-time curves given PK parameters
+  )
+)
+```
+
+Note that packages often are dependent on other packages so these dependencies 
+may need to be installed first. This should happen automatically, but sometimes
+you might get prompted that there was a problem installing a package because
+some dependency was missing.
+
+You can also install directly from a package zip/tarball rather than from CRAN 
+by giving a filename instead of a package name.
+
+#### General information about a package
+
+You can use syntax as follows to get a list of the objects in a package and a 
+brief description: `library(help = packageName)`. 
+
+```{r}
+library(help = "datasets")
+```
+
+On CRAN there often *vignettes* that are an overview and describe usage of a 
+package if you click on a specific package. The *reference manual* is just a 
+single document with the help files for all of the objects/functions in a 
+package, so may be helpful but often it's hard to get the big picture view from 
+that.
+
+```{r}
+vignette("base", package = "dplyr")
+```
+
+More on `dplyr` in the next lecture!
+
+## Packages: The Technical Details
+
+Environment: a set of objects (funcions, data, ...) available for you to use.
+
+Package: a set of objects (usually functions, but also other objects) available
+for you to use.
+
+What's the difference?
+
+#### The search path
+
+If you use an object, R will search in this order:
+
+1. The function environment (if called from within a function).
+2. The global environment.
+3. The search path.
+
+Loading a package adds it to your search path.
+
+The order in which you load packages changes the search path priority!
+
+To see the packages that are loaded and the order in which packages are searched 
+for functions/objects: `search()`.
+
+```{r search_path_experiment}
+# 1. Identify packages currently loaded:
+search()
+original_search <- search()
+
+# 2. Load a new package:
+library(lubridate) # a tidyverse package
+lubridate::now()
+
+# 3. How did our search path change?
+search_after_library_load <- search()
+setdiff(search_after_library_load, original_search)
+```
+
+You can "reset" your search path to your default by "Refreshing" your R Session.
+
+```{r search_path_experiment_part2}
+search_after_refresh <- search()
+setdiff(search_after_library_load, search_after_refresh)
+```
+
+**Tip**: Start every analysis and homework problem with a fresh session and a 
+clean environment! Out-of-date objects and package dependencies you forgot to
+declare are common sources of bugs or reproducibility issues.
+
+(*Reproducibility*: Other people should be able to run your code/analysis and
+get the same results.)
+
+How does R know where to look for packages when you call `library`?
+
+```{r}
+# Note: functions and variables that start with "."  are usually for "advanced"
+# users.
+.libPaths() 
+```
+
+#### Package namespaces
+
+A package namespace contains all the objects that package makes available for
+you to use.
+
+Namespaces are way to keep all the names for objects in a package together in a 
+coherent way and allow R to look for objects in a principled way.
+
+A few useful things to know:
+
+```{r}
+library(dplyr)
+# You can reference functions within a package using two colons:
+stats::t.test(rnorm(15, 6), rnorm(20, 7))
+
+# This is useful when two functions have the same name:
+?filter
+?dplyr::filter
+?stats::filter
+```
+
+#### Creating your own R package
+
+R is do-it-yourself - you can write your own package! At its most basic this is 
+just some R scripts that are packaged together in a convenient format. And if 
+giving it to someone else, it's best to have some documentation in the form of 
+function help files. 
+
+Why make a package?
+
+* It's an easy way to share code with collaborators
+* It's a good way to create self-contained code for code you commonly use yourself
+* It's how you can share your code and methods with the outside world
+* It helps make your work reproducible
+* It forces you to be more formal about your coding, which will improve your code
+
+See the *devtools* package and *usethis* package for some useful tools to 
+help you create a package. And there are lots of tips/tutorials online, in 
+particular [Hadley Wickham's R packages book](https://r-pkgs.had.co.nz/).
+
+Here are a few packages the authors of these lectures have made:
+- https://github.com/insightRX/clinPK: clinical calculations
+- https://github.com/insightRX/PKPDsim: simulate PK/PD curves
+- https://github.com/insightRX/PKPDposterior: Full Bayes estimation for MIPD 
+
+#### When should I create my own package?
+
+* If you use the same code more than once: make a function (Lecture 4)
+* If you use the same function in more than one project or assignment, 
+  make a package.
+* You don't need to be an expert to make a package!
+
+## Breakout 1
+
+1) Make sure you are able to install packages from CRAN. E.g., try to install 
+*praise*. What does the code below do?
+
+```{r brk-1}
+praise::praise()
+
+```
+
+## The working directory
+
+To read and write from R, you need to have a firm grasp of where in the 
+computer's filesystem you are reading and writing from. 
+
+R Notebooks (like this one) always run from the file location. 
+
+The Console working directory can be configured, either from the console, or
+through the UI.
+
+```{r, eval=FALSE}
+getwd()  # what directory will R look in?
+# Linux/Mac specific
+# setwd("~/Documents") # change the working directory
+# setwd("/Users/jasminehughes/Documents") # absolute path
+# getwd()
+
+
+# Windows - use either \\ or / to indicate directories
+# setwd("C:\\Users\\Your_username\\Desktop\\R_for_pharmacometricians")
+# setwd("..\\R_for_pharmacometricians")
+
+# use `file.path` to be platform-agnostic.
+```
+
+Many errors and much confusion result from you and R not being on the same page
+in terms of where in the directory structure you are.
+
+```{r}
+list.files()
+```
+
+## RStudio projects
+
+You've now seen how much depends on you and R agreeing on the working directory.
+Constantly calling `setwd()` with a long, absolute path like
+`setwd("/Users/jasminehughes/Documents/PHC506")` is fragile: that path only exists
+on *your* computer, so the code breaks the moment you---or a classmate, *or future you*---run it somewhere else.
+
+**RStudio projects** solve this. A project is just a directory that holds everything
+together for one piece of work---your scripts, your data, and your outputs---using a
+small `.Rproj` file that marks the directory as a project.
+
+When you open a project (by double-clicking its `.Rproj` file, with
+*File > Open Project...* in RStudio, or with the project selection drop-down in the top-right corner of RStudio):
+
+* RStudio **sets the working directory to the project folder automatically**, so
+  you never need to call `setwd()`.
+* You can refer to files with paths *relative to the project*, like
+  `file.path("data", "theophylline.csv")`---exactly what we've been doing. Because
+  the path is relative, the same code runs on any computer that has the project
+  folder.
+* Everything for the analysis lives in one self-contained place, which makes your
+  work easy to share and to pick back up later.
+
+::: {.callout-tip}
+The materials for this course are already an RStudio project. If you download the
+course files (the **download button** in the website sidebar) and open `PHC506.Rproj`,
+RStudio sets the working directory for you, and every `file.path("data", ...)` in
+these lectures will just work.
+:::
+
+### Creating a project
+
+To make your own: *File > New Project...*, then choose **New Directory** to start
+fresh, or **Existing Directory** to turn a folder you already have into a project.
+Give each analysis, course, or paper its own project to stay organized.
+
+### Projects and reproducibility
+
+Recall from [the Global Environment](#the-global-environment) that R can save your
+workspace---all of your objects---between sessions. For reproducible work it's
+actually better *not* to rely on that: you want to be able to recreate every object
+by re-running your code, not by restoring a hidden `.RData` file. In RStudio's
+*Tools > Global Options > General* we recommend you:
+
+* **uncheck** "Restore .RData into workspace at startup", and
+* set "Save workspace to .RData on exit" to **Never**.
+
+That way every session starts from a clean slate. If your script produces the right
+result starting from an empty environment, you know it's truly reproducible. If you currently have an `.RData` at the root of your project, you can delete it (check the Files tab!).
+
+## Reading text files into R
+
+The workhorse for reading a data file into a data frame is `read.table()`, which allows any 
+separator (CSV, tab-delimited, etc.). `read.csv()` is a special case of 
+`read.table()` for CSV files (the most common type of data file).
+
+Earlier we used `read.csv()` to load pharmacokinetic data for theophylline.
+
+```{r}
+theophylline <- read.csv(file.path("data", "theophylline.csv"))
+theophylline
+```
+
+It's good to first look at your data in plain text format outside of R and then 
+to check it after you've read it into R. You can also click on a data file in the Files tab and choose *Import Dataset...* to interactively adjust how the data is read. This can be helpful when the data was stored in a non-standard way. 
+
+Careful about handling [genomic information in excel](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-1044-7)!
+
+## Reading Excel sheets into R
+
+Excel is widely used, and so data often comes in Excel spreadsheets. There are
+a number of packages for reading Excel's proprietary formats. I like `readxl`.
+
+```{r}
+require(readxl)
+aq <- readxl::read_excel(file.path("data", "airquality.xlsx"))
+aq
+```
+
+## Reading "foreign" format data
+
+Other statistical software tools often produce specialized file types. The
+package `haven` works well for these:
+
+* SAS: read_sas() reads .sas7bdat + .sas7bcat files
+* SPSS: read_sav() reads .sav files; read_por() reads .por files.
+* Stata: read_dta() reads .dta files. 
+
+```{r}
+library(haven)
+?haven
+```
+
+R can also read in (and write out) Excel files, netCDF files, HDF5 files, etc., 
+in many cases through add-on packages from CRAN. 
+
+**Tip**: Best practices for data-sharing: avoid using proprietary formats. 
+TXT and CSV files are much easier to read across platforms and programming 
+languages.
+
+## Writing data out from R
+
+Here you have a number of options. 
+
+1) You can write out R objects to an R Data file using `saveRDS()`.
+2) You can use `write.csv()` and `write.table()` to write data frames to flat 
+   text files with delimiters such as comma and tab.
+3) You can use `write()` to write out matrices in a simple flat text format.
+4) You can use `cat()` to write to a file, while controlling the formatting.
+5) You can write out in the various file formats mentioned above
+
+## Breakout 2
+
+2) Figure out what your current working directory is.
+
+```{r brk-2}
+
+```
+
+3) Write the theophylline data frame to your downloads folder. Open it in excel 
+or a similar application. Does it look like you expected?
+
+```{r brk-3}
+datasets::Theoph
+
+```
+
+4) (Optional) If you have a .csv file or a Microsoft Excel file with data that 
+you've used for an unrelated project or assignment, try open it now, just to see 
+if you can!
+
+```{r brk-4}
+
+```
