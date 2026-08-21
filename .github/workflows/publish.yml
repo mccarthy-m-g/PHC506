@@ -44,6 +44,9 @@ jobs:
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
+      - name: Generate interactive chapters and bundle
+        run: Rscript scripts/build-webr.R
+
       # Renders the book (running the scripts/build-webr.R pre-render step) and
       # pushes the result to the gh-pages branch.
       - name: Render and publish to GitHub Pages
