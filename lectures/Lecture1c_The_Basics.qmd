@@ -57,7 +57,7 @@ R also recognizes scientific notation:
 ## Assigning values to R objects
 
 So far we have been mostly coding "interactively"---running a single command and 
-looking at the answer---or we have been saving objects (like graphs saved as 
+looking at the answer---or we have been saving objects (like plots saved as 
 pictures) to our "working directory".
 
 But what if we want to use the same object for later calculations?

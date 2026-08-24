@@ -135,6 +135,55 @@ However, loops can be very powerful and sometimes they are the right approach:
 * The loop option is easier to read than the alternative, and
 * Code performance is a low priority or dataset is small
 
+## Beyond loops: `lapply` and `purrr::map`
+
+Applying the same function to each element of a vector or list is such a common
+task that R gives you tools built exactly for it. Instead of initializing an
+output object and writing a `for` loop, you *map* a function over the input and
+get the results back directly---usually with less code and fewer chances to
+make a mistake.
+
+### Base R: the `apply` family
+
+`lapply()` ("list apply") applies a function to each element and returns a
+**list**:
+
+```{r}
+heights_cm <- c(165, 180, 150, 172)
+
+lapply(heights_cm, function(h) h / 2.54)
+```
+
+`sapply()` ("simplify apply") does the same but *simplifies* the result to a
+vector when it can, which is often what you want:
+
+```{r}
+sapply(heights_cm, function(h) h / 2.54)
+```
+
+(`vapply()`, `mapply()`, and `apply()` are close relatives for related jobs.)
+
+### The tidyverse: `purrr::map`
+
+The `purrr` package (part of the tidyverse) provides a more consistent set of
+mapping functions. `map()` always returns a list, while the typed `map_*()`
+variants return a specific kind of vector. Here we write `purrr::` to make it
+clear where the functions come from:
+
+```{r}
+purrr::map(heights_cm, function(h) h / 2.54)     # a list
+purrr::map_dbl(heights_cm, function(h) h / 2.54) # a numeric vector
+```
+
+`map_chr()`, `map_lgl()`, and `map_int()` likewise return character, logical, and
+integer vectors---asking for the type up front is a nice guard against surprises.
+
+For this toy example the vectorized `heights_cm / 2.54` is still the simplest and
+fastest option. `lapply()` and `map()` earn their keep when the operation *isn't*
+vectorized---fitting a model to each patient's data, reading in a folder full
+of files, or running a simulation for each set of parameters---exactly the
+situations where you might otherwise reach for a loop.
+
 ## Breakout
 
 1. Use a for loop to count the number of vowels in the alphabet. (see the 

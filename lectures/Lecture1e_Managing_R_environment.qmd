@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE)
 The global environment is your workspace. It includes all the objects you've
 created, which are listed in the "Environment" tab.
 
-![The RStudio Environment tab](/images/rstudio-ide-environment-tab.png){#fig-rstudio-ide-environment-tab}
+![The RStudio Environment tab](../images/rstudio-ide-environment-tab.png){#fig-rstudio-ide-environment-tab}
 
 Every time you call a function, a new environment is created, with its own set
 of objects. This environment lasts until the function finishes running.
@@ -89,7 +89,7 @@ install.packages(
     "tidyverse",    # all sorts of data science tools!
     "ggplot2",      # plotting!
     "haven",        # reading/writing specialized data types
-    "scales",       # customized graph axes
+    "scales",       # customized plot axes
     "gridExtra",    # combine multiple plots into one
     "reprex",       # reproducible examples
     "xlsx",         # working with excel

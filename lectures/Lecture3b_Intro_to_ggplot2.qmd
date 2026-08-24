@@ -18,10 +18,10 @@ Let's load the packages we need and read in our data sets we made earlier:
 ```{r}
 library(ggplot2)
 library(dplyr)
+
 medal_counts <- read.csv(file.path("data", "medal_counts.csv"))
 medal_counts_wide <- read.csv(file.path("data", "medal_counts_wide.csv"))
 usa_gold_medals <- read.csv(file.path("data", "usa_gold_medals.csv"))
-
 ```
 
 The general call for `ggplot2` graphics looks something like this:
@@ -37,13 +37,13 @@ ggplot(data = ) +
   ...
 ```
 
-Note that `ggplot2` graphs in layers in a *continuing call* (hence the endless 
+Note that `ggplot2` plots in layers in a *continuing call* (hence the endless 
 +...+...+...), which really makes the extra layer part of the call.
 
 **common mistake!** Careful: `+` is not the same as `|>` (common typo!) We are 
 adding layers together, not piping the input of one function into another.
 
-You can see the layering effect by comparing the same graph with different 
+You can see the layering effect by comparing the same plot with different 
 colors for each layer:
 
 ```{r, fig.cap=" ", warning=FALSE}
@@ -73,7 +73,7 @@ data requires four items:
 3) One **scale** for each aesthetic mapping used. Scales describe how the 
    aesthetics data is transformed into the graphical representation in terms of 
    **degree**. (What does a value of `5` or `10` when determining what each 
-   pixel in a graph looks like?). 
+   pixel in a plot looks like?). 
 
    * `scale_color_manual` and family for mapping values to colors/linetypes/
      circle 
@@ -168,17 +168,17 @@ medal_counts |>
   geom_line()
 ```
 
-## Exporting your graph
+## Exporting your plot
 
 #### The best way: ggsave
 
-ggsave ensures your graph is the same size every time you create it:
+ggsave ensures your plot is the same size every time you create it:
 
 ```{r, eval=FALSE}
 ?ggsave
 
 ggsave(
-  filename = "example.pdf", 
+  filename = "example.pdf", # You can export to several different file types
   plot = p, 
   width = 7,
   height = 7,
@@ -186,10 +186,20 @@ ggsave(
 )
 ```
 
+::: {.callout-tip}
+Use the `device` argument to set the graphics device. I like to use the **ragg**
+package for my graphics device like: `device = ragg::agg_png`, which is faster
+and more fully-featured compared to the base R graphics device. You can also set
+this as your default graphics device for the plot pane under "Tools > Global
+Options... > General > Graphics > Backend" by selecting the "AGG" option.
+:::
+
 #### A convenient way: plots panel
 
-Great for "quick" graphs, easy sharing. Not great for automatically generating 
-graphs, reproducibly generating a graph.
+Great for "quick" plots, easy sharing. Not great for automatically generating 
+plots, reproducibly generating a plot.
+
+![Expoting from the Plots tab](../images/rstudio-plots-tab.png)
 
 ## Breakout Problems
 

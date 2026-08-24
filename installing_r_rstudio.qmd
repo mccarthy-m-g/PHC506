@@ -35,11 +35,11 @@ RStudio is updated a couple of times a year and will automatically let you know 
 
 When you open RStudio, @fig-rstudio-ide, you will see an interface with three [panes](https://docs.posit.co/ide/user/ide/guide/ui/ui-panes.html) in it. For now, the console pane is all you need to know. This is where you can interactively run your R code and see results. For example, try typing `1 + 1` in the console and pressing enter to run it. If you've installed everything successfully it should output `[1] 2` below. Congratulations! You just ran your first line of R code---you'll learn more about the other RStudio panes throughout the course of our lectures.   
 
-![The RStudio IDE](/images/rstudio-ide.png){#fig-rstudio-ide}
+![The RStudio IDE](images/rstudio-ide.png){#fig-rstudio-ide}
 
 RStudio provides a number of [preferences you can customize](https://support.posit.co/hc/en-us/articles/200549016-Customizing-RStudio) to change the look and feel of the IDE, provide certain defaults, and so forth. For example, one customization I like is to have the console pane to the top-right corner, @fig-rstudio-customized-panes, as this makes it easier to edit files and use the console simultaneously.
 
-![The RStudio IDE with a custom pane layout.](/images/rstudio-customized-panes.png){#fig-rstudio-customized-panes}
+![The RStudio IDE with a custom pane layout.](images/rstudio-customized-panes.png){#fig-rstudio-customized-panes}
 
 Once you're comfortable navigating RStudio it's worth customizing your preferences and finding what works for you.
 
@@ -47,6 +47,6 @@ Once you're comfortable navigating RStudio it's worth customizing your preferenc
 
 Getting good at R programming will take some time, and the learning curve might feel steep at first, but we know you can do it! Stick with it---you'll be thankful you did in the future, even if you don't think so now.
 
-![Artwork by Allison Horst.](/images/r-first-then.png)
+![Artwork by Allison Horst.](images/r-first-then.png)
 
 When you run into errors: try stuff out, search for help online, ask your peers, or find examples of code to copy (such as from these lectures). And check for typos. Always check for typos... If you're still stuck after that then reach out to the TAs. We want you to succeed!

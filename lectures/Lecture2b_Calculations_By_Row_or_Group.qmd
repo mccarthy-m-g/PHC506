@@ -61,7 +61,7 @@ new data frame.
 
 The abstract problem we're encountering here is know as "split-apply-combine":
 
-![](/images/splitapply.png)
+![](../images/splitapply.png)
 
 We want to *split* our data into groups (in this case continents), *apply* some 
 calculations on each group, then  *combine* the results together afterwards.
@@ -95,7 +95,7 @@ A `grouped_df` can be thought of as a `list` where each item in the `list` is a
 `data.frame` which contains only the rows that correspond to the a particular 
 value `continent` (at least in the example above).
 
-![](/images/dplyr-fig2.png)
+![](../images/dplyr-fig2.png)
 
 Motivating example: Does ascorbic acid (VC) have the same effect as orange juice
 (OJ) on guinea pig dental growth?
@@ -156,7 +156,7 @@ type.
 
 ```
 
-![](/images/dplyr-fig3.png)
+![](../images/dplyr-fig3.png)
 
 That allowed us to calculate the mean tooth length for each supplement type. But
 it gets even better -- the function `group_by()` allows us to group by multiple

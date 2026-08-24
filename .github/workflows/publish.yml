@@ -37,7 +37,9 @@ jobs:
             any::readxl
             any::haven
             any::lubridate
+            any::purrr
             any::gridExtra
+            any::patchwork
             any::cols4all
             any::praise
 

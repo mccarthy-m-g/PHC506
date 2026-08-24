@@ -109,7 +109,7 @@ inner_join(pt_char, pt_doses) |>
   mutate(mg = mg_per_kg * weight)
 ```
 
-![](/images/join-venn.png)
+![](../images/join-venn.png)
 
 ## Tidyr: Long versus Wide Data
 
@@ -174,7 +174,7 @@ either repeated observations over time, or observation of multiple variables
 entered across 3 different columns, corresponding to three different time 
 periods.
 
-![](/images/tidyr-fig1.png)
+![](../images/tidyr-fig1.png)
 
 You may find data input may be simpler and some programs/functions may prefer 
 the "wide" format. However, many of R’s functions have been designed assuming 
@@ -254,7 +254,7 @@ in one column as the new column names, and the values in a second column as the
 new column values.
 
 Usually, this means taking "tidy" data and making it "untidy", but sometimes it
-is helpful to have data in this format for displaying in tables or graphs.
+is helpful to have data in this format for displaying in tables or plots.
 
 Here is an example of a tidy data set. It describes traumatic brain injury rates
 in the USA in 2014 as reported by the CDC. You can find more information about

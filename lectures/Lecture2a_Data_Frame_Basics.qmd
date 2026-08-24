@@ -36,14 +36,22 @@ I'll introduce you to the `tidyverse` tools. If your R tasks are data analysis,
 plotting, modeling and statistics, you can accomplish most of what you need 
 using the tidyverse. Tidyverse also often has helpful error messages.
 
-My own view: I use both base R and tidyverse, but will prefer tidyverse if I 
-need to do more than ~3 operations on a dataset. The tidyverse is a major reason 
-why R is so popular for data analysis, and many people that mainly working in 
-python will sometimes switch to R just for data cleaning & plotting. 
-
 > The tidyverse is an opinionated collection of R packages designed for 
 data science. All packages share an underlying design philosophy, grammar, and 
 data structures. 
+
+Jasmine's view: I use both base R and tidyverse, but will prefer tidyverse if I 
+need to do more than ~3 operations on a dataset. The tidyverse is a major reason 
+why R is so popular for data analysis, and many people that mainly work in 
+python will sometimes switch to R just for data cleaning & plotting.
+
+Michael's view: I prefer tidyverse for manipulating, tidying, and plotting data.
+I find it easier to understand and use because of its unified design philosophy,
+which lets me write solutions to my coding tasks faster. I still use base R for
+coding (it's impossible not to), but when there's an equivalent base R or
+tidyverse function, I'll use the latter 99% of the time. The one place I
+sometimes flip this heuristic is when developing R packages---here it can make
+sense to stick to base R, but it depends on what you're doing. 
 
 ## Data frame refresher
 
@@ -147,7 +155,7 @@ select(airquality, Month, Day, Temp)
 ```
 
 
-![](/images/dplyr-fig1.png)
+![](../images/dplyr-fig1.png)
 
 Our new data frame only contains three columns: Month, Day, Temperature.
 
@@ -189,8 +197,6 @@ manipulations on one data frame, it can get confusing keeping track of all the
 different "intermediate" data frames:
 
 ## Piping with `dplyr`
-
-![](/images/magrittr_hex.png)
 
 Above, we used what's called "normal" grammar, but the strengths of `dplyr` lie 
 in combining several functions using *pipes*.

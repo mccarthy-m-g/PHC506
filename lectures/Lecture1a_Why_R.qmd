@@ -20,7 +20,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ### Why should I use R?
 
-(Other than that PHC506 requires it!)
+(Other than that PHC 506 requires it!)
 
 * R is widely used (statisticians, scientists, social scientists) 
 * R has tools for pharmacometrics! Examples: 

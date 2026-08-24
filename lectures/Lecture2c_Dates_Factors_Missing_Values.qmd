@@ -42,7 +42,7 @@ levels(facts)
 * R knows to treat factors differently from character strings.
 * Useful for statistics (ex: modeling tooth length as a function of dose size 
   (numerical) and supplement type (factor))
-* Useful when you want to keep order consistent between graphs, tables
+* Useful when you want to keep order consistent between plots, tables
 * Older versions (<4.0) of R used to store character strings as factors. This
   was usually unhelpful, and now stores this type of data as a character string.
 
@@ -61,6 +61,8 @@ factor(c("Post-Intervention", "Pre-Intervention"))
   the levels of a factor
 - This is a useful shortcut when we want to preserve some of the meaning 
   provided by the order
+- The **forcats** package (part of the tidyverse) has several helpful functions
+  for reordering factors---you don't need to reorder by hand!
 
 ```{r orderedfac, fig.cap = ""}
 pt_data <- data.frame(
@@ -188,8 +190,8 @@ patients
   
 ```
 
-There's lots more packages/functionality for dates/times: see *lubridate* and 
-`?DateTimeClasses`
+There's lots more packages/functionality for dates/times: see the **lubridate**
+package (part of the tidyverse) and `?DateTimeClasses`.
 
 ## Missing Values and other Data Oddities
 

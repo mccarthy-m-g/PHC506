@@ -2,7 +2,7 @@
 title: "R Cheat Sheet"
 ---
 
-A quick reference to the functions and syntax used throughout PHC506, grouped by
+A quick reference to the functions and syntax used throughout PHC 506, grouped by
 topic. Treat it as a lookup table rather than runnable code: most lines are
 templates (e.g. `select(df, cols)`) meant to be copied and adapted to your own
 data. `x` and `df` stand in for a vector and a data frame you supply.
@@ -173,7 +173,7 @@ dev.off() # finish writing to the graphics device
 ggplot()             # main ggplot call; control mapping with aes()
 aes(x = ..., y = ..., fill = ..., linetype = ..., color = ..., shape = ...)
 facet_wrap(~colname) # separate panels per category of colname
-ggsave()             # save a graph to a file
+ggsave()             # save a plot to a file
 ```
 
 ### Types of plots (geoms)
@@ -190,7 +190,7 @@ geom_smooth(method = "lm")  # fit a linear model through the points
 ### Customizing a plot
 
 ```r
-labs(x = ..., y = ..., title = ...) # axis labels, graph title, etc.
+labs(x = ..., y = ..., title = ...) # axis labels, plot title, etc.
 scale_y_log10()                     # log10 scaling, y axis
 scale_x_log10()                     # log10 scaling, x axis
 scale_fill_manual()                 # custom colors for rectangles/bars

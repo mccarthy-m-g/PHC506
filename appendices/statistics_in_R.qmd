@@ -38,7 +38,7 @@ For a short introduction to this concept I recommend reading [Common statistical
 
 A lot of people in the R community who have taught courses or workshops make their materials openly available (including your instructors!). One source I want to highlight in particular is [psyTeachR](https://psyteachr.github.io) from the University of Glasgow School of Psychology and Neuroscience, which covers an entire curriculum of courses for doing reproducible data science. 
 
-Michael McCarthy has also previously taught two graduate-level statistics courses in R at the University of Calgary Department of Psychology, which covered some of the topics in PHC506:
+Michael McCarthy has also previously taught two graduate-level statistics courses in R at the University of Calgary Department of Psychology, which covered some of the topics in PHC 506:
 
 - [PSYC 615: Analysis of Variance](https://github.com/mccarthy-m-g/psyc-615-lab), which covered applications of the general linear model (t-tests, *ANOVA*) to research design and analysis.
 - [PSYC 617: Multivariate Analysis](https://github.com/mccarthy-m-g/psyc-617-lab), which covered applications of univariate and multivariate statistics to research design and analysis, including *correlations*, *multiple regression*, *logistic regression*, discriminant analysis, MANOVA, linear mixed models with nested and longitudinal designs, exploratory factor analysis, confirmatory factor analysis, path analysis, and structural equation modelling.

@@ -4,7 +4,8 @@ The PHC 506 course provides a broad overview of statistical approaches commonly
 used in the area of pharmaceutical research. This project contains materials for
 the "Introduction to R" portion of the course.
 
--------------------------------------------------------------------------------
+An interactive version of these materials, with code you can run in your
+browser, is available online at <https://mccarthy-m-g.github.io/PHC506/>.
 
 ## Lectures
 
@@ -50,8 +51,6 @@ Please read and work through the following lectures in the `lectures` directory:
 - `Lecture4c_Loops.qmd`
 - `Lecture4d_Function_Scoping.qmd`
 - `Lecture4e_Combining_and_reshaping_data.qmd`
-
--------------------------------------------------------------------------------
 
 ## R
 

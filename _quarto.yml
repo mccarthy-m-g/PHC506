@@ -11,7 +11,7 @@ execute:
   error: true
 
 book:
-  title: "PHC506: Introduction to R for Pharmacometricians"
+  title: "PHC 506: Introduction to R"
   author: ["Jasmine Hughes", "Michael McCarthy"]
   sidebar:
     tools:

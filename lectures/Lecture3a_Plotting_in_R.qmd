@@ -8,7 +8,7 @@ source("setup/_common.R")
 knitr::opts_chunk$set(echo = TRUE, message = FALSE)
 ```
 
-## Why Graph?
+## Why Plot?
 
 * Communicate your results to others.
     + Involved, fancy
@@ -22,16 +22,16 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE)
       "smells wrong" about the data.
 
 **Visualize your data often and early.**
-A couple "quick and dirty" graphs can save you a lot of time.
+A couple "quick and dirty" plots can save you a lot of time.
 
-Plotting is often iterative, and you may make many graphs of the same data in an
+Plotting is often iterative, and you may make many plots of the same data in an
 analysis:
 
-* The first graph you make to check the data
-* The graph you make that helps you get to that "Aha!" moment
-* The graph you make that helps you communicate the main finding to others
+* The first plot you make to check the data
+* The plot you make that helps you get to that "Aha!" moment
+* The plot you make that helps you communicate the main finding to others
 
-## How to Graph?
+## How to Plot?
 
 3 main facilities for producing graphics in R: 
 
@@ -41,14 +41,14 @@ analysis:
 
 When picking a plotting tool, consider:
 
-* need for speed, vs need for polished final graph
+* need for speed, vs need for polished final plot
 * size of data (ex: very big data sets and many points, vs <5000 points)
-* specialty graphs (beeswarm, ridge plots) versus basic graph types (histogram)
+* specialty plots (beeswarm, ridge plots) versus basic plot types (histogram)
 * plays nicely with other "specialty" tools you are using.
 
 ## Pros/cons of base graphics, ggplot2, and lattice
 
-Base graphics is
+Base graphics is:
 
 a) good for exploratory data analysis and sanity checks
 
@@ -60,7 +60,7 @@ d) defaults plotting parameters are ugly and it can be difficult to customize
 
 e) that said, one can do essentially anything in base graphics with some work
 
-`ggplot2` is
+`ggplot2` is:
 
 a) generally more elegant
 
@@ -69,18 +69,18 @@ b) more syntactically logical (and therefore simpler, once you learn it)
 c) better at grouping, handling multiple variables
 
 d) has a well-developed ecosystem of packages that work well together, great for 
-   specialized graph types
+   specialized plot types
 
-e) the "quick and dirty" graph is often a reasonably aesthetically pleasing 
+e) the "quick and dirty" plot is often a reasonably aesthetically pleasing 
    starting spot
 
-`lattice` is
+`lattice` is:
 
 a) faster than ggplot2 (though only noticeable over many and large plots)
 
 b) may be simpler than ggplot (although, fewer resources online for learning)
 
-c) able to do 3d graphs
+c) able to do 3d plots
 
 d) used by many specialty packages (bioinformatics, cytometry)
 
@@ -92,6 +92,8 @@ to produce very nice-looking graphics without a lot of coding.
 * All Summer Olympic medalists from 1896-2008
 * Variables include name, gender, country, country code (`NOC`), sporting event, 
   and type of medal won
+* This data set is from here:
+  <https://www.theguardian.com/sport/datablog/2012/jun/25/olympic-medal-winner-list-data>
 
 First, we'll use `dplyr` and `tidyr` to count the medals of each type won, for 
 each country and each year.
@@ -103,9 +105,6 @@ library(dplyr)
 
 # Lets also load the medals data set:
 medals <- read.csv(file.path("data", "all_medalists.csv")) 
-
-# This data set is from here: 
-# https://www.theguardian.com/sport/datablog/2012/jun/25/olympic-medal-winner-list-data
 ```
 
 ```{r}

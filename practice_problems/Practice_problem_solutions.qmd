@@ -219,8 +219,8 @@ gap |>
 
 ```
 
-9) Building on your graph in Question 8, change at least two different 
-properties in the `theme()` layer to customize the graph to your liking.
+9) Building on your plot in Question 8, change at least two different 
+properties in the `theme()` layer to customize the plot to your liking.
 
 ```{r}
 gap |>

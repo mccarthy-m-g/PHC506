@@ -8,15 +8,6 @@ source("setup/_common.R")
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r setup2, eval=TRUE}
-if (!require("ggplot2")) {
-  install.packages("ggplot2")
-}
-if (!require("dplyr")) {
-  install.packages("dplyr")
-}
-```
-
 ## RStudio
 
 -   RStudio is an integrated development environment (IDE)
@@ -25,7 +16,7 @@ if (!require("dplyr")) {
 
 Let's take a little tour:
 
-![The RStudio IDE's panes](/images/rstudio-ide-panes.png)
+![The RStudio IDE's panes](../images/rstudio-ide-panes.png)
 
 1.  Source: R code files:
     -   `.R` files: scripts

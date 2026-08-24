@@ -1,5 +1,5 @@
 #!/usr/bin/env Rscript
-# Pre-render generator for the PHC506 interactive book.
+# Pre-render generator for the PHC 506 interactive book.
 #
 # The book is a single Quarto project rooted here. The RStudio-native lecture
 # sources live in lectures/*.qmd (ordinary {r} chunks; breakout answer chunks
@@ -210,7 +210,7 @@ invisible(lapply(transform_sources, convert))
 # locally. The book-only `source("setup/_common.R")` line is stripped so the
 # files stand alone. Edit `bundle` (verbatim-copied) or `qmd_dirs` to change
 # what's included.
-bundle <- c("PHC506.Rproj", "data", "images", "example_project")
+bundle <- c("PHC506.Rproj", "README.md", "data", "images", "example_project")
 qmd_dirs <- c("lectures", "solutions", "practice_problems")
 zipfile <- file.path(getwd(), "phc506-materials.zip")
 

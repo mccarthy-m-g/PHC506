@@ -8,21 +8,23 @@ source("setup/_common.R")
 knitr::opts_chunk$set(echo = TRUE, message = FALSE)
 ```
 
-Load your data and packages if you don't already have them loaded.
+Load your data and packages if you don't already have them loaded:
 
 ```{r}
 library(ggplot2)
 library(dplyr)
+
 medal_counts <- read.csv(file.path("data", "medal_counts.csv"))
 medal_counts_wide <- read.csv(file.path("data", "medal_counts_wide.csv"))
 usa_gold_medals <- read.csv(file.path("data", "usa_gold_medals.csv"))
 usa_all_medals <- filter(medal_counts, NOC == "USA")
+northern_hem <- filter(medal_counts_wide, NOC %in% c("USA", "CAN", "MEX", "CUB"))
 ```
 
 We saw in the last notebook how to vary color by variable, or customize colours,
 and other characteristics (linetype, point shape, size...)
 
-There are many other ways we can customize graphs to better communicate 
+There are many other ways we can customize plots to better communicate 
 information or make them visually appealing.
 
 ## Fitted lines and curves with `ggplot2`
@@ -50,8 +52,8 @@ ggplot(data = usa_all_medals, aes(x = Year, y = count)) +
 
 ## Manual annotations
 
-Sometimes you might want to add the results of a regression you did to a graph,
-or indicate particular values on your graph. The family of functions
+Sometimes you might want to add the results of a regression you did to a plot,
+or indicate particular values on your plot. The family of functions
 `geom_abline`, `geom_hline` and `geom_vline` are useful for this.
 
 ```{r}
@@ -135,7 +137,7 @@ ggplot(data = usa_gold_medals, aes(x = Year, y = count)) +
 So far our plots are perhaps prettier than Base R plots, but they're still kinda 
 ugly...
 
-Customizing the way the non-data component of your graph will usually require 
+Customizing the way the non-data component of your plot will usually require 
 manipulating the `theme()` layer.
 
 The (now familiar) grey background with white lines is part of the default 
@@ -220,7 +222,7 @@ https://www.ggplot2-exts.org/ggthemes.html
 
 ## Facets
 
-Sometimes you might have too much data to easily display on one graph, and you
+Sometimes you might have too much data to easily display on one plot, and you
 want to split it into multiple similar plots. `facet_wrap` (easy, usually right)
 and `facet_grid` (easier to control with multiple variables) help with that!
 
@@ -247,7 +249,7 @@ There are many packages you can explore to combine plots into multiple panels.
 
 ### GridExtra
 
-* `ggplot2` graphs can be combined using the `grid.arrange()` function in the 
+* `ggplot2` plots can be combined using the `grid.arrange()` function in the 
 **`gridExtra`** package
 
 ```{r, warning=FALSE, fig.cap=" ", fig.width = 8, fig.height = 5}
@@ -269,7 +271,6 @@ plot3 <- ggplot(data = northern_hem, aes(x = Year, y = Gold)) +
   theme(legend.position = "right") +
   labs(tag = "C")
 
-
 # Call grid.arrange
 grid.arrange(plot1, plot2, plot3, nrow=3, ncol = 1)
 grid.arrange(
@@ -280,12 +281,37 @@ grid.arrange(
 )
 ```
 
+### patchwork
+
+Or you can use the **patchwork** package, which has a syntax similar to ggplot2,
+and has nice features like collecting guides or axes across multiple plots:
+
+```{r, warning=FALSE, fig.cap=" ", fig.width = 8, fig.height = 5}
+library(patchwork)
+
+# Create 3 plots to combine in a table
+plot1 <- ggplot(data = medal_counts_wide, aes(x = Year, y = Gold)) +
+  geom_point(color = "gold") +
+  geom_point(aes(x = Year, y = Silver), color = "gray") +
+  geom_point(aes(x = Year, y = Bronze), color = "brown") +
+  labs(y = "Medals")
+plot2 <- ggplot(data = usa_all_medals, aes(x = Year, y = count)) +
+  geom_line(aes(color = Medal))
+plot3 <- ggplot(data = northern_hem, aes(x = Year, y = Gold)) +
+  geom_line(aes(linetype = NOC))
+
+# Combine using patchwork syntax:
+plot1 / (plot2 + plot3) +
+  plot_layout(guides = "collect") +
+  plot_annotation(tag_levels = "A")
+```
+
 ## Inspiration
 
 Some data is always presented the same way across studies (ex: DV vs IPRED will 
 always include a scatter plot...). But sometimes you might find yourself unsure 
 which `geom` will best communicate your data. The GG Gallery breaks down 
-different graph types based on the types of data they communicate, and comes 
+different plot types based on the types of data they communicate, and comes 
 with sample code: https://www.r-graph-gallery.com/
 
 ## Breakout Questions
@@ -306,7 +332,7 @@ theme. Try change at least two arguments to `theme()`.
 ```
 
 3. Are there other changes you think would help better communicate these 
-results? Polish up your graph and then save it to the `figures` directory.
+results? Polish up your plot and then save it to the `figures` directory.
 
 ```{r brk-3}
 

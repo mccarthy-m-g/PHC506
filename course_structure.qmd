@@ -1,6 +1,6 @@
 # Course Structure {.unnumbered}
 
-This book collects the course materials for PHC506. Here's how it's organized
+This book collects the course materials for PHC 506. Here's how it's organized
 and how to get the most out of it.
 
 ## The lectures build on each other

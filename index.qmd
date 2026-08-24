@@ -8,7 +8,7 @@ include-in-header:
 
 # Welcome {.unnumbered}
 
-Welcome to **PHC506: Introduction to R for Pharmacometricians**. This book
+Welcome to **PHC 506: Introduction to R**. This book
 collects the course materials as a single, navigable reference. Use the sidebar
 to move between lectures and chapters.
 
@@ -22,10 +22,10 @@ The material is organized into four lectures:
 4. **Programming**---writing your own functions, flow control, loops,
    variable scoping, and combining and reshaping data.
 
-You can download the course materials to your computer to your computer using
-the **download button** in the sidebar to grab a zip of the lecture files and
-project, then open it in RStudio. See [Installing R and RStudio](installing_r_rstudio.qmd)
-to get set up.
+You can download the course materials to your computer using the **download
+button** in the sidebar to grab a zip of the lecture files and project, then
+open it in RStudio. See [Installing R and RStudio](installing_r_rstudio.qmd) to
+get set up.
 
 Each chapter is a runnable [Quarto](https://quarto.org) document. The code
 examples read data from the `data/` and `example_project/` folders and images

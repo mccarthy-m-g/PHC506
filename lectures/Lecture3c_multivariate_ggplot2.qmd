@@ -8,17 +8,16 @@ source("setup/_common.R")
 knitr::opts_chunk$set(echo = TRUE, message = FALSE)
 ```
 
-Load your data & packages if you don't already have them loaded
+Load your data & packages if you don't already have them loaded:
 
 ```{r}
 library(ggplot2)
 library(dplyr)
+
 medal_counts <- read.csv(file.path("data", "medal_counts.csv"))
 medal_counts_wide <- read.csv(file.path("data", "medal_counts_wide.csv"))
 usa_gold_medals <- read.csv(file.path("data", "usa_gold_medals.csv"))
-usa_all_medals <- medal_counts |>
-  filter(NOC == "USA")
-
+usa_all_medals <- filter(medal_counts, NOC == "USA")
 ```
 
 ## aes()
@@ -110,7 +109,7 @@ usa_all_medals |>
   geom_point(colour = "red")
 ```
 
-### Base R, ggplot and tidy data
+### Base R, ggplot2 and tidy data
 
 * Base graphics/lattice and `ggplot2` have one big difference: `ggplot2` 
 **requires** your data to be in tidy format. For base graphics, it can actually 
@@ -224,7 +223,7 @@ You can also supply color hexes. ("#FF0055")
 #### A note about color choice
 
 Color blindness is quite common and can affect how well people can read your
-graphs. Making color palettes that can be read by everyone and that look 
+plots. Making color palettes that can be read by everyone and that look 
 attractive is an active field of research.
 
 There are also tools to help!
@@ -238,14 +237,14 @@ c4a("safe")
 ## Breakout Questions
 
 1) The datasets::Orange data frame describes the growth of 5 orange trees over 
-time (days). Plot a graph showing the `circumference` over time, with each tree
+time (days). Create a plot showing the `circumference` over time, with each tree
 distinguished by a different color.
 
 ```{r brk-1}
 datasets::Orange 
 ```
 
-2) Update your graph by manually setting the colors of each tree, and adding
+2) Update your plot by manually setting the colors of each tree, and adding
 informative axis labels
 
 ```{r brk-2}
@@ -254,7 +253,7 @@ informative axis labels
 
 3) The trees seem to grow at different rates depending on their age. Use
 `scale_y_log10` to compare how scaling the y-axis influences how you read the
-graph.
+plot.
 
 ```{r brk-3}
 
