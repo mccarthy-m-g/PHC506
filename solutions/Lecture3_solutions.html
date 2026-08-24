@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>15&nbsp; Lecture 3 Solutions – PHC506: Introduction to R for Pharmacometricians</title>
+<title>15&nbsp; Lecture 3 Solutions – PHC 506: Introduction to R</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -142,7 +142,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">PHC506: Introduction to R for Pharmacometricians</a> 
+      <a href="../">PHC 506: Introduction to R</a> 
         <div class="sidebar-tools-main">
     <a href="../phc506-materials.zip" title="Download course files" class="quarto-navigation-tool px-1" aria-label="Download course files"><i class="bi bi-download"></i></a>
 </div>
@@ -543,7 +543,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="breakout-questions---3c" class="level2" data-number="15.3">
 <h2 data-number="15.3" class="anchored" data-anchor-id="breakout-questions---3c"><span class="header-section-number">15.3</span> Breakout Questions - 3c</h2>
 <ol type="1">
-<li>The datasets::Orange data frame describes the growth of 5 orange trees over time (days). Plot a graph showing the <code>circumference</code> over time, with each tree distinguished by a different color.</li>
+<li>The datasets::Orange data frame describes the growth of 5 orange trees over time (days). Create a plot showing the <code>circumference</code> over time, with each tree distinguished by a different color.</li>
 </ol>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>datasets<span class="sc">::</span>Orange <span class="sc">|&gt;</span></span>
@@ -559,7 +559,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <ol start="2" type="1">
-<li>Update your graph by manually setting the colors of each tree, and adding informative axis labels</li>
+<li>Update your plot by manually setting the colors of each tree, and adding informative axis labels</li>
 </ol>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>datasets<span class="sc">::</span>Orange <span class="sc">|&gt;</span></span>
@@ -578,7 +578,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <ol start="3" type="1">
-<li>The trees seem to grow at different rates depending on their age. Use <code>scale_y_log10</code> to compare how scaling the y-axis influences how you read the graph.</li>
+<li>The trees seem to grow at different rates depending on their age. Use <code>scale_y_log10</code> to compare how scaling the y-axis influences how you read the plot.</li>
 </ol>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>datasets<span class="sc">::</span>Orange <span class="sc">|&gt;</span></span>
@@ -662,7 +662,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <ol start="3" type="1">
-<li>Are there other changes you think would help better communicate these results? Polish up your graph and then save it to the <code>figures</code> directory.</li>
+<li>Are there other changes you think would help better communicate these results? Polish up your plot and then save it to the <code>figures</code> directory.</li>
 </ol>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(</span>

@@ -9,7 +9,7 @@
 <meta name="author" content="Jasmine Hughes">
 <meta name="author" content="Michael McCarthy">
 
-<title>9&nbsp; Dates, Factors and Missing Values – PHC506: Introduction to R for Pharmacometricians</title>
+<title>9&nbsp; Dates, Factors and Missing Values – PHC 506: Introduction to R</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -144,7 +144,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">PHC506: Introduction to R for Pharmacometricians</a> 
+      <a href="../">PHC 506: Introduction to R</a> 
         <div class="sidebar-tools-main">
     <a href="../phc506-materials.zip" title="Download course files" class="quarto-navigation-tool px-1" aria-label="Download course files"><i class="bi bi-download"></i></a>
 </div>
@@ -490,7 +490,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOnRydWUsImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1
 <ul>
 <li><p>R knows to treat factors differently from character strings.</p></li>
 <li><p>Useful for statistics (ex: modeling tooth length as a function of dose size (numerical) and supplement type (factor))</p></li>
-<li><p>Useful when you want to keep order consistent between graphs, tables</p></li>
+<li><p>Useful when you want to keep order consistent between plots, tables</p></li>
 <li><p>Older versions (&lt;4.0) of R used to store character strings as factors. This was usually unhelpful, and now stores this type of data as a character string.</p></li>
 <li><p>What if we don’t like the order these are in? Factor order is important for all kinds of things like plotting, analysis of variance, regression output, and more</p></li>
 </ul>
@@ -505,6 +505,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOnRydWUsImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1
 <ul>
 <li>Factors simply have an additional attribute explaining the order of the levels of a factor</li>
 <li>This is a useful shortcut when we want to preserve some of the meaning provided by the order</li>
+<li>The <strong>forcats</strong> package (part of the tidyverse) has several helpful functions for reordering factors—you don’t need to reorder by hand!</li>
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pt_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
@@ -658,7 +659,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOnRydWUsImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the time since the first dose for each patient</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>There’s lots more packages/functionality for dates/times: see <em>lubridate</em> and <code>?DateTimeClasses</code></p>
+<p>There’s lots more packages/functionality for dates/times: see the <strong>lubridate</strong> package (part of the tidyverse) and <code>?DateTimeClasses</code>.</p>
 </section>
 <section id="missing-values-and-other-data-oddities" class="level2" data-number="9.4">
 <h2 data-number="9.4" class="anchored" data-anchor-id="missing-values-and-other-data-oddities"><span class="header-section-number">9.4</span> Missing Values and other Data Oddities</h2>
@@ -697,11 +698,10 @@ eyJhdHRyIjp7ImF1dG9ydW4iOnRydWUsImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>vec <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">12</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>vec[<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">5</span>)] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>vec</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  0.099344450  1.753832717           NA  0.732248943           NA</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6] -0.445348189  0.640977798 -0.643406036  0.205409352 -1.242400395</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [11] -0.690977856 -0.003748873</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(vec)</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 12</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  1.5241144  1.8805855         NA  1.0403284         NA  0.2991738</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7]  1.4826729 -1.2562715  0.6182018 -1.2315773 -0.1732204 -0.4998378</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(vec)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 12</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>When have you encountered missing values in data sets you’ve worked with?</p>
 <p>Be careful because many R functions won’t warn you that they are ignoring the missing values.</p>
@@ -709,7 +709,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOnRydWUsImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(vec)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] NA</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(vec, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.4059319</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3.68417</span></span>
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>?sum</span>
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(vec)</span>
 <span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(vec)</span>
@@ -732,23 +732,22 @@ eyJhdHRyIjp7ImF1dG9ydW4iOnRydWUsImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">9</span>, <span class="cn">NULL</span>)</span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1 9</span></span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>vec</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  0.099344450  1.753832717           NA  0.732248943           NA</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6] -0.445348189  0.640977798 -0.643406036  0.205409352 -1.242400395</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [11] -0.690977856 -0.003748873</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(vec)</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 12</span></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>vec[<span class="dv">6</span>] <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error in `vec[6] &lt;- NULL`:</span></span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ! replacement has length zero</span></span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>vec[<span class="dv">7</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>a</span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error:</span></span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ! object 'a' not found</span></span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>a</span>
-<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; NULL</span></span>
-<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>a <span class="sc">+</span> <span class="dv">7</span></span>
-<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; numeric(0)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  1.5241144  1.8805855         NA  1.0403284         NA  0.2991738</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7]  1.4826729 -1.2562715  0.6182018 -1.2315773 -0.1732204 -0.4998378</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(vec)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 12</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>vec[<span class="dv">6</span>] <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error in `vec[6] &lt;- NULL`:</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ! replacement has length zero</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>vec[<span class="dv">7</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>a</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error:</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ! object 'a' not found</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>a</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; NULL</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>a <span class="sc">+</span> <span class="dv">7</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; numeric(0)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Often, you’ll encounter <code>NULL</code> when trying to index into something incorrectly</p>
 <div class="cell">

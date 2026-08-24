@@ -8,7 +8,7 @@
 
 <meta name="author" content="Jasmine Hughes">
 
-<title>14&nbsp; Customizing ggplot2 – PHC506: Introduction to R for Pharmacometricians</title>
+<title>14&nbsp; Customizing ggplot2 – PHC 506: Introduction to R</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -143,7 +143,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">PHC506: Introduction to R for Pharmacometricians</a> 
+      <a href="../">PHC 506: Introduction to R</a> 
         <div class="sidebar-tools-main">
     <a href="../phc506-materials.zip" title="Download course files" class="quarto-navigation-tool px-1" aria-label="Download course files"><i class="bi bi-download"></i></a>
 </div>
@@ -413,6 +413,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#combining-multiple-plots" id="toc-combining-multiple-plots" class="nav-link" data-scroll-target="#combining-multiple-plots"><span class="header-section-number">14.5</span> Combining Multiple Plots</a>
   <ul class="collapse">
   <li><a href="#gridextra" id="toc-gridextra" class="nav-link" data-scroll-target="#gridextra"><span class="header-section-number">14.5.1</span> GridExtra</a></li>
+  <li><a href="#patchwork" id="toc-patchwork" class="nav-link" data-scroll-target="#patchwork"><span class="header-section-number">14.5.2</span> patchwork</a></li>
   </ul></li>
   <li><a href="#inspiration" id="toc-inspiration" class="nav-link" data-scroll-target="#inspiration"><span class="header-section-number">14.6</span> Inspiration</a></li>
   <li><a href="#breakout-questions" id="toc-breakout-questions" class="nav-link" data-scroll-target="#breakout-questions"><span class="header-section-number">14.7</span> Breakout Questions</a></li>
@@ -453,21 +454,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </div>
 <script type="webr-1-contents">
-eyJhdHRyIjp7ImF1dG9ydW4iOnRydWUsImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZSwiaW5jbHVkZSI6ZmFsc2UsIm91dHB1dCI6ZmFsc2V9LCJjb2RlIjoibGlicmFyeShnZ3Bsb3QyKVxubGlicmFyeShkcGx5cilcbmxpYnJhcnkoZ3JpZEV4dHJhKSJ9
+eyJhdHRyIjp7ImF1dG9ydW4iOnRydWUsImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZSwiaW5jbHVkZSI6ZmFsc2UsIm91dHB1dCI6ZmFsc2V9LCJjb2RlIjoibGlicmFyeShnZ3Bsb3QyKVxubGlicmFyeShkcGx5cilcbmxpYnJhcnkoZ3JpZEV4dHJhKVxubGlicmFyeShwYXRjaHdvcmspIn0=
 </script>
 </div>
 </div>
-<p>Load your data and packages if you don’t already have them loaded.</p>
+<p>Load your data and packages if you don’t already have them loaded:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>medal_counts <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"medal_counts.csv"</span>))</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>medal_counts_wide <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"medal_counts_wide.csv"</span>))</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>usa_gold_medals <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"usa_gold_medals.csv"</span>))</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>usa_all_medals <span class="ot">&lt;-</span> <span class="fu">filter</span>(medal_counts, NOC <span class="sc">==</span> <span class="st">"USA"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>medal_counts <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"medal_counts.csv"</span>))</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>medal_counts_wide <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"medal_counts_wide.csv"</span>))</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>usa_gold_medals <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"usa_gold_medals.csv"</span>))</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>usa_all_medals <span class="ot">&lt;-</span> <span class="fu">filter</span>(medal_counts, NOC <span class="sc">==</span> <span class="st">"USA"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>northern_hem <span class="ot">&lt;-</span> <span class="fu">filter</span>(medal_counts_wide, NOC <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"USA"</span>, <span class="st">"CAN"</span>, <span class="st">"MEX"</span>, <span class="st">"CUB"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We saw in the last notebook how to vary color by variable, or customize colours, and other characteristics (linetype, point shape, size…)</p>
-<p>There are many other ways we can customize graphs to better communicate information or make them visually appealing.</p>
+<p>There are many other ways we can customize plots to better communicate information or make them visually appealing.</p>
 <section id="fitted-lines-and-curves-with-ggplot2" class="level2" data-number="14.1">
 <h2 data-number="14.1" class="anchored" data-anchor-id="fitted-lines-and-curves-with-ggplot2"><span class="header-section-number">14.1</span> Fitted lines and curves with <code>ggplot2</code></h2>
 <p>Trend lines can help make trends (or variation from trends) more evident.</p>
@@ -510,7 +513,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOnRydWUsImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1
 </section>
 <section id="manual-annotations" class="level2" data-number="14.2">
 <h2 data-number="14.2" class="anchored" data-anchor-id="manual-annotations"><span class="header-section-number">14.2</span> Manual annotations</h2>
-<p>Sometimes you might want to add the results of a regression you did to a graph, or indicate particular values on your graph. The family of functions <code>geom_abline</code>, <code>geom_hline</code> and <code>geom_vline</code> are useful for this.</p>
+<p>Sometimes you might want to add the results of a regression you did to a plot, or indicate particular values on your plot. The family of functions <code>geom_abline</code>, <code>geom_hline</code> and <code>geom_vline</code> are useful for this.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> usa_gold_medals, <span class="fu">aes</span>(<span class="at">x =</span> Year, <span class="at">y =</span> count)) <span class="sc">+</span> </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
@@ -599,7 +602,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOnRydWUsImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1
 <section id="themes" class="level2" data-number="14.3">
 <h2 data-number="14.3" class="anchored" data-anchor-id="themes"><span class="header-section-number">14.3</span> Themes</h2>
 <p>So far our plots are perhaps prettier than Base R plots, but they’re still kinda ugly…</p>
-<p>Customizing the way the non-data component of your graph will usually require manipulating the <code>theme()</code> layer.</p>
+<p>Customizing the way the non-data component of your plot will usually require manipulating the <code>theme()</code> layer.</p>
 <p>The (now familiar) grey background with white lines is part of the default ggplot theme, <code>theme_grey()</code>. ggplot2 comes with several built-in themes that can be easily added to a plot to change its appearance.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># grey</span></span>
@@ -709,7 +712,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOnRydWUsImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1
 </section>
 <section id="facets" class="level2" data-number="14.4">
 <h2 data-number="14.4" class="anchored" data-anchor-id="facets"><span class="header-section-number">14.4</span> Facets</h2>
-<p>Sometimes you might have too much data to easily display on one graph, and you want to split it into multiple similar plots. <code>facet_wrap</code> (easy, usually right) and <code>facet_grid</code> (easier to control with multiple variables) help with that!</p>
+<p>Sometimes you might have too much data to easily display on one plot, and you want to split it into multiple similar plots. <code>facet_wrap</code> (easy, usually right) and <code>facet_grid</code> (easier to control with multiple variables) help with that!</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>airquality_long <span class="ot">&lt;-</span> airquality <span class="sc">|&gt;</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">day_since_start =</span> <span class="fu">row_number</span>()) <span class="sc">|&gt;</span></span>
@@ -740,7 +743,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOnRydWUsImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1
 <section id="gridextra" class="level3" data-number="14.5.1">
 <h3 data-number="14.5.1" class="anchored" data-anchor-id="gridextra"><span class="header-section-number">14.5.1</span> GridExtra</h3>
 <ul>
-<li><code>ggplot2</code> graphs can be combined using the <code>grid.arrange()</code> function in the <strong><code>gridExtra</code></strong> package</li>
+<li><code>ggplot2</code> plots can be combined using the <code>grid.arrange()</code> function in the <strong><code>gridExtra</code></strong> package</li>
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize gridExtra library</span></span>
@@ -760,28 +763,65 @@ eyJhdHRyIjp7ImF1dG9ydW4iOnRydWUsImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1
 <span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">linetype =</span> NOC)) <span class="sc">+</span> </span>
 <span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"right"</span>) <span class="sc">+</span></span>
 <span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">tag =</span> <span class="st">"C"</span>)</span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error:</span></span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ! object 'northern_hem' not found</span></span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Call grid.arrange</span></span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(plot1, plot2, plot3, <span class="at">nrow=</span><span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">1</span>)</span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error:</span></span>
-<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ! object 'plot3' not found</span></span>
-<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(</span>
-<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>  plot1 <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">tags =</span> <span class="st">"A"</span>), </span>
-<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>  plot2 <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>), </span>
-<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>  plot3 <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>), </span>
-<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">layout_matrix =</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>))</span>
-<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error:</span></span>
-<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ! object 'plot3' not found</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Call grid.arrange</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(plot1, plot2, plot3, <span class="at">nrow=</span><span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">1</span>)</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>  plot1 <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">tags =</span> <span class="st">"A"</span>), </span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>  plot2 <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>), </span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>  plot3 <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>), </span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">layout_matrix =</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>))</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lecture3d_customizing_ggplot2_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lecture3d_customizing_ggplot2_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="patchwork" class="level3" data-number="14.5.2">
+<h3 data-number="14.5.2" class="anchored" data-anchor-id="patchwork"><span class="header-section-number">14.5.2</span> patchwork</h3>
+<p>Or you can use the <strong>patchwork</strong> package, which has a syntax similar to ggplot2, and has nice features like collecting guides or axes across multiple plots:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create 3 plots to combine in a table</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>plot1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> medal_counts_wide, <span class="fu">aes</span>(<span class="at">x =</span> Year, <span class="at">y =</span> Gold)) <span class="sc">+</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"gold"</span>) <span class="sc">+</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> Year, <span class="at">y =</span> Silver), <span class="at">color =</span> <span class="st">"gray"</span>) <span class="sc">+</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> Year, <span class="at">y =</span> Bronze), <span class="at">color =</span> <span class="st">"brown"</span>) <span class="sc">+</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Medals"</span>)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>plot2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> usa_all_medals, <span class="fu">aes</span>(<span class="at">x =</span> Year, <span class="at">y =</span> count)) <span class="sc">+</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> Medal))</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>plot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> northern_hem, <span class="fu">aes</span>(<span class="at">x =</span> Year, <span class="at">y =</span> Gold)) <span class="sc">+</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">linetype =</span> NOC))</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine using patchwork syntax:</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>plot1 <span class="sc">/</span> (plot2 <span class="sc">+</span> plot3) <span class="sc">+</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_layout</span>(<span class="at">guides =</span> <span class="st">"collect"</span>) <span class="sc">+</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_annotation</span>(<span class="at">tag_levels =</span> <span class="st">"A"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lecture3d_customizing_ggplot2_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
 </div>
 </section>
 </section>
 <section id="inspiration" class="level2" data-number="14.6">
 <h2 data-number="14.6" class="anchored" data-anchor-id="inspiration"><span class="header-section-number">14.6</span> Inspiration</h2>
-<p>Some data is always presented the same way across studies (ex: DV vs IPRED will always include a scatter plot…). But sometimes you might find yourself unsure which <code>geom</code> will best communicate your data. The GG Gallery breaks down different graph types based on the types of data they communicate, and comes with sample code: https://www.r-graph-gallery.com/</p>
+<p>Some data is always presented the same way across studies (ex: DV vs IPRED will always include a scatter plot…). But sometimes you might find yourself unsure which <code>geom</code> will best communicate your data. The GG Gallery breaks down different plot types based on the types of data they communicate, and comes with sample code: https://www.r-graph-gallery.com/</p>
 </section>
 <section id="breakout-questions" class="level2" data-number="14.7">
 <h2 data-number="14.7" class="anchored" data-anchor-id="breakout-questions"><span class="header-section-number">14.7</span> Breakout Questions</h2>
@@ -812,7 +852,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIn0=
 </div>
 </div>
 <ol start="3" type="1">
-<li>Are there other changes you think would help better communicate these results? Polish up your graph and then save it to the <code>figures</code> directory.</li>
+<li>Are there other changes you think would help better communicate these results? Polish up your plot and then save it to the <code>figures</code> directory.</li>
 </ol>
 <div class="cell">
 <div>

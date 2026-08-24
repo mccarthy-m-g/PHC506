@@ -8,7 +8,7 @@
 
 <meta name="author" content="Jasmine Hughes">
 
-<title>12&nbsp; Introduction to ggplot2 – PHC506: Introduction to R for Pharmacometricians</title>
+<title>12&nbsp; Introduction to ggplot2 – PHC 506: Introduction to R</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -143,7 +143,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">PHC506: Introduction to R for Pharmacometricians</a> 
+      <a href="../">PHC 506: Introduction to R</a> 
         <div class="sidebar-tools-main">
     <a href="../phc506-materials.zip" title="Download course files" class="quarto-navigation-tool px-1" aria-label="Download course files"><i class="bi bi-download"></i></a>
 </div>
@@ -410,7 +410,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#grammar-of-graphics" id="toc-grammar-of-graphics" class="nav-link" data-scroll-target="#grammar-of-graphics"><span class="header-section-number">12.2</span> Grammar of Graphics</a></li>
   <li><a href="#the-ordering-of-layers-matters" id="toc-the-ordering-of-layers-matters" class="nav-link" data-scroll-target="#the-ordering-of-layers-matters"><span class="header-section-number">12.3</span> The ordering of layers matters!</a></li>
   <li><a href="#ggplot2-and-tidy-data" id="toc-ggplot2-and-tidy-data" class="nav-link" data-scroll-target="#ggplot2-and-tidy-data"><span class="header-section-number">12.4</span> <code>ggplot2</code> and tidy data</a></li>
-  <li><a href="#exporting-your-graph" id="toc-exporting-your-graph" class="nav-link" data-scroll-target="#exporting-your-graph"><span class="header-section-number">12.5</span> Exporting your graph</a></li>
+  <li><a href="#exporting-your-plot" id="toc-exporting-your-plot" class="nav-link" data-scroll-target="#exporting-your-plot"><span class="header-section-number">12.5</span> Exporting your plot</a></li>
   <li><a href="#breakout-problems" id="toc-breakout-problems" class="nav-link" data-scroll-target="#breakout-problems"><span class="header-section-number">12.6</span> Breakout Problems</a></li>
   </ul>
 </nav>
@@ -460,9 +460,10 @@ eyJhdHRyIjp7ImF1dG9ydW4iOnRydWUsImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>medal_counts <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"medal_counts.csv"</span>))</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>medal_counts_wide <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"medal_counts_wide.csv"</span>))</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>usa_gold_medals <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"usa_gold_medals.csv"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>medal_counts <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"medal_counts.csv"</span>))</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>medal_counts_wide <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"medal_counts_wide.csv"</span>))</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>usa_gold_medals <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"usa_gold_medals.csv"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The general call for <code>ggplot2</code> graphics looks something like this:</p>
 <div class="cell">
@@ -475,9 +476,9 @@ eyJhdHRyIjp7ImF1dG9ydW4iOnRydWUsImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  ... <span class="sc">+</span> </span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  ...</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Note that <code>ggplot2</code> graphs in layers in a <em>continuing call</em> (hence the endless +…+…+…), which really makes the extra layer part of the call.</p>
+<p>Note that <code>ggplot2</code> plots in layers in a <em>continuing call</em> (hence the endless +…+…+…), which really makes the extra layer part of the call.</p>
 <p><strong>common mistake!</strong> Careful: <code>+</code> is not the same as <code>|&gt;</code> (common typo!) We are adding layers together, not piping the input of one function into another.</p>
-<p>You can see the layering effect by comparing the same graph with different colors for each layer:</p>
+<p>You can see the layering effect by comparing the same plot with different colors for each layer:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> medal_counts_wide) <span class="sc">+</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Year, <span class="at">y =</span> Gold) <span class="sc">+</span>                   </span>
@@ -509,7 +510,7 @@ eyJhdHRyIjp7ImF1dG9ydW4iOnRydWUsImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1
 <ol type="1">
 <li><p>A dataset and set of mappings from variables to <strong>aesthetics</strong> (ex: year -&gt; x, medal count -&gt;y). In ggplot, use <code>aes()</code></p></li>
 <li><p>A <strong>geometry</strong> (<code>geom_xxx</code>), which describes how the aesthetics data is transformed into the graphical representation in terms of <strong>kind</strong> (or <strong>shape</strong>).</p></li>
-<li><p>One <strong>scale</strong> for each aesthetic mapping used. Scales describe how the aesthetics data is transformed into the graphical representation in terms of <strong>degree</strong>. (What does a value of <code>5</code> or <code>10</code> when determining what each pixel in a graph looks like?).</p>
+<li><p>One <strong>scale</strong> for each aesthetic mapping used. Scales describe how the aesthetics data is transformed into the graphical representation in terms of <strong>degree</strong>. (What does a value of <code>5</code> or <code>10</code> when determining what each pixel in a plot looks like?).</p>
 <ul>
 <li><code>scale_color_manual</code> and family for mapping values to colors/linetypes/ circle types (displayed in a figure legend)</li>
 <li>data transofmrations (log, etc), described using gridlines and axes for position scales</li>
@@ -652,26 +653,45 @@ eyJhdHRyIjp7ImF1dG9ydW4iOnRydWUsImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1
 </div>
 </div>
 </section>
-<section id="exporting-your-graph" class="level2" data-number="12.5">
-<h2 data-number="12.5" class="anchored" data-anchor-id="exporting-your-graph"><span class="header-section-number">12.5</span> Exporting your graph</h2>
+<section id="exporting-your-plot" class="level2" data-number="12.5">
+<h2 data-number="12.5" class="anchored" data-anchor-id="exporting-your-plot"><span class="header-section-number">12.5</span> Exporting your plot</h2>
 <section id="the-best-way-ggsave" class="level4" data-number="12.5.0.1">
 <h4 data-number="12.5.0.1" class="anchored" data-anchor-id="the-best-way-ggsave"><span class="header-section-number">12.5.0.1</span> The best way: ggsave</h4>
-<p>ggsave ensures your graph is the same size every time you create it:</p>
+<p>ggsave ensures your plot is the same size every time you create it:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>?ggsave</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">filename =</span> <span class="st">"example.pdf"</span>, </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">filename =</span> <span class="st">"example.pdf"</span>, <span class="co"># You can export to several different file types</span></span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot =</span> p, </span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">width =</span> <span class="dv">7</span>,</span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">height =</span> <span class="dv">7</span>,</span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">bg =</span> <span class="st">"white"</span></span>
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use the <code>device</code> argument to set the graphics device. I like to use the <strong>ragg</strong> package for my graphics device like: <code>device = ragg::agg_png</code>, which is faster and more fully-featured compared to the base R graphics device. You can also set this as your default graphics device for the plot pane under “Tools &gt; Global Options… &gt; General &gt; Graphics &gt; Backend” by selecting the “AGG” option.</p>
+</div>
+</div>
 </section>
 <section id="a-convenient-way-plots-panel" class="level4" data-number="12.5.0.2">
 <h4 data-number="12.5.0.2" class="anchored" data-anchor-id="a-convenient-way-plots-panel"><span class="header-section-number">12.5.0.2</span> A convenient way: plots panel</h4>
-<p>Great for “quick” graphs, easy sharing. Not great for automatically generating graphs, reproducibly generating a graph.</p>
+<p>Great for “quick” plots, easy sharing. Not great for automatically generating plots, reproducibly generating a plot.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/rstudio-plots-tab.png" class="img-fluid figure-img"></p>
+<figcaption>Expoting from the Plots tab</figcaption>
+</figure>
+</div>
 </section>
 </section>
 <section id="breakout-problems" class="level2" data-number="12.6">

@@ -9,7 +9,7 @@
 <meta name="author" content="Jasmine Hughes">
 <meta name="author" content="Michael McCarthy">
 
-<title>7&nbsp; Data Frame Basics – PHC506: Introduction to R for Pharmacometricians</title>
+<title>7&nbsp; Data Frame Basics – PHC 506: Introduction to R</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -144,7 +144,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">PHC506: Introduction to R for Pharmacometricians</a> 
+      <a href="../">PHC 506: Introduction to R</a> 
         <div class="sidebar-tools-main">
     <a href="../phc506-materials.zip" title="Download course files" class="quarto-navigation-tool px-1" aria-label="Download course files"><i class="bi bi-download"></i></a>
 </div>
@@ -476,10 +476,11 @@ eyJhdHRyIjp7ImF1dG9ydW4iOnRydWUsImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1
 <li><p>We should start teaching students to manipulate data using <code>tidyverse</code> tools because they are straight-forward to use, more readable than base R, and speed up the tidying process.</p></li>
 </ul>
 <p>I’ll introduce you to the <code>tidyverse</code> tools. If your R tasks are data analysis, plotting, modeling and statistics, you can accomplish most of what you need using the tidyverse. Tidyverse also often has helpful error messages.</p>
-<p>My own view: I use both base R and tidyverse, but will prefer tidyverse if I need to do more than ~3 operations on a dataset. The tidyverse is a major reason why R is so popular for data analysis, and many people that mainly working in python will sometimes switch to R just for data cleaning &amp; plotting.</p>
 <blockquote class="blockquote">
 <p>The tidyverse is an opinionated collection of R packages designed for data science. All packages share an underlying design philosophy, grammar, and data structures.</p>
 </blockquote>
+<p>Jasmine’s view: I use both base R and tidyverse, but will prefer tidyverse if I need to do more than ~3 operations on a dataset. The tidyverse is a major reason why R is so popular for data analysis, and many people that mainly work in python will sometimes switch to R just for data cleaning &amp; plotting.</p>
+<p>Michael’s view: I prefer tidyverse for manipulating, tidying, and plotting data. I find it easier to understand and use because of its unified design philosophy, which lets me write solutions to my coding tasks faster. I still use base R for coding (it’s impossible not to), but when there’s an equivalent base R or tidyverse function, I’ll use the latter 99% of the time. The one place I sometimes flip this heuristic is when developing R packages—here it can make sense to stick to base R, but it depends on what you’re doing.</p>
 </section>
 <section id="data-frame-refresher" class="level2" data-number="7.2">
 <h2 data-number="7.2" class="anchored" data-anchor-id="data-frame-refresher"><span class="header-section-number">7.2</span> Data frame refresher</h2>
@@ -745,7 +746,6 @@ eyJhdHRyIjp7ImF1dG9ydW4iOnRydWUsImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1
 </section>
 <section id="piping-with-dplyr" class="level2" data-number="7.5">
 <h2 data-number="7.5" class="anchored" data-anchor-id="piping-with-dplyr"><span class="header-section-number">7.5</span> Piping with <code>dplyr</code></h2>
-<p><img src="../images/magrittr_hex.png" class="img-fluid"></p>
 <p>Above, we used what’s called “normal” grammar, but the strengths of <code>dplyr</code> lie in combining several functions using <em>pipes</em>.</p>
 <p>Pipes take the input on the left side of the <code>|&gt;</code> symbol and pass it in as the first argument to the function on the right side. This is why <code>dplyr</code> data manipulation functions take <code>.data</code> as their first argument!</p>
 <pre><code>coffee_beans |&gt; 

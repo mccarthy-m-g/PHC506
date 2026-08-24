@@ -9,7 +9,7 @@
 <meta name="author" content="Jasmine Hughes">
 <meta name="author" content="Michael McCarthy">
 
-<title>18&nbsp; Loops! – PHC506: Introduction to R for Pharmacometricians</title>
+<title>18&nbsp; Loops! – PHC 506: Introduction to R</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -144,7 +144,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">PHC506: Introduction to R for Pharmacometricians</a> 
+      <a href="../">PHC 506: Introduction to R</a> 
         <div class="sidebar-tools-main">
     <a href="../phc506-materials.zip" title="Download course files" class="quarto-navigation-tool px-1" aria-label="Download course files"><i class="bi bi-download"></i></a>
 </div>
@@ -411,7 +411,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#the-syntax" id="toc-the-syntax" class="nav-link" data-scroll-target="#the-syntax"><span class="header-section-number">18.1.1</span> The Syntax</a></li>
   </ul></li>
-  <li><a href="#breakout" id="toc-breakout" class="nav-link" data-scroll-target="#breakout"><span class="header-section-number">18.2</span> Breakout</a></li>
+  <li><a href="#beyond-loops-lapply-and-purrrmap" id="toc-beyond-loops-lapply-and-purrrmap" class="nav-link" data-scroll-target="#beyond-loops-lapply-and-purrrmap"><span class="header-section-number">18.2</span> Beyond loops: <code>lapply</code> and <code>purrr::map</code></a>
+  <ul class="collapse">
+  <li><a href="#base-r-the-apply-family" id="toc-base-r-the-apply-family" class="nav-link" data-scroll-target="#base-r-the-apply-family"><span class="header-section-number">18.2.1</span> Base R: the <code>apply</code> family</a></li>
+  <li><a href="#the-tidyverse-purrrmap" id="toc-the-tidyverse-purrrmap" class="nav-link" data-scroll-target="#the-tidyverse-purrrmap"><span class="header-section-number">18.2.2</span> The tidyverse: <code>purrr::map</code></a></li>
+  </ul></li>
+  <li><a href="#breakout" id="toc-breakout" class="nav-link" data-scroll-target="#breakout"><span class="header-section-number">18.3</span> Breakout</a></li>
   </ul>
 </nav>
     </div>
@@ -541,10 +546,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">vectorized_cm2in</span>(heights_cm))</span>
 <span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.000   0.000   0.001</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.001   0.000   0.000</span></span>
 <span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">forloop_cm2in</span>(heights_cm))</span>
 <span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   2.164   0.064   2.228</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   1.940   0.027   1.968</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>There are things we can do to make our loops <em>faster</em>.</p>
 <p>In the loops above, we created an empty vector and appended to it each time. This is quite slow in R. It’s faster to create a vector of the size you need, and insert values into it.</p>
@@ -560,7 +565,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">faster_forloop_cm2in</span>(heights_cm)) <span class="co"># orders of magnitude faster!</span></span>
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.006   0.000   0.007</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.006   0.000   0.006</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>In many languages, looping (for loops, while loops, etc.) is one of the main constructs used to carry out computation. Loops are not emphasized as much in R, both because they can be slow and because other syntax is often cleaner.</p>
 <p>However, loops can be very powerful and sometimes they are the right approach:</p>
@@ -571,8 +576,60 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 </section>
 </section>
-<section id="breakout" class="level2" data-number="18.2">
-<h2 data-number="18.2" class="anchored" data-anchor-id="breakout"><span class="header-section-number">18.2</span> Breakout</h2>
+<section id="beyond-loops-lapply-and-purrrmap" class="level2" data-number="18.2">
+<h2 data-number="18.2" class="anchored" data-anchor-id="beyond-loops-lapply-and-purrrmap"><span class="header-section-number">18.2</span> Beyond loops: <code>lapply</code> and <code>purrr::map</code></h2>
+<p>Applying the same function to each element of a vector or list is such a common task that R gives you tools built exactly for it. Instead of initializing an output object and writing a <code>for</code> loop, you <em>map</em> a function over the input and get the results back directly—usually with less code and fewer chances to make a mistake.</p>
+<section id="base-r-the-apply-family" class="level3" data-number="18.2.1">
+<h3 data-number="18.2.1" class="anchored" data-anchor-id="base-r-the-apply-family"><span class="header-section-number">18.2.1</span> Base R: the <code>apply</code> family</h3>
+<p><code>lapply()</code> (“list apply”) applies a function to each element and returns a <strong>list</strong>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>heights_cm <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">165</span>, <span class="dv">180</span>, <span class="dv">150</span>, <span class="dv">172</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(heights_cm, <span class="cf">function</span>(h) h <span class="sc">/</span> <span class="fl">2.54</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[1]]</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 64.96063</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[2]]</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 70.86614</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[3]]</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 59.05512</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[4]]</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 67.71654</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><code>sapply()</code> (“simplify apply”) does the same but <em>simplifies</em> the result to a vector when it can, which is often what you want:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(heights_cm, <span class="cf">function</span>(h) h <span class="sc">/</span> <span class="fl">2.54</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 64.96063 70.86614 59.05512 67.71654</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>(<code>vapply()</code>, <code>mapply()</code>, and <code>apply()</code> are close relatives for related jobs.)</p>
+</section>
+<section id="the-tidyverse-purrrmap" class="level3" data-number="18.2.2">
+<h3 data-number="18.2.2" class="anchored" data-anchor-id="the-tidyverse-purrrmap"><span class="header-section-number">18.2.2</span> The tidyverse: <code>purrr::map</code></h3>
+<p>The <code>purrr</code> package (part of the tidyverse) provides a more consistent set of mapping functions. <code>map()</code> always returns a list, while the typed <code>map_*()</code> variants return a specific kind of vector. Here we write <code>purrr::</code> to make it clear where the functions come from:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>purrr<span class="sc">::</span><span class="fu">map</span>(heights_cm, <span class="cf">function</span>(h) h <span class="sc">/</span> <span class="fl">2.54</span>)     <span class="co"># a list</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[1]]</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 64.96063</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[2]]</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 70.86614</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[3]]</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 59.05512</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[4]]</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 67.71654</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>purrr<span class="sc">::</span><span class="fu">map_dbl</span>(heights_cm, <span class="cf">function</span>(h) h <span class="sc">/</span> <span class="fl">2.54</span>) <span class="co"># a numeric vector</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 64.96063 70.86614 59.05512 67.71654</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><code>map_chr()</code>, <code>map_lgl()</code>, and <code>map_int()</code> likewise return character, logical, and integer vectors—asking for the type up front is a nice guard against surprises.</p>
+<p>For this toy example the vectorized <code>heights_cm / 2.54</code> is still the simplest and fastest option. <code>lapply()</code> and <code>map()</code> earn their keep when the operation <em>isn’t</em> vectorized—fitting a model to each patient’s data, reading in a folder full of files, or running a simulation for each set of parameters—exactly the situations where you might otherwise reach for a loop.</p>
+</section>
+</section>
+<section id="breakout" class="level2" data-number="18.3">
+<h2 data-number="18.3" class="anchored" data-anchor-id="breakout"><span class="header-section-number">18.3</span> Breakout</h2>
 <ol type="1">
 <li>Use a for loop to count the number of vowels in the alphabet. (see the variable <code>letters</code>)</li>
 </ol>
