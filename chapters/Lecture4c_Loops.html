@@ -84,7 +84,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-fcea04e879ca69d21551c73e9c956549.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-282400b15f9401ce678210b4cd5c715c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="../site_libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
 <link href="../site_libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -546,10 +546,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">vectorized_cm2in</span>(heights_cm))</span>
 <span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.001   0.000   0.000</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       0       0       0</span></span>
 <span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">forloop_cm2in</span>(heights_cm))</span>
 <span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   1.940   0.027   1.968</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   1.856   0.056   1.913</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>There are things we can do to make our loops <em>faster</em>.</p>
 <p>In the loops above, we created an empty vector and appended to it each time. This is quite slow in R. It’s faster to create a vector of the size you need, and insert values into it.</p>
@@ -565,7 +565,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">faster_forloop_cm2in</span>(heights_cm)) <span class="co"># orders of magnitude faster!</span></span>
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    user  system elapsed </span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.006   0.000   0.006</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.005   0.000   0.005</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>In many languages, looping (for loops, while loops, etc.) is one of the main constructs used to carry out computation. Loops are not emphasized as much in R, both because they can be slow and because other syntax is often cleaner.</p>
 <p>However, loops can be very powerful and sometimes they are the right approach:</p>
@@ -686,7 +686,7 @@ eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJ3ZWJyLXdpZGdldC0zIiwiaW5saW5lIjpmYWxzZSwibWV0
 </div>
 </div>
 <script type="vfs-file">
-WyIuLi9kYXRhL2FpcnF1YWxpdHkueGxzeCIsIi4uL2RhdGEvYWxsX21lZGFsaXN0cy5jc3YiLCIuLi9kYXRhL2dhcG1pbmRlci5jc3YiLCIuLi9kYXRhL21lZGFsX2NvdW50cy5jc3YiLCIuLi9kYXRhL3VzYV9nb2xkX21lZGFscy5jc3YiLCIuLi9kYXRhL21lZGFsX2NvdW50c193aWRlLmNzdiIsIi4uL2RhdGEvdGhlb3BoeWxsaW5lLmNzdiIsIi4uL3BoYzUwNi1tYXRlcmlhbHMuemlwIl0=
+WyIuLi9kYXRhL3VzYV9nb2xkX21lZGFscy5jc3YiLCIuLi9kYXRhL3RoZW9waHlsbGluZS5jc3YiLCIuLi9kYXRhL2FsbF9tZWRhbGlzdHMuY3N2IiwiLi4vZGF0YS9tZWRhbF9jb3VudHNfd2lkZS5jc3YiLCIuLi9kYXRhL2dhcG1pbmRlci5jc3YiLCIuLi9kYXRhL21lZGFsX2NvdW50cy5jc3YiLCIuLi9kYXRhL2FpcnF1YWxpdHkueGxzeCIsIi4uL3BoYzUwNi1tYXRlcmlhbHMuemlwIl0=
 </script>
 </section>
 
