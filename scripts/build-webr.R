@@ -207,9 +207,9 @@ invisible(lapply(transform_sources, convert))
 # ---- downloadable "work locally" bundle of plain source -------------------
 # A zip of the plain {r} lecture and solution sources (the RStudio-native
 # versions) plus the project file and data, for students who prefer to work
-# locally. The book-only `source("setup/_common.R")` line is stripped so the
-# files stand alone. Edit `bundle` (verbatim-copied) or `qmd_dirs` to change
-# what's included.
+# locally. The book-only `source("setup/_common.R")` line is swapped for a knitr
+# root.dir fix (see the staging loop) so the files stand alone. Edit `bundle`
+# (verbatim-copied) or `qmd_dirs` to change what's included.
 bundle <- c("PHC506.Rproj", "README.md", "data", "images", "example_project")
 qmd_dirs <- c("lectures", "solutions", "practice_problems")
 zipfile <- file.path(getwd(), "phc506-materials.zip")
@@ -227,7 +227,13 @@ if (!file.exists(zipfile) || max(file.mtime(srcs)) > file.mtime(zipfile)) {
     dir.create(file.path(stage, sub))
     for (f in list.files(sub, "\\.qmd$", full.names = TRUE)) {
       ls <- readLines(f)
-      ls <- ls[!grepl('^\\s*source\\("setup/_common\\.R"\\)\\s*$', ls)]
+      # The book renders with `execute-dir: project`, but a lecture opened on its
+      # own in RStudio evaluates from the document's folder, so paths like
+      # `file.path("data", ...)` fail. Swap the book-only _common.R source (which
+      # this standalone bundle doesn't ship) for a knitr root.dir pointing at the
+      # project root, so file paths resolve the same as they do in the book.
+      ls[grepl('^\\s*source\\("setup/_common\\.R"\\)\\s*$', ls)] <-
+        "knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())"
       writeLines(ls, file.path(stage, sub, basename(f)))
     }
   }
